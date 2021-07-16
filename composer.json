@@ -1,0 +1,20 @@
+{
+    "name": "smr/smr-plugin",
+    "description": "smr plugin",
+    "type": "project",
+    "license": "LGPLv3",
+    "requier":{},
+    "autoload": {
+        "psr-4": {
+            "Src\\": "./src"
+        }
+    },
+    "authors": [
+        {
+            "name": "SMR",
+            "email": "seyyedmortezarazavi76@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
