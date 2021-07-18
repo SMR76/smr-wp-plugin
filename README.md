@@ -18,6 +18,3 @@ Example for WordPress plugin in PHP.
 - [WordPress v5.7.0](https://wordpress.org/download/releases/)
 
 <!--## To-do-->
-
-## 3rd Parties
-- PHP
