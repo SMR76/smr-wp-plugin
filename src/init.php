@@ -7,6 +7,9 @@ namespace Src;
 
 use \Src\Pages\Admin;
 use \Src\Base;
+use \Src\Elements;
+use \Src\Api\Woocommerce;
+
 /**
  * 
  */
@@ -16,7 +19,10 @@ class Init {
         return [
             Admin::class,
             Base\Enqueue::class,
-            Base\SettingLinks::class
+            Base\SettingLinks::class,
+            Elements\StikyButton::class,
+            Api\Woocommerce\WholesaleSellLimit::class,
+            Api\Woocommerce\ExteraRegistrationFields::class
         ];
     }
 
