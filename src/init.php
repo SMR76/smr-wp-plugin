@@ -21,7 +21,9 @@ class Init {
             Base\Enqueue::class,
             Base\SettingLinks::class,
             Elements\StikyButton::class,
+
             Api\Woocommerce\WholesaleSellLimit::class,
+            Api\Woocommerce\ExteraCheckoutFields::class,
             Api\Woocommerce\ExteraRegistrationFields::class
         ];
     }
