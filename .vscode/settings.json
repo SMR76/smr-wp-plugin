@@ -19,5 +19,14 @@
                 ]
             }
         }
-    ]
+    ],
+    "files.exclude" : {
+        "**/.git"       : true,
+        "**/.svn"       : true,
+        "**/.gitignore" : true,
+        "**/composer.*" : true,
+        "**/workspace.*": true,
+        "**/vendor"     : true,
+        "**/LICENSE"     : true,
+    }
 }
