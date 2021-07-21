@@ -5,7 +5,9 @@
 
 namespace Src\Api\Woocommerce;
 
-class WholesaleSellLimit {
+use Src\Base\BaseController;
+
+class WholesaleSellLimit extends BaseController {
     
     public function register() {
         /**
@@ -20,7 +22,17 @@ class WholesaleSellLimit {
         /**
          * register quantity prices
          */
-        $this->registerPrice();
+
+        // //* Generating dynamically the product "regular price"
+        add_filter( 'woocommerce_product_get_regular_price',            array($this,'getRegularPrice') , 10, 2 );
+        add_filter( 'woocommerce_product_variation_get_regular_price',  array($this,'getRegularPrice') , 10, 2 ); 
+
+        // //* Generating dynamically the product "sale price"
+        add_filter( 'woocommerce_product_get_sale_price',               array($this,'getWholesaleSalePrice') , 10, 2 );
+        add_filter( 'woocommerce_product_variation_get_sale_price',     array($this,'getWholesaleSalePrice') , 10, 2 );
+
+        // //* Displayed formatted regular price + sale price         
+        add_filter( 'woocommerce_get_price_html',                       array($this,'woocommerceGetPriceHtml'), 20, 2 );
     }
     
     /**
@@ -29,11 +41,11 @@ class WholesaleSellLimit {
     public function wc_qty_add_product_field() {
         global $product_object;
     
-        $values = $product_object->get_meta('smr_ws_limit');
-    
+        $values = $product_object->get_meta('smr_ws_limit');    
+
         echo '</div><div class="options_group quantity hide_if_grouped">';
     
-        //Check box
+        //check box
         woocommerce_wp_checkbox( array( 
             'id'            => 'qty_args',
             'label'         => __( 'Quantity settings', 'woocommerce' ),
@@ -41,7 +53,10 @@ class WholesaleSellLimit {
             'description'   => __( 'Enable this to show and enable the additional quantity setting fields.', 'woocommerce' ),
         ) );
     
-        echo '<div class="qty-args hidden">';
+        if(empty($values))
+            echo '<div class="qty-args hidden">';
+        else
+            echo '<div class="qty-args">';
     
         woocommerce_wp_text_input( array(
                 'id'                => 'qty_roles',
@@ -50,9 +65,11 @@ class WholesaleSellLimit {
                 'placeholder'       => '',
                 'desc_tip'          => 'true',
                 'description'       => __( 'Name of roles which must be effected, must be seprated with comma. (i.e. Admin,Customer).', 'woocommerce' ),
-                'custom_attributes' => array( 'pattern'  => 'any'),
+                'custom_attributes' => array( 'pattern'  => '^\w+(\s*,\s*\w+)*$', 'dir' => 'ltr'),
                 'value'             => isset($values['qty_roles']) && !empty($values['qty_roles']) ? $values['qty_roles'] : '',
         ));
+        
+        echo '<p id="suggestionListContainer" class="form-field"></p>';
 
         woocommerce_wp_text_input( array(
                 'id'                => 'qty_min',
@@ -61,7 +78,7 @@ class WholesaleSellLimit {
                 'placeholder'       => '',
                 'desc_tip'          => 'true',
                 'description'       => __( 'Set a minimum allowed quantity limit (a number greater than 0).', 'woocommerce' ),
-                'custom_attributes' => array( 'step'  => 'any', 'min'   => '0'),
+                'custom_attributes' => array( 'step'  => 'any', 'min'   => '0', 'dir' => 'ltr'),
                 'value'             => isset($values['qty_min']) && $values['qty_min'] > 0 ? (int) $values['qty_min'] : 0,
         ));
     
@@ -72,7 +89,7 @@ class WholesaleSellLimit {
                 'placeholder'       => '',
                 'desc_tip'          => 'true',
                 'description'       => __( 'Set the maximum allowed quantity limit (a number greater than 0). Value "-1" is unlimited', 'woocommerce' ),
-                'custom_attributes' => array( 'step'  => 'any', 'min'   => '-1'),
+                'custom_attributes' => array( 'step'  => 'any', 'min'   => '-1', 'dir' => 'ltr'),
                 'value'             => isset($values['qty_max']) && $values['qty_max'] > 0 ? (int) $values['qty_max'] : -1,
         ));
     
@@ -83,7 +100,7 @@ class WholesaleSellLimit {
                 'placeholder'       => '',
                 'desc_tip'          => 'true',
                 'description'       => __( 'Optional. Set quantity step  (a number greater than 0)', 'woocommerce' ),
-                'custom_attributes' => array( 'step'  => 'any', 'min'   => '1'),
+                'custom_attributes' => array( 'step'  => 'any', 'min'   => '1', 'dir' => 'ltr'),
                 'value'             => isset($values['qty_step']) && $values['qty_step'] > 1 ? (int) $values['qty_step'] : 1,
         ));
 
@@ -94,7 +111,7 @@ class WholesaleSellLimit {
                 'placeholder'       => '',
                 'desc_tip'          => 'true',
                 'description'       => __( 'Optional. Set new product price. (empty means no change)', 'woocommerce' ),
-                'custom_attributes' => array( 'step'  => 'any', 'min'   => '0'),
+                'custom_attributes' => array( 'step'  => 'any', 'min'   => '0', 'dir' => 'ltr'),
                 'value'             => isset($values['qty_new_price']) && !empty($values['qty_new_price']) ? (int) $values['qty_new_price'] : '',
         ));
     
@@ -104,29 +121,31 @@ class WholesaleSellLimit {
     }
 
     /**
-     * check if user has the valid roles.
+     * @method currentUserHas
+     * check if weather user has the valid roles or not.
      */
-    private function userIs(string $validRoles) {
-        $user   = wp_get_current_user();
-        $roles  = explode(',',$validRoles);
+    private function userIsValid(string $validRoles) {
+        $user       = wp_get_current_user();
+        $validRoles = trim($validRoles);
+        $requiredRoles      = explode(',',$validRoles);
 
-        foreach($roles as $role) {
-            if ( in_array( $role , (array) $user->roles ) ) {
+        foreach($requiredRoles as $role) {
+            if (in_array($role , (array) $user->roles) ) {
                 return true;
             }
         }        
         return false;
     }
-    
-    // Show/hide setting fields (admin product pages)
+
+    /**
+     * toggle setting fields (admin product pages)
+     */
     public function toggleWholesaleProductSection() {
+            global $wp_roles;
+            $allRoleNames = $wp_roles->get_names();
         ?>
         <script>
         jQuery(function($){
-            if($('input#qty_args').is(':checked')) {
-                $('div.qty-args').removeClass('hidden');
-            }
-
             $('input#qty_args').click(function(){
                 if( $(this).is(':checked')) {
                     $('div.qty-args').removeClass('hidden');
@@ -134,22 +153,50 @@ class WholesaleSellLimit {
                     $('div.qty-args').addClass('hidden');
                 }
             });
+
+            var source=["<?php echo implode('","',array_keys($allRoleNames)) ?>"];
+            
+            var suggestionClicked = function() {
+                let suggest = $(this).html();
+                let input   = $('#qty_roles');
+                let value   = input.val();
+                let lastIndex   = value.lastIndexOf(',');
+                let newInput    = lastIndex == -1? '' : value.substr(0,lastIndex) + ',';
+
+                input.val(newInput + suggest);
+                $("#suggestionListContainer").html('');
+            };
+
+            $('#qty_roles').keyup(function() {
+                let rolesInput  = $(this).val().toLocaleLowerCase().replaceAll(' ','');
+                let lastIndex   = rolesInput.lastIndexOf(',');
+                let result      = []; 
+
+                rolesInput = lastIndex == -1 ? rolesInput : rolesInput.substr(lastIndex + 1);
+                for(let x of source) {
+                    if(rolesInput != '' && x.toLocaleLowerCase().includes(rolesInput) == true) {
+                        result.push(`<a class="btn suggestedItem">${x}</a>`);
+                    }
+                }
+                $("#suggestionListContainer").html(result.join(', '));
+
+                if(result.length)
+                    $('.suggestedItem').click(suggestionClicked);
+            });
         });
         </script>
         <?php
     }
     
     /**
-     * Save quantity setting fields values
-     * 
-     *  
+     * Save quantity setting fields values.
      */ 
     public function WSSaveProductQuantitySettings( $product ) {
         if ( isset($_POST['qty_args']) ) {
             $values = $product->get_meta('smr_ws_limit');
     
             $product->update_meta_data( 'smr_ws_limit', array(
-                'qty_roles'     => isset($_POST['qty_roles'])       && !empty($_POST['qty_roles'])      ? (int) $_POST['qty_roles']         : '',
+                'qty_roles'     => isset($_POST['qty_roles'])       && !empty($_POST['qty_roles'])      ? $_POST['qty_roles']               : '',
                 'qty_min'       => isset($_POST['qty_min'])         && $_POST['qty_min'] > 0            ? (int) wc_clean($_POST['qty_min']) : 0 ,
                 'qty_max'       => isset($_POST['qty_max'])         && $_POST['qty_max'] > 0            ? (int) wc_clean($_POST['qty_max']) : -1,
                 'qty_step'      => isset($_POST['qty_step'])        && $_POST['qty_step'] > 1           ? (int) wc_clean($_POST['qty_step']): 1 ,
@@ -164,6 +211,8 @@ class WholesaleSellLimit {
      * The quantity settings in action on front end
      */
     public function filterWholesaleQuantityInputArgs( $args, $product ) {
+        
+        
         if ( $product->is_type('variation') ) {
             $parent_product = wc_get_product( $product->get_parent_id() );
             $values  = $parent_product->get_meta( 'smr_ws_limit' );
@@ -171,17 +220,17 @@ class WholesaleSellLimit {
             $values  = $product->get_meta( 'smr_ws_limit' );
         }
     
-        if ( !empty( $values ) ) {
-            // Min value
+        if (empty( $values ) == false && $this->userIsValid($values['qty_roles'])) {
+            //* set min value
             if ( isset( $values['qty_min'] ) && $values['qty_min'] > 1 ) {
                 $args['min_value'] = $values['qty_min'];
     
                 if( ! is_cart() ) {
-                    $args['input_value'] = $values['qty_min']; // Starting value
+                    $args['input_value'] = $values['qty_min']; //* set starting value
                 }
             }
     
-            // Max value
+            //* set max value
             if ( isset( $values['qty_max'] ) && $values['qty_max'] > 0 ) {
                 $args['max_value'] = $values['qty_max'];
     
@@ -190,7 +239,7 @@ class WholesaleSellLimit {
                 }
             }
     
-            // Step value
+            //* set step value
             if ( isset( $values['qty_step'] ) && $values['qty_step'] > 1 ) {
                 $args['step'] = $values['qty_step'];
             }
@@ -204,7 +253,7 @@ class WholesaleSellLimit {
     public function AjaxAddtoCartWholesaleQuantity( $args, $product ) {
         $values  = $product->get_meta( 'smr_ws_limit' );
     
-        if ( ! empty( $values ) ) {
+        if (empty( $values ) == false && $this->userIsValid($values['qty_roles'])) {
             // Min value
             if ( isset( $values['qty_min'] ) && $values['qty_min'] > 1 ) {
                 $args['quantity'] = $values['qty_min'];
@@ -219,7 +268,7 @@ class WholesaleSellLimit {
     public function filterWSAvailableVariationPrice( $data, $product, $variation ) {
         $values  = $product->get_meta( 'smr_ws_limit' );
     
-        if ( ! empty( $values ) ) {
+        if (empty( $values ) == false && $this->userIsValid($values['qty_roles'])) {
             if ( isset( $values['qty_min'] ) && $values['qty_min'] > 1 ) {
                 $data['min_qty'] = $values['qty_min'];
             }
@@ -235,17 +284,6 @@ class WholesaleSellLimit {
         return $data;
     }
 
-    public function registerPrice() {        
-        // Generating dynamically the product "regular price"
-        add_filter( 'woocommerce_product_get_regular_price', array($this,'getRegularPrice') , 10, 2 );
-        add_filter( 'woocommerce_product_variation_get_regular_price', array($this,'getRegularPrice') , 10, 2 );
-        // Generating dynamically the product "sale price"
-        add_filter( 'woocommerce_product_get_sale_price', array($this,'getWholesaleSalePrice') , 10, 2 );
-        add_filter( 'woocommerce_product_variation_get_sale_price', array($this,'getWholesaleSalePrice') , 10, 2 );
-        // Displayed formatted regular price + sale price
-        add_filter( 'woocommerce_get_price_html', array($this,'woocommerceGetPriceHtml'), 20, 2 );
-    }
-
     /**
      * 
      */
@@ -256,14 +294,15 @@ class WholesaleSellLimit {
             return $regular_price;
     }
 
-
     /**
      * 
      */
     public function getWholesaleSalePrice( $sale_price, $product ) {
-        $newPrice = $product->get_meta('smr_ws_limit');
-        if(((empty($sale_price) || $sale_price == 0)) && isset($newPrice['qty_new_price']) && $newPrice['qty_new_price'] != '') {
-            return (int) $newPrice['qty_new_price'];
+        $values = $product->get_meta('smr_ws_limit');
+
+        if(((empty($sale_price) || $sale_price == 0)) && isset($values['qty_new_price']) 
+                                                      && $values['qty_new_price'] != '' && $this->userIsValid($values['qty_roles'])) {
+            return (int) $values['qty_new_price'];
         }
         return $sale_price;
     }
@@ -272,11 +311,16 @@ class WholesaleSellLimit {
      * 
      */
     public function woocommerceGetPriceHtml($price_html, $product) {
-        if( $product->is_type('variable')) return $price_html;
+        if( $product->is_type('variable')) {
+            return $price_html;
+        }
 
-        $price_html = wc_format_sale_price(wc_get_price_to_display( $product, array('price' => $product->get_regular_price())), 
-                                           wc_get_price_to_display( $product, array('price' => $product->get_sale_price())))
-                                           .$product->get_price_suffix();
+        $values = $product->get_meta('smr_ws_limit');
+        
+        if(isset($values['qty_roles']) && $this->userIsValid($values['qty_roles'])) {
+            $price_html = wc_format_sale_price(wc_get_price_to_display( $product, array('price' => $product->get_regular_price())), 
+                                               wc_get_price_to_display( $product, array('price' => $product->get_sale_price()))).$product->get_price_suffix();
+        }
 
         return $price_html;
     }
