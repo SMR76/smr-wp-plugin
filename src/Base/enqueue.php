@@ -13,8 +13,8 @@ class Enqueue extends BaseController {
     }	
     
     public function enqueue() {
-		wp_enqueue_style ('smrStyle', $this->pluginUrl .'lib/style.css');
-		wp_enqueue_script('smrScript', $this->pluginUrl . 'lib/script.js');
+		// wp_enqueue_style ('smrStyle', $this->pluginUrl .'lib/style.css');
+		// wp_enqueue_script('smrScript', $this->pluginUrl . 'lib/script.js');
 	}
     
     // wp_enqueue_style ('smrStyle',   $this->pluginUrl. 'lib/bootstrap-4.5.0-dist/css/bootstrap.min.css');        
