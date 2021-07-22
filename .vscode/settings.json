@@ -28,5 +28,11 @@
         "**/workspace.*": true,
         "**/vendor"     : true,
         "**/LICENSE"     : true,
-    }
+    },
+    "spellright.language": [
+        "en"
+    ],
+    "spellright.documentTypes": [
+        "markdown"
+    ]
 }
