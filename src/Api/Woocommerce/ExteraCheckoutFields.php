@@ -10,23 +10,49 @@ use Src\Base\BaseController;
 
 class ExteraCheckoutFields extends BaseController {
     public function register() {
-        add_action( 'woocommerce_before_order_notes', array( $this,'exteraCheckoutFields'));
-        // add_filter( 'woocommerce_checkout_fields' , array( $this,'custom_override_checkout_fields'));
+        add_action( 'woocommerce_before_order_notes',           array( $this,'exteraCheckoutFields'));
+
+        //* custom column for shop_order
+        add_filter( 'manage_edit-shop_order_columns',           array( $this,'customShopOrderColumn'), 20);
+        add_action( 'manage_shop_order_posts_custom_column' ,   array( $this,'customColumnContent')  , 20, 2);
+
+        add_action( 'woocommerce_checkout_create_order',        array( $this,'addCheckoutFieldsToOrderMeta'));
+        add_action( 'woocommerce_admin_order_data_after_billing_address', array( $this,'displayCustomCheckoutFieldsInAdminOrder'), 10);
     }
-    
-    /**
-     * Our hooked in function - $fields is passed via the filter!
-     */
-    function custom_override_checkout_fields( $fields ) {
-        $fields['needs_instalation']['order_comments'] = 'My new placeholder';
-        return $fields;
+
+    function customShopOrderColumn($columns) {
+        $reordered_columns = array();
+        // Inserting columns to a specific location
+        foreach( $columns as $key => $column){
+            $reordered_columns[$key] = $column;
+            if( $key ==  'order_status' ){
+                // Inserting after "Status" column
+                $reordered_columns['installation_service_column'] = __( 'installation service','smr-plugin');
+            }
+        }
+        return $reordered_columns;
+    }
+
+    function customColumnContent($column, $post_id) {
+        switch ($column) {
+            case 'installation_service_column':
+                // Get custom post meta data
+                $postMeta = get_post_meta($post_id, 'installation_service', true);
+                if (!empty($postMeta))
+                    echo 'needed';
+
+                // Testing (to be removed) - Empty value case
+                else
+                    echo '<small>(<em>no value</em>)</small>';
+
+                break;
+        }
     }
 
     /**
      * 
      */
-    public function exteraCheckoutFields($checkout)
-    {
+    public function exteraCheckoutFields($checkout) {
         woocommerce_form_field(
             'needs_installation',
             array(
@@ -34,15 +60,15 @@ class ExteraCheckoutFields extends BaseController {
                 'class' => array(
                     'form-row-wide'
                 ),
-                'label' => __('Needs Installation?'),
+                'label' => __('need installation service?'),
             ),
-            $checkout->get_value('needs_installation')? 'yes' : 'no'
+            'yes'
         );
         $this->conditionalMessage();
     }
 
     function conditionalMessage() {
-		wp_enqueue_script('smrScript',  $this->pluginUrl. 'lib/jquery/3.5.1/jquery-3.5.1.min.js');
+		// wp_enqueue_script('smrScript',  $this->pluginUrl. 'lib/jquery/3.5.1/jquery-3.5.1.min.js');
 
         ?>             
         <div class="text-justify" id="needs_installation_desc" style="display: none;margin-bottom:35px;">
@@ -63,7 +89,7 @@ class ExteraCheckoutFields extends BaseController {
         </div>
 
         <script>
-            jQuery(() => {
+            jQuery(function($) {
                 $("#needs_installation").click(function() {
                     if($(this).is(':checked'))
                         $("#needs_installation_desc").slideDown();
@@ -74,5 +100,22 @@ class ExteraCheckoutFields extends BaseController {
         </script>
     <?php
     }
+    
+    // Add custom checkout field value as custom order meta data
+    function addCheckoutFieldsToOrderMeta( $order ) {
+        if ( isset($_POST['needs_installation']) && empty($_POST['needs_installation']) == false ) {
+            $order->update_meta_data( 'installation_service', sanitize_text_field($_POST['needs_installation']));
+        }
+    }
+
+    // Display "My field" value on the order edit pages under billing section
+    function displayCustomCheckoutFieldsInAdminOrder($order){
+        $orderMeta = $order->get_meta('installation_service');
+
+        if (!empty($orderMeta)) {
+            echo '<p><strong>'.__('request installation service').':</strong> true </p>';
+        }
+    }
+
 }
 ?>
