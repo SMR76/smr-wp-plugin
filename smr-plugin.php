@@ -1,13 +1,13 @@
 <?php
 /**
- * 	@package SMRP
+ * 	@package SMR_WP
  * 	@version 0.1
  * 	@author  Seyyed Morteza Razavi
  */
 /*
-	Plugin Name: SMRP
+	Plugin Name: SMR Plugin
 	Plugin URI: http://s-m-r.ir/
-	Description: customized plugin.
+	Description: all in one customizations.
 	Author: Seyyed Morteza Razavi
 	Version: 0.1
 	Author URI: http://s-m-r.ir/
