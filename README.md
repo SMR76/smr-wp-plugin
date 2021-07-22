@@ -1,7 +1,14 @@
 
 # SMR WP-Plugin
 
-Example for WordPress plugin in PHP.
+All in one WordPress plugin.
+Including following features:
+
+- wholesale custom product price for specific user roles.
+- custom checkout fields.
+- custom (conditional?) register fields.
+- sticky button on site's right-bottom.
+
 <small>version 0.1</small>
 
 ## How to use
