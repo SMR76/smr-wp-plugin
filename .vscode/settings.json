@@ -23,7 +23,7 @@
     "files.exclude" : {
         "**/.git"       : true,
         "**/.svn"       : true,
-        "**/.gitignore" : true,
+        "**/.gitmodules" : true,
         "**/composer.*" : true,
         "**/workspace.*": true,
         "**/vendor"     : true,
