@@ -14,6 +14,8 @@ class StikyButton extends BaseController{
     }
 
     public function fixedInfoButton () { 
+		wp_enqueue_style ('smrStyle', $this->pluginUrl .'lib/style.css');
+		wp_enqueue_script('smrScript', $this->pluginUrl . 'lib/script.js');
     //---------------------- stiky button html start ----------------------
     ?>
     <div id="custom-notifier-cont">
