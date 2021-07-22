@@ -20,21 +20,49 @@ class WholesaleSellLimit extends BaseController {
         add_filter( 'woocommerce_available_variation',          array($this,'filterWSAvailableVariationPrice'), 10, 3);
 
         /**
-         * register quantity prices
+         * register product prices
+         * thanks to:
+         * https://stackoverflow.com/questions/45806249/change-product-prices-via-a-hook-in-woocommerce-3/45807054#45807054
          */
 
-        // //* Generating dynamically the product "regular price"
+        //* Generating dynamically the product "regular price"
         add_filter( 'woocommerce_product_get_regular_price',            array($this,'getRegularPrice') , 10, 2 );
         add_filter( 'woocommerce_product_variation_get_regular_price',  array($this,'getRegularPrice') , 10, 2 ); 
 
-        // //* Generating dynamically the product "sale price"
-        add_filter( 'woocommerce_product_get_sale_price',               array($this,'getWholesaleSalePrice') , 10, 2 );
-        add_filter( 'woocommerce_product_variation_get_sale_price',     array($this,'getWholesaleSalePrice') , 10, 2 );
+        //* Generating dynamically the product "sale price"
+        // add_filter( 'woocommerce_product_get_sale_price',               array($this,'getWholesaleSalePrice') , 10, 2 );
+        // add_filter( 'woocommerce_product_variation_get_sale_price',     array($this,'getWholesaleSalePrice') , 10, 2 );
 
-        // //* Displayed formatted regular price + sale price         
-        add_filter( 'woocommerce_get_price_html',                       array($this,'woocommerceGetPriceHtml'), 20, 2 );
+        //* change price for simple, grouped and external products
+        add_filter('woocommerce_product_get_price',                     array( $this, 'getProductPrice' ), 99, 2 );
+        add_filter('woocommerce_variation_prices_price',                array( $this, 'woocommerceGetVariationPrices' ), 99, 3 );
+
+        //* Handling price caching (see explanations at the end)
+        add_filter( 'woocommerce_get_variation_prices_hash',            array( $this, 'addPriceMultiplierToVariationPricesHash' ), 99, 3 );
+
+        //* Displayed formatted regular price + sale price         
+        add_filter( 'woocommerce_get_price_html',                       array( $this, 'woocommerceGetPriceHtml'), 20, 2 );
     }
     
+    public function getProductPrice( $price, $product ) {
+        $values = $product->get_meta('smr_ws_limit');        
+        if(isset($values['qty_roles']) && $this->userIsValid($values['qty_roles']))
+            return (float) $values['qty_new_price'];
+        return (float) $price;
+    }
+    
+    public function woocommerceGetVariationPrices( $price, $variation, $product ) {
+        $values = $product->get_meta('smr_ws_limit');        
+        if(isset($values['qty_roles']) && $this->userIsValid($values['qty_roles']))
+            return (float) $values['qty_new_price'];
+            
+        return (float) $price;
+    }
+    
+    public function addPriceMultiplierToVariationPricesHash( $price_hash, $product, $for_display ) {
+        return $price_hash;
+    }
+
     /**
      * add fields to price section.
      */
