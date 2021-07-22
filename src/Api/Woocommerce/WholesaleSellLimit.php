@@ -174,29 +174,29 @@ class WholesaleSellLimit extends BaseController {
         ?>
         <script>
         jQuery(function($){
-            $('input#qty_args').click(function(){
-                if( $(this).is(':checked')) {
-                    $('div.qty-args').removeClass('hidden');
+            jQuery('input#qty_args').click(function(){
+                if( jQuery(this).is(':checked')) {
+                    jQuery('div.qty-args').removeClass('hidden');
                 } else {
-                    $('div.qty-args').addClass('hidden');
+                    jQuery('div.qty-args').addClass('hidden');
                 }
             });
 
             var source=["<?php echo implode('","',array_keys($allRoleNames)) ?>"];
             
             var suggestionClicked = function() {
-                let suggest = $(this).html();
-                let input   = $('#qty_roles');
+                let suggest = jQuery(this).html();
+                let input   = jQuery('#qty_roles');
                 let value   = input.val();
                 let lastIndex   = value.lastIndexOf(',');
                 let newInput    = lastIndex == -1? '' : value.substr(0,lastIndex) + ',';
 
                 input.val(newInput + suggest);
-                $("#suggestionListContainer").html('');
+                jQuery("#suggestionListContainer").html('');
             };
 
-            $('#qty_roles').keyup(function() {
-                let rolesInput  = $(this).val().toLocaleLowerCase().replaceAll(' ','');
+            jQuery('#qty_roles').keyup(function() {
+                let rolesInput  = jQuery(this).val().toLocaleLowerCase().replaceAll(' ','');
                 let lastIndex   = rolesInput.lastIndexOf(',');
                 let result      = []; 
 
@@ -206,10 +206,10 @@ class WholesaleSellLimit extends BaseController {
                         result.push(`<a class="btn suggestedItem">${x}</a>`);
                     }
                 }
-                $("#suggestionListContainer").html(result.join(', '));
+                jQuery("#suggestionListContainer").html(result.join(', '));
 
                 if(result.length)
-                    $('.suggestedItem').click(suggestionClicked);
+                    jQuery('.suggestedItem').click(suggestionClicked);
             });
         });
         </script>
