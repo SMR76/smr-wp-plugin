@@ -57,10 +57,8 @@ class ExteraCheckoutFields extends BaseController {
             'needs_installation',
             array(
                 'type' => 'checkbox',
-                'class' => array(
-                    'form-row-wide'
-                ),
-                'label' => __('need installation service?'),
+                'class' => array('form-row-wide'),
+                'label' => __('need installation service?','smr_plugin'),
             ),
             'yes'
         );

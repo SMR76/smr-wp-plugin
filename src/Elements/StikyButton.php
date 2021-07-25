@@ -14,16 +14,16 @@ class StikyButton extends BaseController{
     }
 
     public function fixedInfoButton () { 
-		wp_register_style ('smrStikyButtonStyle',    $this->pluginUrl .'assets/css/style.css');
-		wp_register_script('smrStikyButtonScript',   $this->pluginUrl . 'assets/js/script.js');
+		wp_register_style ('smrStikyButtonStyle',    $this->pluginUrl .'assets/css/stikybutton.css');
+		wp_register_script('smrStikyButtonScript',   $this->pluginUrl . 'assets/js/stikybutton.js');
 
 		wp_enqueue_style ('smrStikyButtonStyle' );
 		wp_enqueue_script('smrStikyButtonScript');
         
     //---------------------- stiky button html start ----------------------
     ?>
-    <div id="custom-notifier-cont">
-        <div id="contact-us" class="option">
+    <div id="smr-stikybutton">
+        <div id="contact-us" class="smr-stikybutton-option">
             <span>
                 در صورتی که در رابطه با خرید نیاز به مشاوره رایگان دارید می‌توانید با شماره‌های ذیل تماس حاصل نمایید.
                 <ul style="margin: 5px 0 0 0;">
@@ -33,7 +33,7 @@ class StikyButton extends BaseController{
             </span>
             <div class="ico"><i class="fas fa-mobile-alt"></i></div>
         </div>
-        <div id="our-works" class="option">
+        <div id="our-works" class="smr-stikybutton-option">
             <span>نمونه‌کارهای ما را در 
                 <a href="https://www.instagram.com/hamta.system/" target="_blank">Instagram</a>
                     دنبال کنید</span>
