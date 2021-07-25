@@ -1,11 +1,12 @@
-#custom-notifier-cont {
+#smr-stikybutton {
     position: fixed;
     right: 50px; bottom: 50px;
     font-family: vazir;
     direction: rtl;
+    z-index: 99;
 }
 
-#custom-notifier-cont #handbell{
+#smr-stikybutton #handbell{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,12 +15,12 @@
     border-radius: 50%;
 }
 
-#custom-notifier-cont #handbell i{
-    animation: cshake 3s infinite ;
+#smr-stikybutton #handbell i{
+    animation: smr-handbell-shake 3s infinite ;
     transform-origin: 50% 0 ;
 }
 
-@keyframes cshake {
+@keyframes smr-handbell-shake {
     0%{transform: rotate(0deg);}
     10%{transform: rotate(25deg);}
     20%{transform: rotate(-25deg);}
@@ -33,7 +34,7 @@
     100%{transform: rotate(0deg);}
 }
 
-#custom-notifier-cont .option { 
+#smr-stikybutton .smr-stikybutton-option { 
     margin:10px 0px;
     position: relative;
     display: flex;
@@ -46,12 +47,12 @@
     transition-property: opacity, margin-bottom;
     transition-duration: 0.5s;
 }
-#custom-notifier-cont .option.active {
+#smr-stikybutton .smr-stikybutton-option.active {
     visibility: visible;
     opacity: 1;
     margin-bottom: 10px;
 }
-#custom-notifier-cont .ico{
+#smr-stikybutton .ico{
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -65,7 +66,7 @@
     overflow: visible;
     box-shadow: 3px 3px 25px #00000060;
 }
-#custom-notifier-cont .ico::after{
+#smr-stikybutton .ico::after{
     position: absolute;
     width: 45px; height: 45px;
     border-radius: 50%;
@@ -75,11 +76,11 @@
     transition-property: width,height,opacity;
     transition-duration: 0.5s;
 }
-#custom-notifier-cont .ico:hover::after{
+#smr-stikybutton .ico:hover::after{
     width: 35px; height: 35px;
     opacity: 35%;
 }
-#custom-notifier-cont div span{
+#smr-stikybutton div span{
     position: absolute;
     text-align: justify;
     font-weight: bold;
@@ -94,16 +95,16 @@
     border-radius: 10px;
 
     box-shadow: 5px 8px 25px #0000002c;
-    background-color: #8d99ae;
-    color: #f3f3f3;
+    background-color: #eef1ff;
+    color: #777777;
 }
-#custom-notifier-cont div:hover span{
+#smr-stikybutton div:hover span{
     visibility: visible;
     opacity: 1;
 }
 
-#custom-notifier-cont a{
+#smr-stikybutton a{
     text-decoration: none;
     text-align: unset;
-    color: rgb(28, 42, 56);
+    color: #ff2d49;
 }
