@@ -7,20 +7,20 @@ namespace Src\Api;
 
 use \Src\Base\BaseController;
 
-class MOF extends BaseController{
+class Functions extends BaseController{
     public function adminGeneralPage() {
         return require_once("$this->pluginPath/templates/adminPage.php"); 
     }
-    public function optionGroup($input) {
+    public function optionGroupFieldsFilter($input) {
         return $input;
     }
-    public function adminSection() {
-        echo 'this is the section';
+    public function adminSectionArea() {
+        echo '<h5>Roles</h5>';
     }
-    public function smrExampleText() {
-        echo  'hi';
-        $value = esc_attr( get_option('example_text') );
-        echo $value;
-        echo "<input type='text' class='form-control' name='example_text' value='' placeholder='$'>";
+    public function wholesaleRolesInput() {
+        $value = esc_attr(get_option('smr_wholesale'));
+        printf("<input id='ws-selected-roles' type='text' class='form-control' 
+                name='smr_wholesale' value='%s' placeholder='' style='width: 400px;direction: ltr;' pattern='^\w+(\s*,\s*\w+)*$'>", $value);
+        echo '<p id="suggestionListContainer" class="form-field" style="height:20px;"></p>';
     }
 }
