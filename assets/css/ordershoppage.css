@@ -1,0 +1,9 @@
+.installation_service_column {
+    padding: 0px !important;
+}
+
+.installation_service_column div{
+    background-color: #caffec;
+    padding: 13px;
+    height: 100%;
+}
