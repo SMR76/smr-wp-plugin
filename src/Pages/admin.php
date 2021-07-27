@@ -24,7 +24,7 @@ class Admin extends BaseController{
 	
 	public function setupSettingPage() {
 		add_menu_page('SMR plugin','SMR','manage_options','smr_plugin'		,array($this->functions,'adminGeneralPage'),'',null);
-		//add_submenu_page('smr_plugin','SMR plugin','SMR','manage_options'	,'smr_plugin',array($this->functions,'adminGeneralPage'),null);
+		//add_submenu_page('smr_plugin','SMR plugin','SMR','manage_options'	,'smr_plugin_general',array($this->functions,'adminGeneralPage'),null);
 	}
 	
 	public function registerCustomFields() {		
@@ -36,14 +36,14 @@ class Admin extends BaseController{
 		
 		add_settings_section(
 			'smr_option_index',
-			'Settings',
+			__('Settings','smr-plugin'),
 			array($this->functions, 'adminSectionArea'),
 			'smr_plugin'
 		);
 
 		add_settings_field( 
 			'ws_roles',
-			'wholesale valid roles',
+			__('cooperator valid roles','smr-plugin'),
 			array($this->functions, 'wholesaleRolesInput'),
 			'smr_plugin',
 			'smr_option_index', 
