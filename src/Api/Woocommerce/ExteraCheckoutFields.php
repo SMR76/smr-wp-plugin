@@ -10,7 +10,8 @@ use Src\Base\BaseController;
 
 class ExteraCheckoutFields extends BaseController {
     public function register() {
-        add_action( 'woocommerce_before_order_notes',           array( $this,'exteraCheckoutFields'));
+        //* add custom checkbox field after billing form
+        add_action( 'woocommerce_after_checkout_billing_form',  array( $this,'exteraCheckoutFields'));
 
         //* custom column for shop_order
         add_filter( 'manage_edit-shop_order_columns',           array( $this,'customShopOrderColumn'), 20);
@@ -21,12 +22,15 @@ class ExteraCheckoutFields extends BaseController {
     }
 
     function customShopOrderColumn($columns) {
+        //* enqueue custom style
+        wp_enqueue_style('smrOrderShop',$this->pluginUrl.'/assets/css/ordershoppage.css');
+
         $reordered_columns = array();
-        // Inserting columns to a specific location
+        //* Inserting columns to a specific location
         foreach( $columns as $key => $column){
             $reordered_columns[$key] = $column;
             if( $key ==  'order_status' ){
-                // Inserting after "Status" column
+                //* Inserting after "Status" column
                 $reordered_columns['installation_service_column'] = __( 'installation service','smr-plugin');
             }
         }
@@ -36,15 +40,10 @@ class ExteraCheckoutFields extends BaseController {
     function customColumnContent($column, $post_id) {
         switch ($column) {
             case 'installation_service_column':
-                // Get custom post meta data
+                //* Get custom post meta data
                 $postMeta = get_post_meta($post_id, 'installation_service', true);
-                if (!empty($postMeta))
-                    echo 'needed';
-
-                // Testing (to be removed) - Empty value case
-                else
-                    echo '<small>(<em>no value</em>)</small>';
-
+                if (empty($postMeta) == false)
+                    echo '<div>'.__('needed','smr-plugin').'</div>';
                 break;
         }
     }
@@ -53,12 +52,13 @@ class ExteraCheckoutFields extends BaseController {
      * 
      */
     public function exteraCheckoutFields($checkout) {
+        echo "<br>";
         woocommerce_form_field(
             'needs_installation',
             array(
                 'type' => 'checkbox',
                 'class' => array('form-row-wide'),
-                'label' => __('need installation service?','smr_plugin'),
+                'label' => '<span style="font-size: 19px;font-weight: 600;">'.__('need installation service?','smr_plugin').'</span>',
             ),
             'yes'
         );
@@ -66,10 +66,8 @@ class ExteraCheckoutFields extends BaseController {
     }
 
     function conditionalMessage() {
-		// wp_enqueue_script('smrScript',  $this->pluginUrl. 'lib/jquery/3.5.1/jquery-3.5.1.min.js');
-
         ?>             
-        <div class="text-justify" id="needs_installation_desc" style="display: none;margin-bottom:35px;">
+        <div class="text-justify" id="needs_installation_desc" style="display:none; margin-bottom:35px;">
             <ul class="px-3" style="font-size: medium;">
                 <li><i class="fas fa-check"></i>
                     هزینه ایاب الذهاب در شیراز رایگان و در خارج از شهر به ازای هر ۵۰ کیلومتر مبلغ ۳۰٫۰۰۰ تومان می‌باشد.</li>
@@ -99,21 +97,20 @@ class ExteraCheckoutFields extends BaseController {
     <?php
     }
     
-    // Add custom checkout field value as custom order meta data
+    //* Add custom checkout field value as custom order meta data
     function addCheckoutFieldsToOrderMeta( $order ) {
         if ( isset($_POST['needs_installation']) && empty($_POST['needs_installation']) == false ) {
             $order->update_meta_data( 'installation_service', sanitize_text_field($_POST['needs_installation']));
         }
     }
 
-    // Display "My field" value on the order edit pages under billing section
+    //* Display "My field" value on the order edit pages under billing section
     function displayCustomCheckoutFieldsInAdminOrder($order){
         $orderMeta = $order->get_meta('installation_service');
 
         if (!empty($orderMeta)) {
-            echo '<p><strong>'.__('request installation service').':</strong> true </p>';
+            echo '<p><strong>'.__('request installation service','smr-plugin').':</strong>'.__('yes','smr-plugin').'</p>';
         }
     }
-
 }
 ?>
