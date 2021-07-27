@@ -1,0 +1,12 @@
+.column-smr_ws {
+    padding: 0px !important;
+    position: relative;
+}
+
+.column-smr_ws div {    
+    background-color: #caffec;
+    padding: 13px;
+    position: absolute;
+    height: -webkit-fill-available;
+    width: -webkit-fill-available;
+}
