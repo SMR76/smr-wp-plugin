@@ -11,6 +11,8 @@
 	Author: Seyyed Morteza Razavi
 	Version: 0.1
 	Author URI: http://s-m-r.ir/
+	Text Domain: smr-plugin
+	Domain Path: /locale
 */
 
 defined('ABSPATH') or die('error ABSPATH');
@@ -33,5 +35,10 @@ register_deactivation_hook	(__FILE__	, 'deactivate_smrp' );
 register_activation_hook	(__FILE__	, 'activate_smrp' );
 
 if(class_exists('Src\\Init')) {
+	//* load translations file.
+	add_action('plugins_loaded', function() {
+		load_plugin_textdomain("smr-plugin", FALSE, dirname(plugin_basename(__FILE__)) . '/locale/');
+	});
+
 	Src\Init::registerService();
 }
