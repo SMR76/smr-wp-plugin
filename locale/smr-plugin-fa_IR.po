@@ -1,0 +1,160 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: SMR Plugin\n"
+"POT-Creation-Date: 2021-07-28 01:54+0430\n"
+"PO-Revision-Date: 2021-07-28 01:56+0430\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fa_IR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n==0 || n==1);\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: smr-plugin.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: src/Api/Functions.php:18
+msgid "<h5>Roles</h5>"
+msgstr "<h5>نقش‌ها</h5>"
+
+#: src/Api/Woocommerce/ExteraCheckoutFields.php:34
+msgid "installation service"
+msgstr "سرویس نصب"
+
+#: src/Api/Woocommerce/ExteraCheckoutFields.php:46
+msgid "needed"
+msgstr "نیاز دارد"
+
+#: src/Api/Woocommerce/ExteraCheckoutFields.php:61
+msgid "need installation service?"
+msgstr "نیاز به سرویس نصب دارد؟"
+
+#: src/Api/Woocommerce/ExteraCheckoutFields.php:112
+msgid "request installation service"
+msgstr "درخواست برای سرویس نصب"
+
+#: src/Api/Woocommerce/ExteraCheckoutFields.php:112
+msgid "yes"
+msgstr "بله"
+
+#: src/Api/Woocommerce/ExteraRegistrationFields.php:28
+msgid "Cooperator"
+msgstr "همکاران"
+
+#: src/Api/Woocommerce/ExteraRegistrationFields.php:48
+msgid "requested for cooperate"
+msgstr "درخواست برای همکاری"
+
+#: src/Api/Woocommerce/ExteraRegistrationFields.php:63
+msgid "Cooperator Customers"
+msgstr "مشتریان همکار"
+
+#: src/Api/Woocommerce/ExteraRegistrationFields.php:67
+msgid "check it if you are a cooperator customer."
+msgstr "بررسی همکار بودن شما."
+
+#: src/Api/Woocommerce/WholesaleSellLimit.php:93
+msgid "Quantity settings"
+msgstr "تنظیمات تعداد"
+
+#: src/Api/Woocommerce/WholesaleSellLimit.php:95
+msgid "Enable this to show and enable the additional quantity setting fields."
+msgstr "این گزینه را برای نمایش و فعال سازی تنظیمات تعداد کالا فعال کنید."
+
+#: src/Api/Woocommerce/WholesaleSellLimit.php:106
+msgid "Roles name"
+msgstr "اسم نقش"
+
+#: src/Api/Woocommerce/WholesaleSellLimit.php:109
+msgid ""
+"Name of roles which must be effected, must be seprated with comma. (i.e. "
+"\"Admin,Customer\")"
+msgstr ""
+"اسامی نقش‌هایی که تحت تأثیر قرار خواهند گرفت، باید نسبت به کاما (,) جدا شوند. "
+"(مانند Admin,Customer)"
+
+#: src/Api/Woocommerce/WholesaleSellLimit.php:120
+msgid "Minimum Quantity"
+msgstr "حداقل تعداد"
+
+#: src/Api/Woocommerce/WholesaleSellLimit.php:122
+msgid "Set a minimum allowed quantity limit (a number greater than 0)."
+msgstr "محدوده حداقل تعداد را مشخص می‌کند (یک عدد بزرگ‌تر از صفر)"
+
+#: src/Api/Woocommerce/WholesaleSellLimit.php:130
+msgid "Maximum Quantity"
+msgstr "بیشترین تعداد"
+
+#: src/Api/Woocommerce/WholesaleSellLimit.php:132
+msgid ""
+"Set the maximum allowed quantity limit (a number greater than 0). Value "
+"\"-1\" is unlimited"
+msgstr ""
+"محدودهٔ‌ بیشترین تعداد مجاز را مشخص می‌کند (یک عدد بزرگتر از صفر). مقدار «۱-» به "
+"منزلهٔ نامحدود است"
+
+#: src/Api/Woocommerce/WholesaleSellLimit.php:140
+msgid "Quantity step"
+msgstr "قدم‌های تعداد"
+
+#: src/Api/Woocommerce/WholesaleSellLimit.php:142
+msgid "Optional. Set quantity step  (a number greater than 0)"
+msgstr "اختیاری، تعداد قدم‌های تعداد را مشخص می‌کند (یک عدد بزرگتر از ۰)"
+
+#: src/Api/Woocommerce/WholesaleSellLimit.php:150
+msgid "New price"
+msgstr "قیمت جدید"
+
+#: src/Api/Woocommerce/WholesaleSellLimit.php:152
+msgid "Optional. Set new product price. (empty means no change)"
+msgstr "اختیاری، قیمت جدید کالا را مشخص می‌کند."
+
+#: src/Api/Woocommerce/WholesaleSellLimit.php:168
+msgid "Call For Price"
+msgstr "تماس برای قیمت"
+
+#: src/Api/Woocommerce/WholesaleSellLimit.php:170
+msgid "Enable this checkbox to hide and disable addToCart button."
+msgstr "این گزینه را برای غیر فعال کردن دکمهٔ «افزودن به سبد» فعال کنید."
+
+#: src/Api/Woocommerce/WholesaleSellLimit.php:181
+msgid "New Text"
+msgstr "متن جدید"
+
+#: src/Api/Woocommerce/WholesaleSellLimit.php:213
+msgid ""
+"call for price: <a dir=\"ltr\" href=\"tel:+123456789\">+123456789</a> (name)"
+msgstr "برای قیمت تماس بگیرید: <a href=\"tel:+۱۲۳۴۵۶۷۸۹\">+۱۲۳۴۵۶۷۸۹</a> (نام)"
+
+#: src/Base/settingLinks.php:15 src/Pages/admin.php:39
+msgid "Settings"
+msgstr "تنظیمات"
+
+#: src/Pages/admin.php:46
+msgid "cooperator valid roles"
+msgstr "نقش‌های مجاز همکاران"
+
+#. Plugin Name of the plugin/theme
+msgid "SMR Plugin"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+#. Author URI of the plugin/theme
+msgid "http://s-m-r.ir/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "all in one customizations."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Seyyed Morteza Razavi"
+msgstr "سید مرتضی رضوی"
