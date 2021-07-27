@@ -15,7 +15,7 @@ class Functions extends BaseController{
         return $input;
     }
     public function adminSectionArea() {
-        echo '<h5>Roles</h5>';
+        _e('<h5>Roles</h5>','smr-plugin');
     }
     public function wholesaleRolesInput() {
         $value = esc_attr(get_option('smr_wholesale'));
