@@ -22,7 +22,10 @@ class ExteraRegistrationFields extends BaseController{
      * insert custom column into users columns
      */
     public function manageUsersColumns($columns) {
-        $newColumn = array("smr_ws" => __("Wholesale", "smr-plugin"));
+        //* enqueue custom css style.
+        wp_enqueue_style('smrUsersPage',$this->pluginUrl.'/assets/css/userspage.css');
+
+        $newColumn = array("smr_ws" => __("Cooperator", "smr-plugin"));
         $idx = count($columns) - 1;
         
         //* insert custom column just before last column.
@@ -42,9 +45,9 @@ class ExteraRegistrationFields extends BaseController{
                 $user_roles=$user_meta->roles;
 
                 if($wsRequest == 'true') {
-                    return __('requested for wholesale','smr-plugin');
+                    return '<div>'.__('requested for cooperate','smr-plugin').'</div>';
                 } else if(in_array('wholesale',$user_roles)) {
-                    return __('','smr-plugin');
+                    return '';
                 }
         }
         return $output;
@@ -53,17 +56,15 @@ class ExteraRegistrationFields extends BaseController{
     /**
      * 
      */
-    public function woocommerceExteraRgeisterFields() {
-        $user  = wp_get_current_user();
-    
+    public function woocommerceExteraRgeisterFields() {    
         ?>
             <p class="woocomerce-FormRow form-row">
                 <label for="reg_ws_request">
-                    <?php echo __('Wholesales Customer');?>
+                    <?php _e('Cooperator Customers','smr-plugin');?>
                 </label>
                 <input type="checkbox" class="checkbox" name="ws_request" id="reg_ws_request" value="true"/>
                 <small id="helpId" class="form-text text-muted">
-                    <?php echo __( 'check it if you are a wholesale customer.');?>
+                    <?php _e( 'check it if you are a cooperator customer.','smr-plugin');?>
                 </small>
             </p><!-- 
             <p class="woocomerce-FormRow form-row">
