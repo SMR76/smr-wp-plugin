@@ -12,7 +12,7 @@ class SettingLinks extends BaseController {
 	}
 
 	public function settingLinks($link) {
-		$settings_link = '<a href="admin.php?smr-plugin">Settings</a>';
+		$settings_link = '<a href="admin.php?page=smr_plugin">'.__('Settings','smr-plugin').'</a>';
 		array_push($link, $settings_link);
 		return $link;
 	}
