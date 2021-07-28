@@ -8,7 +8,7 @@ Including following features:
 - custom call for price message.
 - custom checkout fields.
 - custom (conditional?) register fields.
-- sticky button on right-bottom site page.
+- sticky button on the right-bottom site page.
 
 <small>version 0.1</small>
 

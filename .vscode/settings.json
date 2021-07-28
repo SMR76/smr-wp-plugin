@@ -21,13 +21,6 @@
         }
     ],
     "files.exclude" : {
-        "**/.git"       : true,
-        "**/.svn"       : true,
-        "**/.gitmodules" : true,
-        "**/composer.*" : true,
-        "**/workspace.*": true,
-        "**/vendor"     : true,
-        "**/LICENSE"     : true,
     },
     "spellright.language": [
         "en"
