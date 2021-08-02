@@ -58,7 +58,7 @@ class ExteraCheckoutFields extends BaseController {
             array(
                 'type' => 'checkbox',
                 'class' => array('form-row-wide'),
-                'label' => '<span style="font-size: 19px;font-weight: 600;">'.__('need installation service?','smr_plugin').'</span>',
+                'label' => '<span style="font-size: 19px;font-weight: 600;">'.__('need installation service?','smr-plugin').'</span>',
             ),
             'yes'
         );
