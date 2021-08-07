@@ -10,6 +10,11 @@ use Src\Base\BaseController;
 class WholesaleSellLimit extends BaseController {
     
     public function register() {
+
+        $options = get_option('smr_settings_option_group');
+        if(isset($options['activate_wholesale']) == false)
+            return ;
+
         /**
          * register quantity actions
          */
@@ -83,7 +88,9 @@ class WholesaleSellLimit extends BaseController {
      */
     public function wcQuantityExteraProductField() {
         global $product_object;    
-        $values = $product_object->get_meta('smr_ws_limit');
+        $values         = $product_object->get_meta('smr_ws_limit');        
+        $options        = get_option('smr_settings_option_group');
+        $defaultRoles   = isset($options['ws_roles']) ? $options['ws_roles'] : '';
 
         echo '</div><div class="options_group quantity hide_if_grouped">';
     
@@ -108,7 +115,7 @@ class WholesaleSellLimit extends BaseController {
                 'desc_tip'          => 'true',
                 'description'       => __('Name of roles which must be effected, must be seprated with comma. (i.e. "Admin,Customer")', 'smr-plugin'),
                 'custom_attributes' => array( 'pattern'  => '^\w+(\s*,\s*\w+)*$', 'dir' => 'ltr','autocomplete' => 'off'),
-                'value'             => isset($values['qty_roles']) && !empty($values['qty_roles']) ? $values['qty_roles'] : ''
+                'value'             => isset($values['qty_roles'])? $values['qty_roles'] : $defaultRoles
         ));
         
         //* autocomplete result container.
