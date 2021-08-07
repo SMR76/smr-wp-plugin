@@ -18,8 +18,9 @@
 
     <form method="post" action="options.php">
         <?php
-            settings_fields('smr_ws_option_group');
-            do_settings_sections('smr_plugin');
+            settings_fields('smr_option_group');
+            do_settings_sections('smr_general_page');
+            do_settings_sections('smr_options_activate_section');
             submit_button();
         ?>
     </form>
@@ -28,6 +29,18 @@
         jQuery(document).ready(() => {
             let source = ["<?php echo implode('","',array_keys($allRoleNames)) ?>"];
             var autoComplete = new autoCompleter(source,"#suggestionListContainer","#ws-selected-roles");
+        });
+
+        jQuery(function($) {
+            if($("#activate_wholesale").is(':checked') == false)
+                $("#ws-selected-roles").parent().parent().hide();
+
+            $("#activate_wholesale").click(function() {
+                if($(this).is(':checked'))
+                    $("#ws-selected-roles").parent().parent().show();
+                else
+                    $("#ws-selected-roles").parent().parent().hide();
+            });
         });
     </script>
 </div>
