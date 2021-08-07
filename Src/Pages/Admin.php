@@ -23,32 +23,66 @@ class Admin extends BaseController{
 	}
 	
 	public function setupSettingPage() {
-		add_menu_page('SMR plugin','SMR','manage_options','smr_plugin'		,array($this->functions,'adminGeneralPage'),'',null);
-		//add_submenu_page('smr_plugin','SMR plugin','SMR','manage_options'	,'smr_plugin_general',array($this->functions,'adminGeneralPage'),null);
+		add_menu_page('SMR plugin', 'SMR plugin', 'manage_options', 'smr_general_page', array($this->functions,'adminGeneralPage'),'dashicons-store',58.5);
+		add_submenu_page('smr_general_page', 'SMR plugin', 'SMR', 'manage_options', 'smr_general_page');
 	}
 	
-	public function registerCustomFields() {		
+	public function registerCustomFields() {
+		
 		register_setting( 
-			'smr_ws_option_group',
-			'smr_wholesale',
-			array($this->functions, 'optionGroupFieldsFilter')
+			'smr_option_group',
+			'smr_settings_option_group',
+			[$this->functions, 'optionGroupFieldsFilter']
 		);
 		
 		add_settings_section(
-			'smr_option_index',
+			'smr_wholesale_section',
 			__('Settings','smr-plugin'),
-			array($this->functions, 'adminSectionArea'),
-			'smr_plugin'
+			[$this->functions, 'wholesaleSection'],
+			'smr_general_page'
+		);
+			
+		add_settings_section(
+			'smr_options_activate_section',
+			__('Options Control','smr-plugin'),
+			[$this->functions, 'activateOptionsSection'],
+			'smr_general_page'
 		);
 
+		$this->wholesaleSectionFields();
+		$this->pluginOptionsSectionFields();
+	}
+
+	private function wholesaleSectionFields() {
 		add_settings_field( 
 			'ws_roles',
 			__('cooperator valid roles','smr-plugin'),
-			array($this->functions, 'wholesaleRolesInput'),
-			'smr_plugin',
-			'smr_option_index', 
-			[	'label_for'	=> 'ws_roles',
-				'class'		=> 'text-dark']
+			[$this->functions, 'wholesaleRolesInput'],
+			'smr_general_page',
+			'smr_wholesale_section', 
+			[	'label_for'		=> 'ws_roles',
+				'class'			=> 'text-dark']
 		);
-	}	
+
+	}
+	
+	private function pluginOptionsSectionFields() {	
+		add_settings_field( 
+			'activate_wholesale',
+			__('activate wholesale ','smr-plugin'),
+			[$this->functions, 'activateWholesale'],
+			'smr_general_page',
+			'smr_options_activate_section', 
+			['label_for'	=> 'activate_wholesale']
+		);
+
+		add_settings_field( 
+			'activate_checkout',
+			__('activate checkout fields','smr-plugin'),
+			[$this->functions, 'activateCheckout'],
+			'smr_general_page',
+			'smr_options_activate_section', 
+			['label_for'	=> 'activate_checkout']
+		);
+	}
 }
