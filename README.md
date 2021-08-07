@@ -1,29 +1,44 @@
 
 # SMR WP-Plugin
+<img src="https://img.shields.io/badge/version-1.0.0-37c248"><br>
 
-All in one WordPress plugin.
-Including following features:
+### Tested On
 
-- wholesale custom product price for specific user roles.
+<a href="https://www.php.net/releases/v7_4_0.php">
+    <img src="https://img.shields.io/badge/PHP-v5.3.0-777BB4?logo=PHP&logoColor=white">
+</a>
+<a href="https://wordpress.org/download/releases/">
+    <img src="https://img.shields.io/badge/Wordpress-v7.4.0-0073aa?logo=wordpress">
+</a>
+<a href="https://developer.woocommerce.com/releases/">
+    <img src="https://img.shields.io/badge/WooComerce-v5.3.0-96588A?logo=WooCommerce&logoColor=white">
+</a>
+
+---
+
+## Description 
+
+An all in one WordPress plugin that includes following features: 
+
+- wholesale: set custom product price for specific user roles.
 - custom call for price message.
-- custom checkout fields.
-- custom (conditional?) register fields.
+- custom checkout fields (Hard ocded).
+- custom register fields (Hard ocded).
 - sticky button on the right-bottom site page.
+- custom footer action.
+- settings page.
+  
+## To-do
 
-<small>version 0.1</small>
+- [ ] make settings more customizeable.
+- [ ] add auto product badges.
 
 ## How to use
-- clone repository.
-- copy to plugin folder.
+- clone repository into plugins directory.<br>
+$ `git clone https://github.com/SMR76/smr-wp-plugin.git`
 - activate it.
-- good luck.
+- done.
 
 ## Dependencies
 - [PHP Composer](https://getcomposer.org/download/).
 
-## Tested On
-- [PHP v7.4.0](https://www.php.net/releases/7_4_0.php)
-- [WordPress v5.7.0](https://wordpress.org/download/releases/)
-- [WooCommerce v5.3.0](https://developer.woocommerce.com/releases/)
-
-<!--## To-do-->
