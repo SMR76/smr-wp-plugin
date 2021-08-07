@@ -4,6 +4,12 @@
  * @package smr plugin
  */
 ?>
+<style>
+    .form-table th,
+    .form-table td {
+        padding: 5px 0px;
+    }
+</style>
 
 <div class="wrap">
     <h3>General Page</h3>
