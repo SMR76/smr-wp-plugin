@@ -10,6 +10,10 @@ use Src\Base\BaseController;
 
 class ExteraCheckoutFields extends BaseController {
     public function register() {
+        $options = get_option('smr_settings_option_group');
+        if(isset($options['activate_checkout']) == false)
+            return;
+
         //* add custom checkbox field after billing form
         add_action( 'woocommerce_after_checkout_billing_form',  array( $this,'exteraCheckoutFields'));
 

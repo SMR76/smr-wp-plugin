@@ -13,7 +13,7 @@ class WholesaleSellLimit extends BaseController {
 
         $options = get_option('smr_settings_option_group');
         if(isset($options['activate_wholesale']) == false)
-            return ;
+            return;
 
         /**
          * register quantity actions
