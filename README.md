@@ -18,27 +18,34 @@
 
 ## Description 
 
-An all in one WordPress plugin that includes following features: 
+An all in one WordPress plugin that includes the following features: 
 
 - wholesale: set custom product price for specific user roles.
 - custom call for price message.
-- custom checkout fields (Hard ocded).
-- custom register fields (Hard ocded).
+- custom checkout fields (Hard coded).
+- custom register fields (Hard coded).
 - sticky button on the right-bottom site page.
 - custom footer action.
 - settings page.
   
 ## To-do
 
-- [ ] make settings more customizeable.
+- [ ] make settings more customizable.
 - [ ] add auto product badges.
 
 ## How to use
 - clone repository into plugins directory.<br>
-$ `git clone https://github.com/SMR76/smr-wp-plugin.git`
-- activate it.
+    `$ cd path/to/plugins/`<br>
+    `$ git clone https://github.com/SMR76/smr-wp-plugin.git`
+- activate it.<br>
+    `Plugins` &raquo; `Installed Plugins`
 - done.
 
 ## Dependencies
 - [PHP Composer](https://getcomposer.org/download/).
 
+## Donation
+
+&emsp;&emsp;<a href="https://www.blockchain.com/bch/address/bitcoincash:qrnwtxsk79kv6mt2hv8zdxy3phkqpkmcxgjzqktwa3">
+    <img src="https://img.shields.io/badge/BCH-Donate-f0992e?logo=BitcoinCash&logoColor=f0992e">
+</a>
