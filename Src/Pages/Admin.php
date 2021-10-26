@@ -49,8 +49,16 @@ class Admin extends BaseController{
 			'smr_general_page'
 		);
 
+		add_settings_section(
+			'smr_options_checkout_section',
+			__('Checkout Settings','smr-plugin'),
+			[$this->functions, 'checkoutSection'],
+			'smr_general_page'
+		);
+
 		$this->wholesaleSectionFields();
 		$this->pluginOptionsSectionFields();
+		$this->checkoutSectionFields();
 	}
 
 	private function wholesaleSectionFields() {
@@ -60,8 +68,8 @@ class Admin extends BaseController{
 			[$this->functions, 'wholesaleRolesInput'],
 			'smr_general_page',
 			'smr_wholesale_section', 
-			[	'label_for'		=> 'ws_roles',
-				'class'			=> 'text-dark']
+			[	'label_for'	 => 'ws_roles',
+				'class'		 => 'text-dark']
 		);
 
 	}
@@ -73,7 +81,7 @@ class Admin extends BaseController{
 			[$this->functions, 'activateWholesale'],
 			'smr_general_page',
 			'smr_options_activate_section', 
-			['label_for'	=> 'activate_wholesale']
+			['label_for' => 'activate_wholesale']
 		);
 
 		add_settings_field( 
@@ -82,7 +90,27 @@ class Admin extends BaseController{
 			[$this->functions, 'activateCheckout'],
 			'smr_general_page',
 			'smr_options_activate_section', 
-			['label_for'	=> 'activate_checkout']
+			['label_for' => 'activate_checkout']
+		);
+
+		add_settings_field( 
+			'activate_stikybutton',
+			__('show stikybutton','smr-plugin'),
+			[$this->functions, 'activateStikyButton'],
+			'smr_general_page',
+			'smr_options_activate_section', 
+			['label_for' => 'activate_stikybutton']
+		);
+	}
+
+	private function checkoutSectionFields() {
+		add_settings_field( 
+			'free_shipping_cities',
+			__('free shipping cities','smr-plugin'),
+			[$this->functions, 'freeShippingCitiesInput'],
+			'smr_general_page',
+			'smr_options_checkout_section', 
+			['label_for' => 'free_shipping_cities']
 		);
 	}
 }
