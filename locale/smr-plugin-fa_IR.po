@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SMR Plugin\n"
-"POT-Creation-Date: 2021-08-07 13:43+0430\n"
-"PO-Revision-Date: 2021-08-07 13:43+0430\n"
+"POT-Creation-Date: 2021-10-26 23:54+0330\n"
+"PO-Revision-Date: 2021-10-26 23:58+0330\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fa_IR\n"
@@ -28,6 +28,14 @@ msgstr "مقادیر پیشفرض برای نقش‌های همکار را مش�
 #: Src/Api/Functions.php:30
 msgid "activate or deactivate other parts of plugin."
 msgstr "فعال یا غیر فعال کردن بخش‌های دیگر افزونه."
+
+#: Src/Api/Functions.php:34
+msgid "modify checkout settigns."
+msgstr "تغییر تنظیمات وارسی."
+
+#: Src/Api/Functions.php:79
+msgid "please fill free shipping cities name separeted with comma."
+msgstr "لطفاً نام شهرها با ارسال رایگان را با واوک به صورت جدا بنویسید."
 
 #: Src/Api/Woocommerce/ExteraCheckoutFields.php:38
 msgid "installation service"
@@ -64,6 +72,10 @@ msgstr "مشتریان همکار"
 #: Src/Api/Woocommerce/ExteraRegistrationFields.php:67
 msgid "check it if you are a cooperator customer."
 msgstr "بررسی همکار بودن شما."
+
+#: Src/Api/Woocommerce/ShippingRate.php:34
+msgid "Free Shipping"
+msgstr "ارسال رایگان"
 
 #: Src/Api/Woocommerce/WholesaleSellLimit.php:100
 msgid "Quantity settings"
@@ -146,17 +158,29 @@ msgstr "تنظیمات"
 msgid "Options Control"
 msgstr "کنترل گزینه‌ها"
 
-#: Src/Pages/Admin.php:59
+#: Src/Pages/Admin.php:54
+msgid "Checkout Settings"
+msgstr "تنظیمات وارسی"
+
+#: Src/Pages/Admin.php:67
 msgid "cooperator valid roles"
 msgstr "نقش‌های مجاز همکاران"
 
-#: Src/Pages/Admin.php:72
+#: Src/Pages/Admin.php:80
 msgid "activate wholesale "
 msgstr "فعال سازی همکاران "
 
-#: Src/Pages/Admin.php:81
+#: Src/Pages/Admin.php:89
 msgid "activate checkout fields"
 msgstr "فعال سازی فیلدهای وارسی"
+
+#: Src/Pages/Admin.php:98
+msgid "show stikybutton"
+msgstr "نمایش دکمهٔ چسبان"
+
+#: Src/Pages/Admin.php:109
+msgid "free shipping cities"
+msgstr "شهرهای ارسال رایگان"
 
 #. Plugin Name of the plugin/theme
 msgid "SMR Plugin"
