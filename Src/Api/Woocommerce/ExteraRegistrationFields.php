@@ -29,9 +29,9 @@ class ExteraRegistrationFields extends BaseController{
         $idx = count($columns) - 1;
         
         //* insert custom column just before last column.
-        return array_merge(array_slice($columns,0,$idx),
+        return array_merge(array_slice($columns, 0, $idx),
                             $newColumn,
-                            array_slice($columns,$idx,count($columns)));
+                            array_slice($columns, $idx, count($columns)));
     }
 
     /**
@@ -40,13 +40,13 @@ class ExteraRegistrationFields extends BaseController{
     public function manageUsersCustomColumn($output,$columnName,$userId) {        
         switch ($columnName) {
             case 'smr_ws':
-                $wsRequest = get_the_author_meta( 'ws_request', $userId );
-                $user_meta=get_userdata($userId);
-                $user_roles=$user_meta->roles;
+                $wsRequest = get_the_author_meta('ws_request', $userId);
+                $user_meta = get_userdata($userId);
+                $user_roles = $user_meta->roles;
 
                 if($wsRequest == 'true') {
-                    return '<div>'.__('requested for cooperate','smr-plugin').'</div>';
-                } else if(in_array('wholesale',$user_roles)) {
+                    return '<div>'.__('requested for cooperate', 'smr-plugin').'</div>';
+                } else if(in_array('wholesale', $user_roles)) {
                     return '';
                 }
         }

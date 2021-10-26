@@ -22,6 +22,7 @@ An all in one WordPress plugin that includes the following features:
 
 - wholesale: set custom product price for specific user roles.
 - custom call for price message.
+- custom checkout free shipping rate depends on cities.
 - custom checkout fields (Hard coded).
 - custom register fields (Hard coded).
 - sticky button on the right-bottom site page.

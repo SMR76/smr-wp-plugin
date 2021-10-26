@@ -21,7 +21,7 @@ class CustomFooter extends BaseController{
         ?>
             <div class="row" id="custom_row_bottom_section" style="justify-content: center;margin-bottom: 50px;" >
                 <a referrerpolicy="origin" target="_blank" href="https://trustseal.enamad.ir/?id=213194&amp;Code=ISG7iXEnj2oPNlwOlRVW" style="background-color: #ffffff87;border-radius: 15px;margin-left: 10px;width:136px;">
-                <img referrerpolicy="origin" src="https://Trustseal.eNamad.ir/logo.aspx?id=213194&amp;Code=ISG7iXEnj2oPNlwOlRVW" alt="" style="cursor:pointer;margin-top:15px auto;" id="ISG7iXEnj2oPNlwOlRVW">
+                <img referrerpolicy="origin" src="https://Trustseal.eNamad.ir/logo.aspx?id=213194&amp;Code=ISG7iXEnj2oPNlwOlRVW" alt="" style="cursor:pointer; margin-top:15px auto; padding: 15px;" id="ISG7iXEnj2oPNlwOlRVW">
                 </a>
                 
                 <a href="https://<?php echo $_SERVER['SERVER_NAME'];?>" style="background-color: #ffffff87;border-radius: 15px;">
