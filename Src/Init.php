@@ -24,7 +24,8 @@ class Init {
             Elements\CustomFooter::class,
             Woocommerce\WholesaleSellLimit::class,
             Woocommerce\ExteraCheckoutFields::class,
-            Woocommerce\ExteraRegistrationFields::class
+            Woocommerce\ExteraRegistrationFields::class,
+            Woocommerce\ShippingRate::class
         ];
     }
 
