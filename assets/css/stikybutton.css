@@ -1,6 +1,6 @@
 #smr-stikybutton {
     position: fixed;
-    right: 50px; bottom: 50px;
+    right: 35px; bottom: 35px;
     font-family: vazir;
     direction: rtl;
     z-index: 99;
@@ -107,4 +107,18 @@
     text-decoration: none;
     text-align: unset;
     color: #ff2d49;
+}
+
+@media screen and (max-width: 1024px) {
+    #smr-stikybutton {
+        right: 15px; bottom: 15px;
+    }
+    
+    #smr-stikybutton #handbell{
+        width: 45px; height: 45px;
+    }
+
+    #smr-stikybutton .ico{
+        width: 45px; height: 45px;
+    }
 }
