@@ -25,7 +25,8 @@ class Init {
             Woocommerce\WholesaleSellLimit::class,
             Woocommerce\ExteraCheckoutFields::class,
             Woocommerce\ExteraRegistrationFields::class,
-            Woocommerce\ShippingRate::class
+            Woocommerce\ShippingRate::class,
+            Woocommerce\ConditionalCOD::class
         ];
     }
 

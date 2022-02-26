@@ -98,6 +98,20 @@
     background-color: #eef1ff;
     color: #777777;
 }
+
+@media only screen and (max-width: 480px) {    
+    #smr-stikybutton div span{
+        position: fixed;
+        width: 100vw;
+        padding-right: 76px;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+        border-radius:0px;
+        background-color: #ffffff;
+    }
+}
+
 #smr-stikybutton div:hover span{
     visibility: visible;
     opacity: 1;

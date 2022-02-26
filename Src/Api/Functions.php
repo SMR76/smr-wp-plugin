@@ -18,7 +18,7 @@ class Functions extends BaseController{
     /**
      * sanetize group
      */
-    public function optionGroupFieldsFilter($input) {  
+    public function optionGroupFieldsFilter($input) {
         return $input;
     }
 
@@ -36,14 +36,20 @@ class Functions extends BaseController{
 
     //* ---------------------- fields -----------------------------
     public function wholesaleRolesInput() {
+        global $wp_roles;
+        $allRoleNames = $wp_roles->get_names();
+
         $values = get_option('smr_settings_option_group');
-        $wsRoles = isset($values['ws_roles']) ? $values['ws_roles'] : '';
-        ?>
-        <input id='ws-selected-roles' type='text' name='smr_settings_option_group[ws_roles]'
-                style='width:400px;direction:ltr;' pattern='^\w+(\s*,\s*\w+)*$'
-                placeholder = "e.g. wholesale, costomer etc." value='<?php echo $wsRoles;?>'>				
-        <p id="suggestionListContainer" class="form-field" style="height:20px;"></p>
-        <?php
+        $wsRoles = isset($values['ws_roles']) ? $values['ws_roles'] : '';			
+        
+        $dropdown = 
+            '<select name="smr_settings_option_group[ws_roles][]"
+                     id="ws-selected-roles" multiple>';
+        foreach($allRoleNames as $roles ) {
+            $dropdown .= "<option value='$roles' ".selected(in_array($roles, $wsRoles),true,false).">$roles</option>";
+        }
+        $dropdown .= '</select>';
+        echo $dropdown;
     }
 
     public function activateWholesale() {
@@ -67,17 +73,38 @@ class Functions extends BaseController{
         <?php
     }
     
+    /**
+     * callback function.
+     *  input for free shipping cities.
+     */
     public function freeShippingCitiesInput() {
-        $dir = get_locale() == "fa_IR" ? "rtl" : "ltr";
+        $dir = (get_locale() == "fa_IR" ? "rtl" : "ltr");
         $values = get_option('smr_settings_option_group');
         $freeShippingCities = isset($values['free_shipping_cities']) ? $values['free_shipping_cities'] : '';
         ?>
-        <input id='ws-selected-roles' type='text' name='smr_settings_option_group[free_shipping_cities]'
-                style='width:400px; direction:<?php _e($dir)?>;' pattern='^\p{L}+(\s*,\s*\p{L}+)*$'
-                placeholder = "e.g. London, Tehran" value='<?php echo $freeShippingCities;?>'>
-        <p class="form-field" style="height:20px;max-width: 400px; direction:<?php _e($dir)?>;">
-        <?php _e("please fill free shipping cities name separeted with comma.","smr-plugin") ?>
+        <input id='free-shipping-cities' name='smr_settings_option_group[free_shipping_cities]'
+                type="text" taged
+                value="<?php echo $freeShippingCities;?>"
+                placeholder = "e.g. London, Tehran">
+        <p class="form-field" style="height:20px;max-width: 400px; direction:<?php echo $dir; ?>;">
+        <?php _e("please fill free shipping cities.","smr-plugin") ?>
         </p>
+        <?php
+    }
+
+    /**
+     * callback function.
+     *  input for cash on delivery cities.
+     */
+    public function codCitiesInput() {
+        $values = get_option('smr_settings_option_group');        
+        $freeShippingCities = isset($values['cod_cities']) ? $values['cod_cities'] : '';
+        
+        ?>
+        <input id="cod-cities" name="smr_settings_option_group[cod_cities]"
+                type="text" taged
+                value="<?php echo $freeShippingCities;?>"
+                placeholder="<?php _e("enter cities name.","smr-plugin")?>"
         <?php
     }
 }

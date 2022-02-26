@@ -1,0 +1,12 @@
+label.tag {
+    box-shadow: -1px 0 3px #adc3e7;
+    padding: 3px 8px;
+    margin: 0 3px;
+    border-radius: 3px;
+}
+
+label.tag:hover {
+    border: 1px #ff6f6f solid;
+    background-color: #f5ecec;
+    padding: 2px 7px;    
+}

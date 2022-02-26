@@ -15,11 +15,12 @@
     <h3>General Page</h3>
     <?php
         wp_enqueue_script("simple-autocomplete",$this->pluginUrl.'/assets/js/simple-autocomplete.js',['jquery']);
-        
-        global $wp_roles;
-        
+        wp_enqueue_script("multiselect-dropdown",$this->pluginUrl.'/assets/js/multiselect-dropdown.js');
+
+        wp_enqueue_style("simple-tag-input",$this->pluginUrl.'/assets/css/simple-tag-input.css');
+        wp_enqueue_script("simple-tag-input",$this->pluginUrl.'/assets/js/simple-tag-input.js');
+                
         settings_errors();         
-        $allRoleNames = $wp_roles->get_names();
     ?>
 
     <form method="post" action="options.php">
@@ -32,11 +33,6 @@
     </form>
         
     <script>
-        jQuery(document).ready(() => {
-            let source = ["<?php echo implode('","',array_keys($allRoleNames)) ?>"];
-            var autoComplete = new autoCompleter(source,"#suggestionListContainer","#ws-selected-roles");
-        });
-
         jQuery(function($) {
             if($("#activate_wholesale").is(':checked') == false)
                 $("#ws-selected-roles").parent().parent().hide();

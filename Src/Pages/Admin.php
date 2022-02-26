@@ -27,8 +27,7 @@ class Admin extends BaseController{
 		add_submenu_page('smr_general_page', 'SMR plugin', 'SMR', 'manage_options', 'smr_general_page');
 	}
 	
-	public function registerCustomFields() {
-		
+	public function registerCustomFields() {		
 		register_setting( 
 			'smr_option_group',
 			'smr_settings_option_group',
@@ -111,6 +110,15 @@ class Admin extends BaseController{
 			'smr_general_page',
 			'smr_options_checkout_section', 
 			['label_for' => 'free_shipping_cities']
+		);
+
+		add_settings_field( 
+			'cod_cities',
+			__('cash on delivery cities','smr-plugin'),
+			[$this->functions, 'codCitiesInput'],
+			'smr_general_page',
+			'smr_options_checkout_section', 
+			['label_for' => 'cod_cities']
 		);
 	}
 }

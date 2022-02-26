@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SMR Plugin\n"
-"POT-Creation-Date: 2021-10-26 23:54+0330\n"
-"PO-Revision-Date: 2021-10-26 23:58+0330\n"
+"POT-Creation-Date: 2022-02-26 18:59+0330\n"
+"PO-Revision-Date: 2022-02-26 18:59+0330\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fa_IR\n"
@@ -33,9 +33,13 @@ msgstr "فعال یا غیر فعال کردن بخش‌های دیگر افزو
 msgid "modify checkout settigns."
 msgstr "تغییر تنظیمات وارسی."
 
-#: Src/Api/Functions.php:79
-msgid "please fill free shipping cities name separeted with comma."
-msgstr "لطفاً نام شهرها با ارسال رایگان را با واوک به صورت جدا بنویسید."
+#: Src/Api/Functions.php:90
+msgid "please fill free shipping cities."
+msgstr "شهرهای ارسال رایگان."
+
+#: Src/Api/Functions.php:107
+msgid "enter cities name."
+msgstr "نام شهر‌ها را وارد کنید."
 
 #: Src/Api/Woocommerce/ExteraCheckoutFields.php:38
 msgid "installation service"
@@ -77,39 +81,35 @@ msgstr "بررسی همکار بودن شما."
 msgid "Free Shipping"
 msgstr "ارسال رایگان"
 
-#: Src/Api/Woocommerce/WholesaleSellLimit.php:100
+#: Src/Api/Woocommerce/WholesaleSellLimit.php:104
 msgid "Quantity settings"
 msgstr "تنظیمات تعداد"
 
-#: Src/Api/Woocommerce/WholesaleSellLimit.php:102
+#: Src/Api/Woocommerce/WholesaleSellLimit.php:106
 msgid "Enable this to show and enable the additional quantity setting fields."
 msgstr "این گزینه را برای نمایش و فعال سازی تنظیمات تعداد کالا فعال کنید."
 
-#: Src/Api/Woocommerce/WholesaleSellLimit.php:113
+#: Src/Api/Woocommerce/WholesaleSellLimit.php:119
 msgid "Roles name"
 msgstr "اسم نقش"
 
-#: Src/Api/Woocommerce/WholesaleSellLimit.php:116
-msgid ""
-"Name of roles which must be effected, must be seprated with comma. (i.e. "
-"\"Admin,Customer\")"
-msgstr ""
-"اسامی نقش‌هایی که تحت تأثیر قرار خواهند گرفت، باید نسبت به کاما (,) جدا شوند. "
-"(مانند Admin,Customer)"
+#: Src/Api/Woocommerce/WholesaleSellLimit.php:121
+msgid "Name of roles which must be affected. (i.e. \"Admin,Customer\")"
+msgstr "اسامی نقش‌هایی که تحت تأثیر قرار خواهند گرفت. (مانند Admin,Customer)"
 
-#: Src/Api/Woocommerce/WholesaleSellLimit.php:127
+#: Src/Api/Woocommerce/WholesaleSellLimit.php:130
 msgid "Minimum Quantity"
 msgstr "حداقل تعداد"
 
-#: Src/Api/Woocommerce/WholesaleSellLimit.php:129
+#: Src/Api/Woocommerce/WholesaleSellLimit.php:132
 msgid "Set a minimum allowed quantity limit (a number greater than 0)."
 msgstr "محدوده حداقل تعداد را مشخص می‌کند (یک عدد بزرگ‌تر از صفر)"
 
-#: Src/Api/Woocommerce/WholesaleSellLimit.php:137
+#: Src/Api/Woocommerce/WholesaleSellLimit.php:140
 msgid "Maximum Quantity"
 msgstr "بیشترین تعداد"
 
-#: Src/Api/Woocommerce/WholesaleSellLimit.php:139
+#: Src/Api/Woocommerce/WholesaleSellLimit.php:142
 msgid ""
 "Set the maximum allowed quantity limit (a number greater than 0). Value "
 "\"-1\" is unlimited"
@@ -117,70 +117,74 @@ msgstr ""
 "محدودهٔ‌ بیشترین تعداد مجاز را مشخص می‌کند (یک عدد بزرگتر از صفر). مقدار «۱-» به "
 "منزلهٔ نامحدود است"
 
-#: Src/Api/Woocommerce/WholesaleSellLimit.php:147
+#: Src/Api/Woocommerce/WholesaleSellLimit.php:150
 msgid "Quantity step"
 msgstr "قدم‌های تعداد"
 
-#: Src/Api/Woocommerce/WholesaleSellLimit.php:149
+#: Src/Api/Woocommerce/WholesaleSellLimit.php:152
 msgid "Optional. Set quantity step  (a number greater than 0)"
 msgstr "اختیاری، تعداد قدم‌های تعداد را مشخص می‌کند (یک عدد بزرگتر از ۰)"
 
-#: Src/Api/Woocommerce/WholesaleSellLimit.php:157
+#: Src/Api/Woocommerce/WholesaleSellLimit.php:160
 msgid "New price"
 msgstr "قیمت جدید"
 
-#: Src/Api/Woocommerce/WholesaleSellLimit.php:159
+#: Src/Api/Woocommerce/WholesaleSellLimit.php:162
 msgid "Optional. Set new product price. (empty means no change)"
 msgstr "اختیاری، قیمت جدید کالا را مشخص می‌کند."
 
-#: Src/Api/Woocommerce/WholesaleSellLimit.php:175
+#: Src/Api/Woocommerce/WholesaleSellLimit.php:178
 msgid "Call For Price"
 msgstr "تماس برای قیمت"
 
-#: Src/Api/Woocommerce/WholesaleSellLimit.php:177
+#: Src/Api/Woocommerce/WholesaleSellLimit.php:180
 msgid "Enable this checkbox to hide and disable addToCart button."
 msgstr "این گزینه را برای غیر فعال کردن دکمهٔ «افزودن به سبد» فعال کنید."
 
-#: Src/Api/Woocommerce/WholesaleSellLimit.php:188
+#: Src/Api/Woocommerce/WholesaleSellLimit.php:191
 msgid "New Text"
 msgstr "متن جدید"
 
-#: Src/Api/Woocommerce/WholesaleSellLimit.php:220
+#: Src/Api/Woocommerce/WholesaleSellLimit.php:221
 msgid ""
 "call for price: <a dir=\"ltr\" href=\"tel:+123456789\">+123456789</a> (name)"
 msgstr "برای قیمت تماس بگیرید: <a href=\"tel:+۱۲۳۴۵۶۷۸۹\">+۱۲۳۴۵۶۷۸۹</a> (نام)"
 
-#: Src/Base/SettingLinks.php:15 Src/Pages/Admin.php:40
+#: Src/Base/SettingLinks.php:15 Src/Pages/Admin.php:39
 msgid "Settings"
 msgstr "تنظیمات"
 
-#: Src/Pages/Admin.php:47
+#: Src/Pages/Admin.php:46
 msgid "Options Control"
 msgstr "کنترل گزینه‌ها"
 
-#: Src/Pages/Admin.php:54
+#: Src/Pages/Admin.php:53
 msgid "Checkout Settings"
 msgstr "تنظیمات وارسی"
 
-#: Src/Pages/Admin.php:67
+#: Src/Pages/Admin.php:66
 msgid "cooperator valid roles"
 msgstr "نقش‌های مجاز همکاران"
 
-#: Src/Pages/Admin.php:80
+#: Src/Pages/Admin.php:79
 msgid "activate wholesale "
 msgstr "فعال سازی همکاران "
 
-#: Src/Pages/Admin.php:89
+#: Src/Pages/Admin.php:88
 msgid "activate checkout fields"
 msgstr "فعال سازی فیلدهای وارسی"
 
-#: Src/Pages/Admin.php:98
+#: Src/Pages/Admin.php:97
 msgid "show stikybutton"
 msgstr "نمایش دکمهٔ چسبان"
 
-#: Src/Pages/Admin.php:109
+#: Src/Pages/Admin.php:108
 msgid "free shipping cities"
 msgstr "شهرهای ارسال رایگان"
+
+#: Src/Pages/Admin.php:117
+msgid "cash on delivery cities"
+msgstr "شهرهای پرداخت در محل"
 
 #. Plugin Name of the plugin/theme
 msgid "SMR Plugin"
@@ -198,6 +202,9 @@ msgstr ""
 #. Author of the plugin/theme
 msgid "Seyyed Morteza Razavi"
 msgstr "سید مرتضی رضوی"
+
+#~ msgid "please fill free shipping cities name separeted with comma."
+#~ msgstr "لطفاً نام شهرها با ارسال رایگان را با واوک به صورت جدا بنویسید."
 
 #~ msgid "<h5>Roles</h5>"
 #~ msgstr "<h5>نقش‌ها</h5>"

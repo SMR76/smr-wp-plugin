@@ -14,7 +14,7 @@ class ShippingRate extends BaseController{
 
         /**
          * disables  woocommerce_package_rates cache.
-         * so now shipping rate refresh on page refresh. (It can be removed, cuase)
+         * so now shipping rate refresh on page refresh. (It can be removed)
          * issue link: https://github.com/woocommerce/woocommerce/issues/22100#issuecomment-701407678
          */
         add_filter('transient_shipping-transient-version', function($value, $name) { return false; }, 10, 2);

@@ -87,10 +87,14 @@ class WholesaleSellLimit extends BaseController {
      * add fields to price section.
      */
     public function wcQuantityExteraProductField() {
-        global $product_object;    
-        $values         = $product_object->get_meta('smr_ws_limit');        
+        global $product_object;
+        global $wp_roles;
+
+        $allRoleNames = $wp_roles->get_names();
+        
+        $values         = $product_object->get_meta('smr_ws_limit');
         $options        = get_option('smr_settings_option_group');
-        $defaultRoles   = isset($options['ws_roles']) ? $options['ws_roles'] : '';
+        $defaultRoles   = isset($options['ws_roles']) ? $options['ws_roles'] : array();
 
         echo '</div><div class="options_group quantity hide_if_grouped">';
     
@@ -102,24 +106,23 @@ class WholesaleSellLimit extends BaseController {
             'description'   => __('Enable this to show and enable the additional quantity setting fields.', 'smr-plugin')
         ));
     
-        if(empty($values))
+        if(empty($values)) {
             echo '<div class="qty-args hidden">';
-        else
+        } else {
             echo '<div class="qty-args">';
-    
-        woocommerce_wp_text_input( array(
-                'id'                => 'qty_roles',
-                'type'              => 'text',
-                'label'             => __('Roles name', 'smr-plugin'),
-                'placeholder'       => 'i.e. "Admin,Customer"',
-                'desc_tip'          => 'true',
-                'description'       => __('Name of roles which must be effected, must be seprated with comma. (i.e. "Admin,Customer")', 'smr-plugin'),
-                'custom_attributes' => array( 'pattern'  => '^\w+(\s*,\s*\w+)*$', 'dir' => 'ltr','autocomplete' => 'off'),
-                'value'             => isset($values['qty_roles'])? $values['qty_roles'] : $defaultRoles
-        ));
+        }
         
-        //* autocomplete result container.
-        echo '<p id="suggestionListContainer" class="form-field" style="height:20px"></p>';
+        woocommerce_wp_select( array(
+                'id'                => 'qty_roles',
+                'type'              => 'select',
+                'name'              => 'qty_roles[]',
+                'label'             => __('Roles name', 'smr-plugin'),
+                'desc_tip'          => 'true',
+                'description'       => __('Name of roles which must be affected. (i.e. "Admin,Customer")', 'smr-plugin'),
+                'value'             => isset($values['qty_roles']) ? $values['qty_roles'] : $defaultRoles,
+                'options'           => $allRoleNames,
+                'custom_attributes' => array('multiple'=>'multiple'),
+        ));
 
         woocommerce_wp_text_input( array(
                 'id'                => 'qty_min',
@@ -158,7 +161,7 @@ class WholesaleSellLimit extends BaseController {
                 'desc_tip'          => 'true',
                 'description'       => __('Optional. Set new product price. (empty means no change)', 'smr-plugin'),
                 'custom_attributes' => array( 'step'  => 'any', 'min'   => '0', 'dir' => 'ltr'),
-                'value'             => isset($values['qty_new_price']) && !empty($values['qty_new_price']) ? (int) $values['qty_new_price'] : ''
+                'value'             => isset($values['qty_new_price']) && !empty($values['qty_new_price']) ? (int) $values['qty_new_price'] : $product_object->get_regular_price()
         ));
         echo '</div>';
     }
@@ -182,9 +185,9 @@ class WholesaleSellLimit extends BaseController {
         else
             echo '<div class="cfp_section">';
     
-        woocommerce_wp_text_input( array(
+        woocommerce_wp_textarea_input( array(
                 'id'                => 'call_for_price_txt',
-                'type'              => 'text',
+                'type'              => 'textarea',
                 'label'             => __('New Text', 'smr-plugin'),
                 'style'             => 'direction: ltr;',
                 'description'       => '<a id="resetValue">default</a>',
@@ -197,13 +200,13 @@ class WholesaleSellLimit extends BaseController {
     /**
      * @method currentUserHas
      * check if weather user has the valid roles or not.
+     * @param array $validRoles
+     * is a string which contain comma seprated role names.
      */
-    private function userIsValid(string $validRoles) {
-        $user       = wp_get_current_user();
-        $validRoles = trim($validRoles);
-        $requiredRoles      = explode(',',$validRoles);
+    private function userIsValid(array $validRoles) {
+        $user = wp_get_current_user();
 
-        foreach($requiredRoles as $role) {
+        foreach($validRoles as $role) {
             if (in_array($role , (array) $user->roles)) {
                 return true;
             }
@@ -215,16 +218,20 @@ class WholesaleSellLimit extends BaseController {
      * toggle setting fields (admin product pages)
      */
     public function jqueyScripts() {
-            global $wp_roles;
-            $allRoleNames = $wp_roles->get_names();
-            $defaultValue = '<h3 style="color:red;">'.__('call for price: <a dir="ltr" href="tel:+123456789">+123456789</a> (name)', 'smr-plugin')."</h3>";
+            $defaultValue = '<h3 style="color:red;">\n'.__('call for price: <a dir="ltr" href="tel:+123456789">+123456789</a> (name)', 'smr-plugin')."\n</h3>";
 
-            //*
             //wp_register_script("simple-autocomplete");
             wp_enqueue_script("simple-autocomplete",$this->pluginUrl.'/assets/js/simple-autocomplete.js',['jquery']);
         ?>
+        <style>
+            .select2-selection--multiple .select2-selection__choice {
+                padding-left: 30px !important;
+            }
+        </style>
         <script>
             jQuery(function($){
+                $('#qty_roles').select2();
+
                 jQuery('#resetValue').click(function(){
                     $("#call_for_price_txt").val(`<?php echo $defaultValue;?>`);
                 });
@@ -244,11 +251,6 @@ class WholesaleSellLimit extends BaseController {
                         jQuery('div.qty-args').addClass('hidden');
                     }
                 });
-            });
-            
-            jQuery(document).ready(() => {
-                let source = ["<?php echo implode('","',array_keys($allRoleNames)) ?>"];
-                var autoComplete = new autoCompleter(source,"#suggestionListContainer","#qty_roles");
             });
         </script>
         <?php
@@ -388,7 +390,6 @@ class WholesaleSellLimit extends BaseController {
         if(empty($callForPrice) == false) {
             return $callForPrice;
         }
-
         
         if(isset($values['qty_roles']) && $this->userIsValid($values['qty_roles'])) {
             $price_html = wc_format_sale_price(wc_get_price_to_display( $product, array('price' => $product->get_regular_price())), 
