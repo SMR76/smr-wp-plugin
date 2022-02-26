@@ -14,17 +14,17 @@ class ConditionalCOD extends BaseController{
     }
 
     function conditional_available_payment_gateways($available_gateways) {
-        // if (is_admin()) {
-        //     return $available_gateways; // ignore if user is admin
-        // }
+        if (is_admin()) {
+            return $available_gateways; // ignore if user is admin
+        }
 
         $values = get_option('smr_settings_option_group');
-        $freeShippingCities = isset($values['cod_cities']) ? $values['cod_cities'] : '';
+        $freeCODCities = isset($values['cod_cities']) ? $values['cod_cities'] : '';
 
-        $freeShipCities = explode(",", trim($freeShippingCities));
-        $userShipCity = WC()->customer->get_shipping_city();
+        $freeCODCitiesArray = explode(",", trim($freeCODCities));
+        $userShipCity = WC()->customer ? WC()->customer->get_shipping_city() : '';
 
-        if(in_array($userShipCity, $freeShipCities) == false && isset($available_gateways['cod'])) {
+        if(in_array($userShipCity, $freeCODCitiesArray) == false && isset($available_gateways['cod'])) {
             unset($available_gateways['cod']);
         }
 
