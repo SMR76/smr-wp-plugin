@@ -8,12 +8,12 @@ namespace Src\Elements;
 
 use \Src\Base\BaseController;
 
-class StikyButton extends BaseController{
+class StikyButton extends BaseController {
     public function register() {
         add_action( 'wp_footer', array($this, 'fixedInfoButton'));
     }
 
-    public function fixedInfoButton () { 
+    public function fixedInfoButton() { 
         $values = get_option('smr_settings_option_group');
         $showStikyButton = isset($values['activate_stikybutton']) ? $values['activate_stikybutton'] : '';
 		if($showStikyButton == false ||  is_admin() || (defined('DOING_AJAX') && DOING_AJAX)) {
@@ -30,22 +30,14 @@ class StikyButton extends BaseController{
         <div id="smr-stikybutton">
             <div id="contact-us" class="smr-stikybutton-option">
                 <span>
-                    <?php /* sticky note html */ ?>
-                    در صورتی که در رابطه با خرید نیاز به مشاوره رایگان دارید می‌توانید با شماره‌های ذیل تماس حاصل نمایید.
-                    <ul style="margin: 5px 0 0 0;">
-                        <li><a dir="ltr" href="tel:+989172160881">+989172160881 (شفیعی)</a></li>
-                        <li><a dir="ltr" href="tel:+989176049314">+989176049314 (اسکندری)</a></li>
-                    </ul>                
+                    <?php echo $values['stikybutton_ci'] ?? '';  ?>            
                 </span>
                 <div class="ico"><i class="fas fa-mobile-alt"></i></div>
             </div>
             <div id="our-works" class="smr-stikybutton-option">
                 <span>
-                    <?php /* sticky note html */ ?>
-                    نمونه‌کارهای ما را در 
-                    <a href="https://www.instagram.com/hamta.system/" target="_blank">Instagram</a>
-                        دنبال کنید
-                    </span>
+                    <?php echo $values['stikybutton_ii'] ?? ''; ?>
+                </span>
                 <div class="ico" ><i class="fab fa-instagram"></i></div>
             </div>
             <div id="handbell" class="ico" onclick="toggle()">

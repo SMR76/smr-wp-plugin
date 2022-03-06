@@ -55,9 +55,17 @@ class Admin extends BaseController{
 			'smr_general_page'
 		);
 
+		add_settings_section(
+			'smr_options_others_section',
+			__('Others Settings','smr-plugin'),
+			[$this->functions, 'othersSection'],
+			'smr_general_page'
+		);
+
 		$this->wholesaleSectionFields();
 		$this->pluginOptionsSectionFields();
 		$this->checkoutSectionFields();
+		$this->othersSectionFields();
 	}
 
 	private function wholesaleSectionFields() {
@@ -119,6 +127,26 @@ class Admin extends BaseController{
 			'smr_general_page',
 			'smr_options_checkout_section', 
 			['label_for' => 'cod_cities']
+		);
+	}
+
+	private function othersSectionFields() {
+		add_settings_field( 
+			'sticky_button_text_instainfo',
+			__('set sticky button instagram info','smr-plugin'),
+			[$this->functions, 'stickyButtonInstaInfo'],
+			'smr_general_page',
+			'smr_options_others_section', 
+			['label_for' => 'sticky_button_text_instainfo']
+		);
+		
+		add_settings_field( 
+			'sticky_button_text_callifo',
+			__('set sticky button call info','smr-plugin'),
+			[$this->functions, 'stickyButtonCallInfo'],
+			'smr_general_page',
+			'smr_options_others_section', 
+			['label_for' => 'sticky_button_text_callifo']
 		);
 	}
 }
