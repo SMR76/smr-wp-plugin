@@ -25,7 +25,7 @@ class ShippingRate extends BaseController{
         $freeShippingCities = isset($values['free_shipping_cities']) ? $values['free_shipping_cities'] : '';
         
         $freeShipCities     = explode(",", trim($freeShippingCities));
-        $userShipCity       = WC()->customer->get_shipping_city();
+        $userShipCity       = WC()->customer ? WC()->customer->get_shipping_city() : array();
         
         //* set shipping rate to zero
         if(in_array($userShipCity, $freeShipCities)) {
