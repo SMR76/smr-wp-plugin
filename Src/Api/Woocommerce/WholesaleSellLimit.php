@@ -189,8 +189,9 @@ class WholesaleSellLimit extends BaseController {
                 'id'                => 'call_for_price_txt',
                 'type'              => 'textarea',
                 'label'             => __('New Text', 'smr-plugin'),
-                'style'             => 'direction: ltr;',
+                'style'             => 'direction: ltr; height: 100px',
                 'description'       => '<a id="resetValue">default</a>',
+                'class'             => 'large code',
                 'value'             => empty($callForPriceMeta) == false ? $callForPriceMeta : ''
         ));
 
@@ -221,17 +222,15 @@ class WholesaleSellLimit extends BaseController {
             $defaultValue = '<h3 style="color:red;">\n'.__('call for price: <a dir="ltr" href="tel:+123456789">+123456789</a> (name)', 'smr-plugin')."\n</h3>";
 
             //wp_register_script("simple-autocomplete");
-            wp_enqueue_script("simple-autocomplete",$this->pluginUrl.'/assets/js/simple-autocomplete.js',['jquery']);
+            wp_enqueue_script("multiselect-dropdown",$this->pluginUrl.'/assets/js/multiselect-dropdown.js');
         ?>
         <style>
-            .select2-selection--multiple .select2-selection__choice {
-                padding-left: 30px !important;
-            }
+            .form-field.qty_roles_field { direction: ltr; text-align: right; }
+            .multiselect-dropdown-list div label { margin: 0px; }
+            .multiselect-dropdown { max-width: 303px; }
         </style>
         <script>
             jQuery(function($){
-                $('#qty_roles').select2();
-
                 jQuery('#resetValue').click(function(){
                     $("#call_for_price_txt").val(`<?php echo $defaultValue;?>`);
                 });
