@@ -26,7 +26,7 @@ An all in one WordPress plugin that includes the following features:
 - custom checkout ***cash on delivery*** depending on cities.
 - custom checkout fields (Hardcoded).
 - custom register fields (Hardcoded).
-- ***sticky button*** on the right-bottom site page.
+- custom ***sticky button*** on the right-bottom site page.
 - custom footer action.
 - settings page.
 
