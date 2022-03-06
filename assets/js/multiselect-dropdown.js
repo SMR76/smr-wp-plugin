@@ -5,11 +5,9 @@ style.innerHTML = `
   display: inline-block;
   padding: 2px 5px 0px 5px;
   border-radius: 4px;
-  border: solid 1px #ced4da;
+  border: solid 1px #777;
   background-color: white;
   position: relative;
-  background-position: right .75rem center;
-  background-size: 16px 12px;
 }
 .multiselect-dropdown span.optext, .multiselect-dropdown span.placeholder{
   margin-right:0.5em; 
@@ -78,7 +76,6 @@ style.innerHTML = `
 .multiselect-dropdown-list div:hover{
   background-color: #ced4da;
 }
-.multiselect-dropdown span.maxselected {width:100%;}
 .multiselect-dropdown-all-selector {border-bottom:solid 1px #999;}
 `;
 document.head.appendChild(style);
