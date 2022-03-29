@@ -1,6 +1,6 @@
 
 # SMR WP-Plugin
-<img src="https://img.shields.io/badge/version-1.1.0-37c248"><br>
+<img src="https://img.shields.io/badge/version-1.3.0-37c248"><br>
 
 ### Tested On
 
