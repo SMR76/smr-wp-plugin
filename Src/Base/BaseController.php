@@ -20,6 +20,6 @@ class BaseController {
      * Just for debug.
      */
     function log($input) {
-        file_put_contents($this->pluginPath."/log.text", "--".$input."\n", FILE_APPEND);
+        file_put_contents($this->pluginPath."/log.text", "--".date(DATE_RFC822)."--".$input."\n", FILE_APPEND);
     }
 }

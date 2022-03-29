@@ -18,17 +18,17 @@
 
 ## Description 
 
-An all in one WordPress plugin that includes the following features: 
+An all-in-one WordPress plugin with the following features:
 
-- ***wholesale***: set custom product price for specific user roles.
-- custom ***call for price*** message.
-- custom checkout ***free shipping*** rate depending on cities.
-- custom checkout ***cash on delivery*** depending on cities.
-- custom checkout fields (Hardcoded).
-- custom register fields (Hardcoded).
-- custom ***sticky button*** on the right-bottom site page.
-- custom footer action.
-- settings page.
+- Set a custom product pricing for particular user roles when purchasing in bulk.
+- Instead of a price, use a personalized message.
+- Cities with bespoke checkouts and free shipping rates.
+- Cities with custom checkout cash on delivery.
+- Checkout fields that are customizable (Hardcoded).
+- Register fields that are configurable (Hardcoded).
+- On the right-bottom of the web page, there is a custom sticky button.
+- Page of options
+- Ajax contact form and list on settings menu.
 
 ## How to use
 - clone repository into plugins directory.<br>

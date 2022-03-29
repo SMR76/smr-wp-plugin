@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SMR Plugin\n"
-"POT-Creation-Date: 2022-02-26 18:59+0330\n"
-"PO-Revision-Date: 2022-02-26 18:59+0330\n"
+"POT-Creation-Date: 2022-03-29 14:11+0430\n"
+"PO-Revision-Date: 2022-03-29 14:27+0430\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fa_IR\n"
@@ -21,25 +21,62 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: Src/Api/Functions.php:26
-msgid "set default valid roles of wholesale users."
-msgstr "مقادیر پیشفرض برای نقش‌های همکار را مشخص کنید."
+#: Src/Api/Functions.php:28
+msgid "define the default valid roles for wholesale users."
+msgstr "مقادیر پیشفرض معتبر برای نقش‌های همکار را مشخص کنید."
 
-#: Src/Api/Functions.php:30
-msgid "activate or deactivate other parts of plugin."
-msgstr "فعال یا غیر فعال کردن بخش‌های دیگر افزونه."
+#: Src/Api/Functions.php:32
+msgid "This checkbox activates or deactivates additional plugin components."
+msgstr "این دکمه مؤلفه‌های اضافی پلاگین را فعال یا غیر فعال می‌کند."
 
-#: Src/Api/Functions.php:34
-msgid "modify checkout settigns."
+#: Src/Api/Functions.php:36 Src/Api/Functions.php:40
+msgid "Modify the checkout settings."
 msgstr "تغییر تنظیمات وارسی."
 
-#: Src/Api/Functions.php:90
+#: Src/Api/Functions.php:98
 msgid "please fill free shipping cities."
 msgstr "شهرهای ارسال رایگان."
 
-#: Src/Api/Functions.php:107
+#: Src/Api/Functions.php:116
 msgid "enter cities name."
 msgstr "نام شهر‌ها را وارد کنید."
+
+#: Src/Api/Functions.php:135
+msgid "enter sticky button instagram info"
+msgstr "اطلاعات Instagram  دکمه چسبان را وارد کنید."
+
+#: Src/Api/Functions.php:159
+msgid "enter sticky button calls info."
+msgstr "اطلاعات تماس دکمه چسبان را وارد کنید."
+
+#: Src/Api/Functions.php:181
+msgid "enter sticky button whatsapp info."
+msgstr "اطلاعات  WhatsApp دکمهٔ چسبان را وارد کنید."
+
+#: Src/Api/RequestCallAjax.php:50
+msgid "Everythings cleared."
+msgstr "همه چیز پاک شد."
+
+#: Src/Api/RequestCallAjax.php:61
+msgid "Phone number removed."
+msgstr "شمارهٔ تماس حذف شد."
+
+#: Src/Api/RequestCallAjax.php:66
+msgid "Invalid inputs."
+msgstr "ورودی نا معتبر."
+
+#: Src/Api/RequestCallAjax.php:90
+msgid "The inputs are invalid."
+msgstr "ورودی‌ها نا معتبر هستند."
+
+#: Src/Api/RequestCallAjax.php:104
+msgid "Your phone number is already in our system."
+msgstr "شمارهٔ تماس شما در حال حاضر در دستگاه ما موجود است."
+
+#: Src/Api/RequestCallAjax.php:122
+msgid "We have your phone number and will call you as soon as possible."
+msgstr ""
+"ما شمارهٔ تماس شما را دریافت کردیم و در اولین فرصت با شما تماس خواهیم گرفت."
 
 #: Src/Api/Woocommerce/ExteraCheckoutFields.php:38
 msgid "installation service"
@@ -94,8 +131,9 @@ msgid "Roles name"
 msgstr "اسم نقش"
 
 #: Src/Api/Woocommerce/WholesaleSellLimit.php:121
-msgid "Name of roles which must be affected. (i.e. \"Admin,Customer\")"
-msgstr "اسامی نقش‌هایی که تحت تأثیر قرار خواهند گرفت. (مانند Admin,Customer)"
+msgid "Names of the roles that must be affected (Admin and Customer)"
+msgstr ""
+"اسامی نقش‌هایی که باید تحت تأثیر قرار خواهند بگیرند. (مانند Admin,Customer)"
 
 #: Src/Api/Woocommerce/WholesaleSellLimit.php:130
 msgid "Minimum Quantity"
@@ -111,11 +149,11 @@ msgstr "بیشترین تعداد"
 
 #: Src/Api/Woocommerce/WholesaleSellLimit.php:142
 msgid ""
-"Set the maximum allowed quantity limit (a number greater than 0). Value "
-"\"-1\" is unlimited"
+"Set the maximum allowed quantity limit (must be greater than 0). For an "
+"infinite value, enter \"-1.\""
 msgstr ""
 "محدودهٔ‌ بیشترین تعداد مجاز را مشخص می‌کند (یک عدد بزرگتر از صفر). مقدار «۱-» به "
-"منزلهٔ نامحدود است"
+"منزلهٔ نامحدود است."
 
 #: Src/Api/Woocommerce/WholesaleSellLimit.php:150
 msgid "Quantity step"
@@ -130,29 +168,33 @@ msgid "New price"
 msgstr "قیمت جدید"
 
 #: Src/Api/Woocommerce/WholesaleSellLimit.php:162
-msgid "Optional. Set new product price. (empty means no change)"
-msgstr "اختیاری، قیمت جدید کالا را مشخص می‌کند."
+msgid "Optional, Set the new product's pricing. (empty means no change)"
+msgstr "اختیاری، قیمت جدید کالا را مشخص می‌کند. (خالی به معنی بدون تغییر)"
 
 #: Src/Api/Woocommerce/WholesaleSellLimit.php:178
 msgid "Call For Price"
 msgstr "تماس برای قیمت"
 
 #: Src/Api/Woocommerce/WholesaleSellLimit.php:180
-msgid "Enable this checkbox to hide and disable addToCart button."
+msgid "Check this box to hide and deactivate theaddToCart button."
 msgstr "این گزینه را برای غیر فعال کردن دکمهٔ «افزودن به سبد» فعال کنید."
 
 #: Src/Api/Woocommerce/WholesaleSellLimit.php:191
 msgid "New Text"
 msgstr "متن جدید"
 
-#: Src/Api/Woocommerce/WholesaleSellLimit.php:221
+#: Src/Api/Woocommerce/WholesaleSellLimit.php:222
 msgid ""
 "call for price: <a dir=\"ltr\" href=\"tel:+123456789\">+123456789</a> (name)"
 msgstr "برای قیمت تماس بگیرید: <a href=\"tel:+۱۲۳۴۵۶۷۸۹\">+۱۲۳۴۵۶۷۸۹</a> (نام)"
 
-#: Src/Base/SettingLinks.php:15 Src/Pages/Admin.php:39
+#: Src/Base/SettingLinks.php:15
 msgid "Settings"
 msgstr "تنظیمات"
+
+#: Src/Pages/Admin.php:39
+msgid "Wholesale Settings"
+msgstr "تنظیمات همکاران"
 
 #: Src/Pages/Admin.php:46
 msgid "Options Control"
@@ -162,29 +204,85 @@ msgstr "کنترل گزینه‌ها"
 msgid "Checkout Settings"
 msgstr "تنظیمات وارسی"
 
-#: Src/Pages/Admin.php:66
-msgid "cooperator valid roles"
+#: Src/Pages/Admin.php:60
+msgid "Others Settings"
+msgstr "دیگر تنظیمات"
+
+#: Src/Pages/Admin.php:74
+msgid "wholesale valid roles"
 msgstr "نقش‌های مجاز همکاران"
 
-#: Src/Pages/Admin.php:79
+#: Src/Pages/Admin.php:87
 msgid "activate wholesale "
 msgstr "فعال سازی همکاران "
 
-#: Src/Pages/Admin.php:88
+#: Src/Pages/Admin.php:96
 msgid "activate checkout fields"
 msgstr "فعال سازی فیلدهای وارسی"
 
-#: Src/Pages/Admin.php:97
-msgid "show stikybutton"
+#: Src/Pages/Admin.php:105
+msgid "show stickybutton"
 msgstr "نمایش دکمهٔ چسبان"
 
-#: Src/Pages/Admin.php:108
+#: Src/Pages/Admin.php:116
 msgid "free shipping cities"
 msgstr "شهرهای ارسال رایگان"
 
-#: Src/Pages/Admin.php:117
+#: Src/Pages/Admin.php:125
 msgid "cash on delivery cities"
 msgstr "شهرهای پرداخت در محل"
+
+#: Src/Pages/Admin.php:136
+msgid "set sticky button instagram info"
+msgstr "مقدار دهی  اطلاعات Instagram دکمهٔ چسبان."
+
+#: Src/Pages/Admin.php:145
+msgid "set sticky button call info"
+msgstr "مقدار دهی  اطلاعات تماس دکمهٔ چسبان."
+
+#: Src/Pages/Admin.php:154
+msgid "set sticky button whatsapp info"
+msgstr "مقدار دهی  اطلاعات WhatsApp دکمهٔ چسبان."
+
+#: templates/adminPage.php:48
+msgid "Name"
+msgstr "نام"
+
+#: templates/adminPage.php:49
+msgid "Phone Number"
+msgstr "شمارهٔ تماس"
+
+#: templates/requestCallForm.php:40
+msgid "Enter your phone number, and we'll call you as soon as we can."
+msgstr "شمارهٔ تماس خود را وارد کنید و در سریع‌ترین زمان با شما تماس خواهیم گرفت."
+
+#: templates/requestCallForm.php:45
+msgid "First and last name:"
+msgstr "نام و نام خانوادگی:"
+
+#: templates/requestCallForm.php:48
+msgid "i.e. Reza Eskandari"
+msgstr "برای مثال،‌ رضا اسکندری"
+
+#: templates/requestCallForm.php:50
+msgid "At least three letters, including spaces"
+msgstr "حداقل ۳ حرف، شامل فاصله."
+
+#: templates/requestCallForm.php:54
+msgid "Phone number:"
+msgstr "شمارهٔ تماس:"
+
+#: templates/requestCallForm.php:57
+msgid "i.e. +989123456789, 09123456789"
+msgstr ""
+
+#: templates/requestCallForm.php:59
+msgid "Enter a 10-digit number starting with +98 or 0."
+msgstr "شمارهٔ ۱۰ رقمی وارد کنید که با +۹۸ و ۰ شروع شود."
+
+#: templates/requestCallForm.php:63
+msgid "Request for call"
+msgstr "درخواست برای تماس (مشاوره)"
 
 #. Plugin Name of the plugin/theme
 msgid "SMR Plugin"
