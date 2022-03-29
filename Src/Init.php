@@ -20,13 +20,14 @@ class Init {
             Admin::class,
             Base\Enqueue::class,
             Base\SettingLinks::class,
-            Elements\StikyButton::class,
+            Elements\StickyButton::class,
             Elements\CustomFooter::class,
             Woocommerce\WholesaleSellLimit::class,
             Woocommerce\ExteraCheckoutFields::class,
             Woocommerce\ExteraRegistrationFields::class,
             Woocommerce\ShippingRate::class,
-            Woocommerce\ConditionalCOD::class
+            Woocommerce\ConditionalCOD::class,
+            Api\RequestCallAjax::class
         ];
     }
 
