@@ -36,28 +36,28 @@ class Admin extends BaseController{
 		
 		add_settings_section(
 			'smr_wholesale_section',
-			__('Settings','smr-plugin'),
+			__('Wholesale Settings','smr-plugin'),
 			[$this->functions, 'wholesaleSection'],
 			'smr_general_page'
 		);
 			
 		add_settings_section(
 			'smr_options_activate_section',
-			__('Options Control','smr-plugin'),
+			'<hr>'.__('Options Control','smr-plugin'),
 			[$this->functions, 'activateOptionsSection'],
 			'smr_general_page'
 		);
 
 		add_settings_section(
 			'smr_options_checkout_section',
-			__('Checkout Settings','smr-plugin'),
+			'<hr>'.__('Checkout Settings','smr-plugin'),
 			[$this->functions, 'checkoutSection'],
 			'smr_general_page'
 		);
 
 		add_settings_section(
 			'smr_options_others_section',
-			__('Others Settings','smr-plugin'),
+			'<hr>'.__('Others Settings','smr-plugin'),
 			[$this->functions, 'othersSection'],
 			'smr_general_page'
 		);
@@ -71,7 +71,7 @@ class Admin extends BaseController{
 	private function wholesaleSectionFields() {
 		add_settings_field( 
 			'ws_roles',
-			__('cooperator valid roles','smr-plugin'),
+			__('wholesale valid roles','smr-plugin'),
 			[$this->functions, 'wholesaleRolesInput'],
 			'smr_general_page',
 			'smr_wholesale_section', 
@@ -101,12 +101,12 @@ class Admin extends BaseController{
 		);
 
 		add_settings_field( 
-			'activate_stikybutton',
-			__('show stikybutton','smr-plugin'),
-			[$this->functions, 'activateStikyButton'],
+			'activate_stickybutton',
+			__('show stickybutton','smr-plugin'),
+			[$this->functions, 'activateStickyButton'],
 			'smr_general_page',
 			'smr_options_activate_section', 
-			['label_for' => 'activate_stikybutton']
+			['label_for' => 'activate_stickybutton']
 		);
 	}
 
@@ -132,21 +132,30 @@ class Admin extends BaseController{
 
 	private function othersSectionFields() {
 		add_settings_field( 
-			'sticky_button_text_instainfo',
+			'stickybutton_ii',
 			__('set sticky button instagram info','smr-plugin'),
 			[$this->functions, 'stickyButtonInstaInfo'],
 			'smr_general_page',
 			'smr_options_others_section', 
-			['label_for' => 'sticky_button_text_instainfo']
+			['label_for' => 'stickybutton_ii']
 		);
 		
 		add_settings_field( 
-			'sticky_button_text_callifo',
+			'stickybutton_ci',
 			__('set sticky button call info','smr-plugin'),
 			[$this->functions, 'stickyButtonCallInfo'],
 			'smr_general_page',
 			'smr_options_others_section', 
-			['label_for' => 'sticky_button_text_callifo']
+			['label_for' => 'stickybutton_ci']
+		);
+		
+		add_settings_field( 
+			'stickybutton_wi',
+			__('set sticky button whatsapp info','smr-plugin'),
+			[$this->functions, 'stickyButtonWhatsAppInfo'],
+			'smr_general_page',
+			'smr_options_others_section', 
+			['label_for' => 'stickybutton_wi']
 		);
 	}
 }

@@ -8,35 +8,41 @@ namespace Src\Elements;
 
 use \Src\Base\BaseController;
 
-class StikyButton extends BaseController {
+class StickyButton extends BaseController {
     public function register() {
         add_action( 'wp_footer', array($this, 'fixedInfoButton'));
+        wp_register_style('smrStickyButtonStyle', $this->pluginUrl . 'assets/css/sticky-button.css');
+        wp_register_script('smrStickyButtonScript', $this->pluginUrl . 'assets/js/sticky-button.js');
     }
 
-    public function fixedInfoButton() { 
+    public function fixedInfoButton() {
         $values = get_option('smr_settings_option_group');
-        $showStikyButton = isset($values['activate_stikybutton']) ? $values['activate_stikybutton'] : '';
-		if($showStikyButton == false ||  is_admin() || (defined('DOING_AJAX') && DOING_AJAX)) {
+        $isActive = isset($values['activate_stickybutton']) ? $values['activate_stickybutton'] : '';
+        if ($isActive == false ||  is_admin() || (defined('DOING_AJAX') && DOING_AJAX)) {
             return;
         }
-        wp_register_style ('smrStikyButtonStyle',    $this->pluginUrl .'assets/css/stikybutton.css');
-        wp_register_script('smrStikyButtonScript',   $this->pluginUrl . 'assets/js/stikybutton.js');
 
-        wp_enqueue_style ('smrStikyButtonStyle');
-        wp_enqueue_script('smrStikyButtonScript');
+        wp_enqueue_style ('smrStickyButtonStyle');
+        wp_enqueue_script('smrStickyButtonScript');
         
-        //---------------------- stiky button html start ----------------------
+        //---------------------- sticky button html start ----------------------
         ?>
-        <div id="smr-stikybutton">
-            <div id="contact-us" class="smr-stikybutton-option">
+        <div id="smr-sticky-button">
+            <div id="contact-us" class="smr-sticky-button-option">
                 <span>
-                    <?php echo $values['stikybutton_ci'] ?? '';  ?>            
+                    <?php echo $values['stickybutton_wi'] ?? '';  ?>
+                </span>
+                <div class="ico"><i class="fab fa-whatsapp" style="font-size: 17px;"></i></div>
+            </div>
+            <div id="contact-us" class="smr-sticky-button-option">
+                <span>
+                    <?php echo $values['stickybutton_ci'] ?? '';  ?>            
                 </span>
                 <div class="ico"><i class="fas fa-mobile-alt"></i></div>
             </div>
-            <div id="our-works" class="smr-stikybutton-option">
+            <div id="our-works" class="smr-sticky-button-option">
                 <span>
-                    <?php echo $values['stikybutton_ii'] ?? ''; ?>
+                    <?php echo $values['stickybutton_ii'] ?? ''; ?>
                 </span>
                 <div class="ico" ><i class="fab fa-instagram"></i></div>
             </div>
@@ -45,7 +51,7 @@ class StikyButton extends BaseController {
             </div>
         </div>
         <?php 
-        //---------------------- stiky button html end ----------------------
+        //---------------------- sticky button html end ----------------------
     }
 }
 ?>

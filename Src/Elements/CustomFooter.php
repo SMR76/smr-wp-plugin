@@ -14,7 +14,7 @@ class CustomFooter extends BaseController{
     }
     
     public function footerContent() {
-        wp_register_script('lottiePlayer',"$this->pluginUrl/assets/js/lottie-player.js");
+        wp_register_script('lottiePlayer',$this->pluginUrl."/assets/js/lottie-player.js");
         wp_enqueue_script('lottiePlayer');
         
         //---------------------- custom footer html start ----------------------

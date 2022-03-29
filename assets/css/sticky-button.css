@@ -1,4 +1,4 @@
-#smr-stikybutton {
+#smr-sticky-button {
     position: fixed;
     right: 35px; bottom: 35px;
     font-family: vazir;
@@ -6,7 +6,7 @@
     z-index: 99;
 }
 
-#smr-stikybutton #handbell{
+#smr-sticky-button #handbell{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -15,7 +15,7 @@
     border-radius: 50%;
 }
 
-#smr-stikybutton #handbell i{
+#smr-sticky-button #handbell i{
     animation: smr-handbell-shake 3s infinite ;
     transform-origin: 50% 0 ;
 }
@@ -34,7 +34,7 @@
     100%{transform: rotate(0deg);}
 }
 
-#smr-stikybutton .smr-stikybutton-option { 
+#smr-sticky-button .smr-sticky-button-option { 
     margin:10px 0px;
     position: relative;
     display: flex;
@@ -47,12 +47,12 @@
     transition-property: opacity, margin-bottom;
     transition-duration: 0.5s;
 }
-#smr-stikybutton .smr-stikybutton-option.active {
+#smr-sticky-button .smr-sticky-button-option.active {
     visibility: visible;
     opacity: 1;
     margin-bottom: 10px;
 }
-#smr-stikybutton .ico{
+#smr-sticky-button .ico{
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -66,7 +66,7 @@
     overflow: visible;
     box-shadow: 3px 3px 25px #00000060;
 }
-#smr-stikybutton .ico::after{
+#smr-sticky-button .ico::after{
     position: absolute;
     width: 45px; height: 45px;
     border-radius: 50%;
@@ -76,11 +76,11 @@
     transition-property: width,height,opacity;
     transition-duration: 0.5s;
 }
-#smr-stikybutton .ico:hover::after{
+#smr-sticky-button .ico:hover::after{
     width: 35px; height: 35px;
     opacity: 35%;
 }
-#smr-stikybutton div span{
+#smr-sticky-button div span{
     position: absolute;
     text-align: justify;
     font-weight: bold;
@@ -100,7 +100,7 @@
 }
 
 @media only screen and (max-width: 480px) {    
-    #smr-stikybutton div span{
+    #smr-sticky-button div span{
         position: fixed;
         width: 100vw;
         padding-right: 76px;
@@ -112,27 +112,27 @@
     }
 }
 
-#smr-stikybutton div:hover span{
+#smr-sticky-button div:hover span{
     visibility: visible;
     opacity: 1;
 }
 
-#smr-stikybutton a{
+#smr-sticky-button a{
     text-decoration: none;
     text-align: unset;
     color: #ff2d49;
 }
 
 @media screen and (max-width: 1024px) {
-    #smr-stikybutton {
+    #smr-sticky-button {
         right: 15px; bottom: 15px;
     }
     
-    #smr-stikybutton #handbell{
+    #smr-sticky-button #handbell{
         width: 45px; height: 45px;
     }
 
-    #smr-stikybutton .ico{
+    #smr-sticky-button .ico{
         width: 45px; height: 45px;
     }
 }
