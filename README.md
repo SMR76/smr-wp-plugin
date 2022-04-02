@@ -28,7 +28,7 @@ An all-in-one WordPress plugin with the following features:
 - Register fields that are configurable (Hardcoded).
 - On the right-bottom of the web page, there is a custom sticky button.
 - Page of options
-- Ajax contact form and list on settings menu.
+- Ajax contact form and list on the settings menu.
 
 ## How to use
 - clone repository into plugins directory.<br>

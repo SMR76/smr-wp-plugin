@@ -157,5 +157,32 @@ class Admin extends BaseController{
 			'smr_options_others_section', 
 			['label_for' => 'stickybutton_wi']
 		);
+
+		add_settings_field( 
+			'sms_username',
+			__('sms panel username','smr-plugin'),
+			[$this->functions, 'contactFormSmsUsername'],
+			'smr_general_page',
+			'smr_options_others_section', 
+			['label_for' => 'sms_username']
+		);
+
+		add_settings_field( 
+			'sms_password',
+			__('sms panel password','smr-plugin'),
+			[$this->functions, 'contactFormSmsPassword'],
+			'smr_general_page',
+			'smr_options_others_section', 
+			['label_for' => 'sms_password']
+		);
+
+		add_settings_field( 
+			'sms_id',
+			__('sms panel id (service sms)','smr-plugin'),
+			[$this->functions, 'contactFormSmsId'],
+			'smr_general_page',
+			'smr_options_others_section', 
+			['label_for' => 'sms_id']
+		);
 	}
 }

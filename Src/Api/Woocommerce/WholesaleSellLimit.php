@@ -80,7 +80,7 @@ class WholesaleSellLimit extends BaseController {
     public function woocommerceProductOptionsPricing() {
         $this->wcQuantityExteraProductField();
         $this->registerCallForPriceFields();
-        $this->jqueyScripts();
+        $this->jQueryScripts();
     }
 
     /**
@@ -118,7 +118,7 @@ class WholesaleSellLimit extends BaseController {
                 'name'              => 'qty_roles[]',
                 'label'             => __('Roles name', 'smr-plugin'),
                 'desc_tip'          => 'true',
-                'description'       => __('Name of roles which must be affected. (i.e. "Admin,Customer")', 'smr-plugin'),
+                'description'       => __('Names of the roles that must be affected (Admin and Customer)', 'smr-plugin'),
                 'value'             => isset($values['qty_roles']) ? $values['qty_roles'] : $defaultRoles,
                 'options'           => $allRoleNames,
                 'custom_attributes' => array('multiple'=>'multiple'),
@@ -139,7 +139,7 @@ class WholesaleSellLimit extends BaseController {
                 'type'              => 'number',
                 'label'             => __('Maximum Quantity','smr-plugin'),
                 'desc_tip'          => 'true',
-                'description'       => __('Set the maximum allowed quantity limit (a number greater than 0). Value "-1" is unlimited', 'smr-plugin'),
+                'description'       => __('Set the maximum allowed quantity limit (must be greater than 0). For an infinite value, enter "-1."', 'smr-plugin'),
                 'custom_attributes' => array( 'step'  => 'any', 'min'   => '-1', 'dir' => 'ltr'),
                 'value'             => isset($values['qty_max']) && $values['qty_max'] > 0 ? (int) $values['qty_max'] : -1
         ));
@@ -149,7 +149,7 @@ class WholesaleSellLimit extends BaseController {
                 'type'              => 'number',
                 'label'             => __('Quantity step','smr-plugin'),
                 'desc_tip'          => 'true',
-                'description'       => __('Optional. Set quantity step  (a number greater than 0)', 'smr-plugin'),
+                'description'       => __("Optional. Set quantity step  (a number greater than 0)", 'smr-plugin'),
                 'custom_attributes' => array( 'step'  => 'any', 'min'   => '1', 'dir' => 'ltr'),
                 'value'             => isset($values['qty_step']) && $values['qty_step'] > 1 ? (int) $values['qty_step'] : 1
         ));
@@ -159,7 +159,7 @@ class WholesaleSellLimit extends BaseController {
                 'type'              => 'number',
                 'label'             => __('New price','smr-plugin'),
                 'desc_tip'          => 'true',
-                'description'       => __('Optional. Set new product price. (empty means no change)', 'smr-plugin'),
+                'description'       => __("Optional, Set the new product's pricing. (empty means no change)", 'smr-plugin'),
                 'custom_attributes' => array( 'step'  => 'any', 'min'   => '0', 'dir' => 'ltr'),
                 'value'             => isset($values['qty_new_price']) && !empty($values['qty_new_price']) ? (int) $values['qty_new_price'] : $product_object->get_regular_price()
         ));
@@ -177,7 +177,7 @@ class WholesaleSellLimit extends BaseController {
                 'id'            => 'call_for_price',
                 'label'         => __('Call For Price', 'smr-plugin'),
                 'value'         => empty($callForPriceMeta) ? 'no' : 'yes',
-                'description'   => __('Enable this checkbox to hide and disable addToCart button.', 'smr-plugin')
+                'description'   => __('Check this box to hide and deactivate theaddToCart button.', 'smr-plugin')
         ));
 
         if(empty($callForPriceMeta))
@@ -218,11 +218,9 @@ class WholesaleSellLimit extends BaseController {
     /**
      * toggle setting fields (admin product pages)
      */
-    public function jqueyScripts() {
+    public function jQueryScripts() {
             $defaultValue = '<h3 style="color:red;">\n'.__('call for price: <a dir="ltr" href="tel:+123456789">+123456789</a> (name)', 'smr-plugin')."\n</h3>";
-
-            //wp_register_script("simple-autocomplete");
-            wp_enqueue_script("multiselect-dropdown",$this->pluginUrl.'/assets/js/multiselect-dropdown.js');
+            wp_enqueue_script("multiselect-dropdown", $this->pluginUrl.'/assets/js/multiselect-dropdown.js');
         ?>
         <style>
             .form-field.qty_roles_field { direction: ltr; text-align: right; }

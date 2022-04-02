@@ -8,6 +8,12 @@ namespace Src\Api;
 use \Src\Base\BaseController;
 
 class Functions extends BaseController{
+    private $cssDirection = "ltr";
+
+    public function __construct() {
+        parent::__construct();
+        $this->cssDirection = is_rtl() ? "rtl" : "ltr";
+    }
     /**
      * admin setting page (general page)
      */
@@ -94,8 +100,8 @@ class Functions extends BaseController{
                 class="regular-text"
                 value="<?php echo $freeShippingCities;?>"
                 placeholder = "e.g. London, Tehran">
-        <p class="form-field" style="height:20px;max-width: 400px; direction:<?php echo $dir; ?>;">
-        <?php _e("please fill free shipping cities.","smr-plugin") ?>
+        <p class="form-field" style="height:20px;max-width: 400px; direction:<?= $this->cssDirection; ?>;">
+            <?php _e("To input the city name, press Tab/Space/Enter.","smr-plugin") ?>
         </p>
         <?php
     }
@@ -113,7 +119,10 @@ class Functions extends BaseController{
                 type="text" taged
                 class="regular-text"
                 value="<?php echo $freeShippingCities;?>"
-                placeholder="<?php _e("enter cities name.","smr-plugin")?>">
+                placeholder="<?php _e("e.g. London, Tehran","smr-plugin")?>">
+        <p class="form-field" style="height:20px;max-width: 400px; direction:<?= $this->cssDirection; ?>;">
+            <?php _e("To input the city name, press Tab/Space/Enter.","smr-plugin") ?>
+        </p>
         <?php
     }
 
@@ -181,5 +190,35 @@ class Functions extends BaseController{
                 placeholder="<?php _e("enter sticky button whatsapp info.","smr-plugin")?>"><?php echo esc_attr($stickyText);?></textarea>
         <?php
     }
+
+    public function contactFormSmsUsername() {
+        $values = get_option('smr_settings_option_group');
+        $username = $values['sms_username'] ?? '';
+        ?>
+            <input id="sms_username" name="smr_settings_option_group[sms_username]" style="direction: ltr;"
+                    placeholder="<?= __("sms username" ,"smr-plugin")?>" 
+                    type="text" class="regular-text" value="<?= $username;?>">
+        <?php
+    }
+    public function contactFormSmsPassword() {
+        $values = get_option('smr_settings_option_group');
+        $password = $values['sms_password'] ?? '';
+        ?>
+            <input id="sms_password" name="smr_settings_option_group[sms_password]" style="direction: ltr;"
+                    placeholder="<?= __("sms password" ,"smr-plugin")?>" 
+                    type="text" class="regular-text" value="<?= $password;?>">
+        <?php
+    }
+    public function contactFormSmsId() {
+        $values = get_option('smr_settings_option_group');
+        $id = $values['sms_id'] ?? '';
+        ?>
+            <input id="sms_id" name="smr_settings_option_group[sms_id]" style="direction: ltr;"
+                pattern="\d+" placeholder=<?= __("sms id" ,"smr-plugin") ?> 
+                type="text" class="regular-text" value="<?= $id;?>">
+        <?php
+    }
+
+
 }
 ?>

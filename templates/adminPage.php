@@ -17,8 +17,6 @@
     wp_enqueue_style("simple-tag-input", $this->pluginUrl . '/assets/css/simple-tag-input.css');
     wp_enqueue_style("bootstrap-grid", $this->pluginUrl . '/assets/css/bootstrap-grid.css');
     wp_enqueue_style("admin-page", $this->pluginUrl . '/assets/css/admin-page.css');
-
-    settings_errors();
     ?>
 
     <div class="tab-view">
@@ -26,6 +24,9 @@
             <li class="active" tab-page="settings">settings</li>
             <li class="" tab-page="request-call-list">requested calls</li>
         </ul>
+
+        <?php settings_errors(); ?>
+
         <div class="tab-body">
             <div id="settings" class="tab-page active">
                 <form method="post" action="options.php">
@@ -37,9 +38,12 @@
                 </form>
             </div>
             <div id="request-call-list" class="tab-page container-fulid grid">
-                <div class="row" style="justify-content: flex-end;">
+                <div class="row head-row" style="flex-wrap: nowrap; justify-content: space-between; margin: 0; padding: 0 15px;">
+                    <div>shorcode: 
+                        <code onclick="navigator.clipboard.writeText(this.innerHTML)">request-call</code>
+                        <i>copied!</i>
+                    </div>
                     <input id="clearAll" type="button" value="Clear All">
-                    <div class="col-1"></div>
                 </div>
                 <div class="row">
                     <div class="col-2 text-center">#</div>
@@ -58,10 +62,12 @@
                 $callList = get_option('smr_call_list', []);
                 $usersdb = $wpdb->get_results("SELECT user_id, meta_value as phone_number FROM `$wpdb->usermeta` WHERE meta_key = 'billing_phone' AND meta_value != ''");
 
-                foreach ($callList as $phoneNumber => $name) {
+                foreach ($callList as $phoneNumber => $info) {
                     $index++;
                     $userId = "";
                     $userURL = "";
+                    $name = $info[0];
+                    $time = $info[1];
                     $inPhoneNumber = "+98" . substr($phoneNumber, -10);
 
                     foreach ($usersdb as $user) {

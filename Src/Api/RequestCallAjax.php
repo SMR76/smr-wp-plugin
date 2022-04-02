@@ -77,7 +77,7 @@ class RequestCallAjax extends BaseController {
     public function requestCallFormAjax() {
         check_ajax_referer('request_call_nonce', 'security'); // check nonce
 
-        $name = $_POST["name"] ?? "";
+        $name = esc_attr($_POST["name"] ?? "");
         $phoneNumber = $_POST["phone"] ?? "";
 
         define('WP_DEBUG', true);
@@ -114,13 +114,28 @@ class RequestCallAjax extends BaseController {
         $callList[$phoneNumber] = [$name, time()];
         update_option("smr_call_list", $callList);
         
-        /**
-         * TODO: SMS messge API.
-         */
+        $optionGroup = get_option("smr_settings_option_group", []);
+        $smsUsername = $optionGroup["sms_username"] ?? "";
+        $smsPassword = $optionGroup["sms_password"] ?? "";
+        $smsID = $optionGroup["sms_id"] ?? "";
+
+        if($smsUsername && $smsPassword && $smsID) { // if sms settings are set
+            // turn off the WSDL cache
+            ini_set("soap.wsdl_cache_enabled", "0");
+            $smsClient = new \SoapClient('http://api.payamak-panel.com/post/send.asmx?wsdl', array('encoding'=>'UTF-8'));
+    
+            $parameters['username'] = $smsUsername; // username
+            $parameters['password'] = $smsPassword; // payamak panel password
+            $parameters['to'] = $phoneNumber;
+            $parameters['bodyId'] = $smsID; // sms id
+            $parameters['text'] = $name;
+    
+            $smsClient->SendByBaseNumber2($parameters)->SendByBaseNumber2Result; // send sms
+        }
 
         echo json_encode([
             'message' => __("We have your phone number and will call you as soon as possible.", "smr-plugin"), 
-            'status' => "success",
+            'status' => "success"
         ]);
         wp_die();
     }
