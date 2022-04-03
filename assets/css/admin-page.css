@@ -9,6 +9,11 @@ hr {
     border-bottom: none;
 }
 
+form label[for] {
+    display: block;
+    text-align: justify;
+}
+
 .ltr {
     direction: ltr;
 }
