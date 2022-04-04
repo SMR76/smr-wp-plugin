@@ -91,7 +91,6 @@ class Functions extends BaseController{
      *  input for free shipping cities.
      */
     public function freeShippingCitiesInput() {
-        $dir = (get_locale() == "fa_IR" ? "rtl" : "ltr");
         $values = get_option('smr_settings_option_group');
         $freeShippingCities = isset($values['free_shipping_cities']) ? $values['free_shipping_cities'] : '';
         ?>
@@ -218,7 +217,5 @@ class Functions extends BaseController{
                 type="text" class="regular-text" value="<?= $id;?>">
         <?php
     }
-
-
 }
 ?>

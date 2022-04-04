@@ -11,8 +11,6 @@ use \Src\Base\BaseController;
 class StickyButton extends BaseController {
     public function register() {
         add_action( 'wp_footer', array($this, 'fixedInfoButton'));
-        wp_register_style('smrStickyButtonStyle', $this->pluginUrl . 'assets/css/sticky-button.css');
-        wp_register_script('smrStickyButtonScript', $this->pluginUrl . 'assets/js/sticky-button.js');
     }
 
     public function fixedInfoButton() {
@@ -21,6 +19,9 @@ class StickyButton extends BaseController {
         if ($isActive == false ||  is_admin() || (defined('DOING_AJAX') && DOING_AJAX)) {
             return;
         }
+        // Bug: The WordPress admin bar will be in conflict if register style is relocated to the class register method.
+        wp_register_style('smrStickyButtonStyle', $this->pluginUrl . 'assets/css/sticky-button.css');
+        wp_register_script('smrStickyButtonScript', $this->pluginUrl . 'assets/js/sticky-button.js');
 
         wp_enqueue_style ('smrStickyButtonStyle');
         wp_enqueue_script('smrStickyButtonScript');
