@@ -1,0 +1,23 @@
+[markdown] { width: 100%; }
+.preview { 
+    display: block;
+    visibility: hidden; 
+    direction: ltr;
+    width: 100%;
+    height: 0;
+    margin-top: 10px;
+    overflow-y: scroll;
+    transition: height 0.5s ease-in-out;
+}
+.preview:hover, .preview:focus
+[markdown]:hover + .preview,
+[markdown]:focus + .preview { 
+    visibility: visible; 
+    height: 200px;
+}
+.preview ul { padding: 0 15px; }
+.preview h1, .preview h2,
+.preview h3, .preview h4,
+.preview h5, .preview h6 {
+    margin: 0;
+}
