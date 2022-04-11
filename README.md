@@ -1,6 +1,6 @@
 
 # SMR WP-Plugin
-<img src="https://img.shields.io/badge/version-1.3.0-37c248"><br>
+<img src="https://img.shields.io/badge/version-1.4.0-37c248"><br>
 
 ### Tested On
 
@@ -20,23 +20,26 @@
 
 An all-in-one WordPress plugin with the following features:
 
-- Set a custom product pricing for particular user roles when purchasing in bulk.
-- Instead of a price, use a personalized message.
-- Cities with bespoke checkouts and free shipping rates.
-- Cities with custom checkout cash on delivery.
-- Checkout fields that are customizable (Hardcoded).
-- Register fields that are configurable (Hardcoded).
-- On the right-bottom of the web page, there is a custom sticky button.
-- Page of options
-- Ajax contact form and list on the settings menu.
+- When ordering in bulk, you may set a custom product pricing and quantity for certain user roles.
+- Use a customized message instead of a price, and disable purchase.
+- You can specify cities that provide free shipping.
+- You can specify cities that accept cash on delivery.
+- External checkbox in checkout with customisable message; this field will be displayed on the orders page.
+- External fields for user registration (Hardcoded).
+- Custom sticky button with personalized link and message (minimal markdown supported).
+- Provided a small custom SMS panel that making use of WSDL API.
+- After user registration, an action is provided to send an SMS.
 
 ## How to use
-- clone repository into plugins directory.<br>
+- Clone the repository and place it in the plugins directory.<br>
     `$ cd path/to/plugins/`<br>
     `$ git clone https://github.com/SMR76/smr-wp-plugin.git`
-- activate it.<br>
+- Activate plugin.<br>
     `Plugins` &raquo; `Installed Plugins`
-- done.
+- Done.
+
+## TODO
+- The ability to perform bulk actions on product attributes, prices, and descriptions.
 
 ## Dependencies
 - [PHP Composer](https://getcomposer.org/download/).

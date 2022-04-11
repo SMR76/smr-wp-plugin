@@ -85,11 +85,14 @@ class SmsContactFormAjax extends BaseController {
         error_reporting(E_ALL);
         ini_set('display_errors', 1);
 
+        setcookie('key', 'value', ['samesite' => 'None', 'secure' => true]); // cross-site contexts cookie.
+
         $phoneNumber = preg_replace("/^0/", "+98", $phoneNumber); // convert 0915... to +98915...
-        if (!preg_match("/^\+98\d{10}$/", $phoneNumber) || !preg_match("/^\p{L}{2}(\p{L}|\s)*\p{L}$/", $name)) { // check phone number and name.
+        if (!preg_match("/^\+98\d{10}$/", $phoneNumber) || !preg_match("/^\p{L}{2}(\p{L}|\s)*\p{L}$/u", $name)) { // check phone number and name.
             echo json_encode([
                 "message" => __("The inputs are invalid.", "smr-plugin"),
-                "status" => "error"
+                "status" => "error",
+                "x" => $phoneNumber . " " . $name,
             ]);
 
             nocache_headers(); // disable cache

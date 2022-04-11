@@ -10,7 +10,7 @@ use Src\Base\BaseController;
 
 class ConditionalCOD extends BaseController{
     public function register() {
-        add_filter( 'woocommerce_available_payment_gateways', [$this,'conditional_available_payment_gateways')];
+        add_filter( 'woocommerce_available_payment_gateways', [$this,'conditional_available_payment_gateways']);
     }
 
     function conditional_available_payment_gateways($available_gateways) {

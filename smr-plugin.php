@@ -1,7 +1,7 @@
 <?php
 /**
  * 	@package SMR_WP
- * 	@version 0.1
+ * 	@version 1.4.0
  * 	@author  Seyyed Morteza Razavi
  */
 /*
@@ -9,7 +9,7 @@
 	Plugin URI: http://s-m-r.ir/
 	Description: all in one customizations.
 	Author: Seyyed Morteza Razavi
-	Version: 0.1
+	Version: 1.4.0
 	Author URI: http://s-m-r.ir/
 	Text Domain: smr-plugin
 	Domain Path: /locale
@@ -35,7 +35,7 @@ register_deactivation_hook	(__FILE__	, 'deactivate_smrp' );
 register_activation_hook	(__FILE__	, 'activate_smrp' );
 
 if(class_exists('Src\\Init')) {
-	//* load translations file.
+	//* load translation files.
 	add_action('plugins_loaded', function() {
 		load_plugin_textdomain("smr-plugin", FALSE, dirname(plugin_basename(__FILE__)) . '/locale/');
 	});
