@@ -7,35 +7,43 @@
 namespace Src\Api\Woocommerce;
 
 use Src\Base\BaseController;
+/**
+ * Include a conditional field in the billing form and a related column on the order page.
+ * The conditional field was accompanied by a custom message following the field.
+ * The message will be displayed when you check the checkbox.
+ */
+class ExteraCheckoutFields extends BaseController
+{
+    public function register()
+    {
+        $options = get_option('smr_config_option');
+        $checkoutOption = $options['checkout'];
 
-class ExteraCheckoutFields extends BaseController {
-    public function register() {
-        $options = get_option('smr_settings_option_group');
-        if(isset($options['activate_checkout']) == false)
+        if (isset($checkoutOption['billing_field_active']) == false)
             return;
 
         //* add custom checkbox field after billing form
-        add_action( 'woocommerce_after_checkout_billing_form',  array( $this,'exteraCheckoutFields'));
+        add_action('woocommerce_after_checkout_billing_form', [$this, 'exteraCheckoutFields']);
 
         //* custom column for shop_order
-        add_filter( 'manage_edit-shop_order_columns',           array( $this,'customShopOrderColumn'), 20);
-        add_action( 'manage_shop_order_posts_custom_column' ,   array( $this,'customColumnContent')  , 20, 2);
+        add_filter('manage_edit-shop_order_columns', [$this, 'customShopOrderColumn'], 20);
+        add_action('manage_shop_order_posts_custom_column', [$this, 'customColumnContent'], 20, 2);
 
-        add_action( 'woocommerce_checkout_create_order',        array( $this,'addCheckoutFieldsToOrderMeta'));
-        add_action( 'woocommerce_admin_order_data_after_billing_address', array( $this,'displayCustomCheckoutFieldsInAdminOrder'), 10);
+        add_action('woocommerce_checkout_create_order', [$this, 'addCheckoutFieldsToOrderMeta']);
+        add_action('woocommerce_admin_order_data_after_billing_address', [$this, 'displayCustomCheckoutFieldsInAdminOrder']);
     }
 
     function customShopOrderColumn($columns) {
         //* enqueue custom style
-        wp_enqueue_style('smrOrderShop',$this->pluginUrl.'/assets/css/ordershoppage.css');
+        wp_enqueue_style('smrOrderShop', $this->pluginUrl . '/assets/css/ordershoppage.css');
 
-        $reordered_columns = array();
+        $reordered_columns = [];
         //* Inserting columns to a specific location
-        foreach( $columns as $key => $column){
+        foreach ($columns as $key => $column) {
             $reordered_columns[$key] = $column;
-            if( $key ==  'order_status' ){
+            if ($key == 'order_status') {
                 //* Inserting after "Status" column
-                $reordered_columns['installation_service_column'] = __( 'installation service','smr-plugin');
+                $reordered_columns['installation_service_column'] = __('installation service', 'smr-plugin');
             }
         }
         return $reordered_columns;
@@ -47,7 +55,7 @@ class ExteraCheckoutFields extends BaseController {
                 //* Get custom post meta data
                 $postMeta = get_post_meta($post_id, 'installation_service', true);
                 if (empty($postMeta) == false)
-                    echo '<div>'.__('needed','smr-plugin').'</div>';
+                    echo '<div>'.__('needed', 'smr-plugin') . '</div>';
                 break;
         }
     }
@@ -56,64 +64,52 @@ class ExteraCheckoutFields extends BaseController {
      * 
      */
     public function exteraCheckoutFields($checkout) {
+        $options = get_option('smr_config_option');
+        $checkoutOption = $options['checkout'];
+
         echo "<br>";
         woocommerce_form_field(
-            'needs_installation',
-            array(
+            'custom_checkbox',
+            [
                 'type' => 'checkbox',
-                'class' => array('form-row-wide'),
-                'label' => '<span style="font-size: 19px;font-weight: 600;">'.__('need installation service?','smr-plugin').'</span>',
-            ),
+                'class' => ['form-row-wide'],
+                'label' => '<span style="font-size: 19px;font-weight: 600;">' . __('need installation service?', 'smr-plugin') . '</span>',
+            ],
             'yes'
         );
-        $this->conditionalMessage();
-    }
 
-    function conditionalMessage() {
-        ?>             
-        <div class="text-justify" id="needs_installation_desc" style="display:none; margin-bottom:35px;">
-            <ul class="px-3" style="font-size: medium;">
-                <li><i class="fas fa-check"></i>
-                    هزینه ایاب الذهاب در شیراز رایگان و در خارج از شهر به ازای هر ۵۰ کیلومتر مبلغ ۳۰٫۰۰۰ تومان می‌باشد.</li>
-                <li><i class="fas fa-check"></i>
-                    بعد از تکمیل خرید در اولین وقت اداری و بعد از ثبت خرید، مشتری‌هایی که نیاز به نصب و راه اندازی (فعال کردن تیک نصب و راه اندازی) تماس می گیرد و هماهنگی های لازم راه انجام می‌دهد.</li>
-                <li><i class="fas fa-check"></i>
-                    هزینه نصب هر دوربین ۵۰٫۰۰۰ تومان.</li>
-                <li><i class="fas fa-check"></i>
-                    هزینه کابل کشی ۱٫۵۰۰ تومان.</li>
-                <li><i class="fas fa-check"></i>
-                    هزینه نصب و راه اندازی ۷۰٫۰۰۰ تومان.</li>
-                <li><i class="fas fa-check"></i>
-                    هزینه نصب فلکسی و داکت و ... به صورت رایگان انجام می‌گردد.</li>
-            </ul>
+        ?>
+        <div id="custom_checkbox_msg" class="text-justify" style="display:none; margin-bottom:35px;">
+            <?= $this->markdownaParser($checkoutOption['billing_field_message'] ?? ""); ?>
         </div>
 
         <script>
             jQuery(function($) {
-                $("#needs_installation").click(function() {
-                    if($(this).is(':checked'))
-                        $("#needs_installation_desc").slideDown();
-                    else
-                        $("#needs_installation_desc").slideUp();
+                $("#custom_checkbox").click(function() {
+                    if (this.checked) {
+                        $("#custom_checkbox_msg").slideDown();
+                    } else {
+                        $("#custom_checkbox_msg").slideUp();
+                    }
                 });
             });
         </script>
-    <?php
+        <?php
     }
-    
-    //* Add custom checkout field value as custom order meta data
-    function addCheckoutFieldsToOrderMeta( $order ) {
-        if ( isset($_POST['needs_installation']) && empty($_POST['needs_installation']) == false ) {
-            $order->update_meta_data( 'installation_service', sanitize_text_field($_POST['needs_installation']));
+
+    // As custom order meta data, include the value of the custom checkout field.
+    function addCheckoutFieldsToOrderMeta($order) {
+        if (isset($_POST['custom_checkbox']) && empty($_POST['custom_checkbox']) == false) {
+            $order->update_meta_data('installation_service', sanitize_text_field($_POST['custom_checkbox']));
         }
     }
 
-    //* Display "My field" value on the order edit pages under billing section
-    function displayCustomCheckoutFieldsInAdminOrder($order){
+    // Display the value of the "custom field" on the order edit pages under the billing section.
+    function displayCustomCheckoutFieldsInAdminOrder($order) {
         $orderMeta = $order->get_meta('installation_service');
 
         if (!empty($orderMeta)) {
-            echo '<p><strong>'.__('request installation service','smr-plugin').':</strong>'.__('yes','smr-plugin').'</p>';
+            echo '<p><strong>' . __('request installation service', 'smr-plugin') . ':</strong>' . __('yes', 'smr-plugin') . '</p>';
         }
     }
 }

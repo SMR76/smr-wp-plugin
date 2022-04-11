@@ -10,179 +10,231 @@ use \Src\Base\BaseController;
 use \Src\Api\Functions;
 
 class Admin extends BaseController{
-	public $functions;
+    public $functions;
 
-	function __construct() {
-		parent::__construct();
-		$this->functions = new Functions();
-	}
+    function __construct() {
+        parent::__construct();
+        $this->functions = new Functions();
+    }
 
     public function register() {
-		add_action('admin_menu', array($this, 'setupSettingPage'));
-		add_action('admin_init', array($this, 'registerCustomFields'));
-	}
-	
-	public function setupSettingPage() {
-		add_menu_page('SMR plugin', 'SMR plugin', 'manage_options', 'smr_general_page', array($this->functions,'adminGeneralPage'),'dashicons-store',100);
-		add_submenu_page('smr_general_page', 'SMR plugin', 'SMR', 'manage_options', 'smr_general_page');
-	}
-	
-	public function registerCustomFields() {		
-		register_setting( 
-			'smr_option_group',
-			'smr_settings_option_group',
-			[$this->functions, 'optionGroupFieldsFilter']
-		);
-		
-		add_settings_section(
-			'smr_wholesale_section',
-			__('Wholesale Settings','smr-plugin'),
-			[$this->functions, 'wholesaleSection'],
-			'smr_general_page'
-		);
-			
-		add_settings_section(
-			'smr_options_activate_section',
-			'<hr>'.__('Options Control','smr-plugin'),
-			[$this->functions, 'activateOptionsSection'],
-			'smr_general_page'
-		);
+        add_action('admin_menu', [$this, 'setupSettingPage']);
+        add_action('admin_init', [$this, 'registerCustomFields']);
+    }
 
-		add_settings_section(
-			'smr_options_checkout_section',
-			'<hr>'.__('Checkout Settings','smr-plugin'),
-			[$this->functions, 'checkoutSection'],
-			'smr_general_page'
-		);
+    public function setupSettingPage() {
+        add_menu_page('SMR plugin', 'SMR plugin', 'manage_options', 'smr_general_page', [$this->functions,'adminGeneralPage'],'dashicons-store',100);
+        add_submenu_page('smr_general_page', 'SMR plugin', 'General', 'manage_options', 'smr_general_page');
+    }
 
-		add_settings_section(
-			'smr_options_others_section',
-			'<hr>'.__('Others Settings','smr-plugin'),
-			[$this->functions, 'othersSection'],
-			'smr_general_page'
-		);
+    public function registerCustomFields() {
+        register_setting(
+            'smr_option_group',
+            'smr_config_option',
+            [$this->functions, 'optionGroupFieldsFilter']
+        );
 
-		$this->wholesaleSectionFields();
-		$this->pluginOptionsSectionFields();
-		$this->checkoutSectionFields();
-		$this->othersSectionFields();
-	}
+        /**
+         * settings sections:
+         * @li Wholesale users.
+         * @li Sms Panel options.
+         * @li Checkout.
+         * @li User actions.
+         * @li Sticky button.
+         */
+        $this->wholesaleSectionFields();
+        $this->smsPanelOptionsField();
+        $this->checkoutSectionFields();
+        $this->contactFormSectionFields();
+        $this->userActionsSectionFields();
+        $this->stickyButtonSectionFields();
+    }
 
-	private function wholesaleSectionFields() {
-		add_settings_field( 
-			'ws_roles',
-			__('wholesale valid roles','smr-plugin'),
-			[$this->functions, 'wholesaleRolesInput'],
-			'smr_general_page',
-			'smr_wholesale_section', 
-			[	'label_for'	 => 'ws_roles',
-				'class'		 => 'text-dark']
-		);
+    /**
+     * wholesale section fields.
+     */
+    private function wholesaleSectionFields() {
+        add_settings_section(
+            'smr_wholesale_section',
+            __('Wholesale Settings','smr-plugin'),
+            [$this->functions, 'wholesaleSection'],
+            'smr_general_page'
+        );
 
-	}
-	
-	private function pluginOptionsSectionFields() {	
-		add_settings_field( 
-			'activate_wholesale',
-			__('activate wholesale ','smr-plugin'),
-			[$this->functions, 'activateWholesale'],
-			'smr_general_page',
-			'smr_options_activate_section', 
-			['label_for' => 'activate_wholesale']
-		);
+        add_settings_field(
+            'ws_activate',
+            __('activate wholesale ','smr-plugin'),
+            [$this->functions, 'activateWholesale'],
+            'smr_general_page',
+            'smr_wholesale_section',
+            ['label_for' => 'ws_activate']
+        );
 
-		add_settings_field( 
-			'activate_checkout',
-			__('activate checkout fields','smr-plugin'),
-			[$this->functions, 'activateCheckout'],
-			'smr_general_page',
-			'smr_options_activate_section', 
-			['label_for' => 'activate_checkout']
-		);
+        add_settings_field(
+            'ws_roles',
+            __('wholesale valid roles','smr-plugin'),
+            [$this->functions, 'wholesaleRolesInput'],
+            'smr_general_page',
+            'smr_wholesale_section',
+            ['label_for' => 'ws_roles']
+        );
+    }
 
-		add_settings_field( 
-			'activate_stickybutton',
-			__('show stickybutton','smr-plugin'),
-			[$this->functions, 'activateStickyButton'],
-			'smr_general_page',
-			'smr_options_activate_section', 
-			['label_for' => 'activate_stickybutton']
-		);
-	}
+    /**
+     * plugin options section fields.
+     */
+    private function smsPanelOptionsField() {    
+        add_settings_section(
+            'smr_sms_panel_section',
+            '<hr>'.__('SMS panel settings','smr-plugin'),
+            [$this->functions, 'smsPanelOptionSection'],
+            'smr_general_page'
+        );
+    
+        add_settings_field(
+            'sms_panel',
+            __('SMS panel settings','smr-plugin'),
+            [$this->functions, 'smsPanelSettings'],
+            'smr_general_page',
+            'smr_sms_panel_section',
+            ['label_for' => 'sms_panel']
+        );
+    }
 
-	private function checkoutSectionFields() {
-		add_settings_field( 
-			'free_shipping_cities',
-			__('free shipping cities','smr-plugin'),
-			[$this->functions, 'freeShippingCitiesInput'],
-			'smr_general_page',
-			'smr_options_checkout_section', 
-			['label_for' => 'free_shipping_cities']
-		);
+    /**
+     * checkout section fields.
+     * @li free shipping.
+     * @li cash on delivery.
+     */
+    private function checkoutSectionFields() {    
+        add_settings_section(
+            'smr_checkout_section',
+            '<hr>'.__('Checkout Settings','smr-plugin'),
+            [$this->functions, 'checkoutSection'],
+            'smr_general_page'
+        );
 
-		add_settings_field( 
-			'cod_cities',
-			__('cash on delivery cities','smr-plugin'),
-			[$this->functions, 'codCitiesInput'],
-			'smr_general_page',
-			'smr_options_checkout_section', 
-			['label_for' => 'cod_cities']
-		);
-	}
+        add_settings_field(
+            'activate_checkout',
+            __('Activate the conditional checkout field with a personalized message.','smr-plugin'),
+            [$this->functions, 'conditionalCheckoutField'],
+            'smr_general_page',
+            'smr_checkout_section',
+            ['label_for' => 'activate_checkout']
+        );
 
-	private function othersSectionFields() {
-		add_settings_field( 
-			'stickybutton_ii',
-			__('set sticky button instagram info','smr-plugin'),
-			[$this->functions, 'stickyButtonInstaInfo'],
-			'smr_general_page',
-			'smr_options_others_section', 
-			['label_for' => 'stickybutton_ii']
-		);
-		
-		add_settings_field( 
-			'stickybutton_ci',
-			__('set sticky button call info','smr-plugin'),
-			[$this->functions, 'stickyButtonCallInfo'],
-			'smr_general_page',
-			'smr_options_others_section', 
-			['label_for' => 'stickybutton_ci']
-		);
-		
-		add_settings_field( 
-			'stickybutton_wi',
-			__('set sticky button whatsapp info','smr-plugin'),
-			[$this->functions, 'stickyButtonWhatsAppInfo'],
-			'smr_general_page',
-			'smr_options_others_section', 
-			['label_for' => 'stickybutton_wi']
-		);
+        add_settings_field(
+            'free_ship_cities',
+            __('Free shipping cities','smr-plugin'),
+            [$this->functions, 'freeShippingCitiesInput'],
+            'smr_general_page',
+            'smr_checkout_section',
+            ['label_for' => 'free_ship_cities']
+        );
 
-		add_settings_field( 
-			'sms_username',
-			__('sms panel username','smr-plugin'),
-			[$this->functions, 'contactFormSmsUsername'],
-			'smr_general_page',
-			'smr_options_others_section', 
-			['label_for' => 'sms_username']
-		);
+        add_settings_field(
+            'cod_cities',
+            __('Cash on delivery cities','smr-plugin'),
+            [$this->functions, 'codCitiesInput'],
+            'smr_general_page',
+            'smr_checkout_section',
+            ['label_for' => 'cod_cities']
+        );
+    }
 
-		add_settings_field( 
-			'sms_password',
-			__('sms panel password','smr-plugin'),
-			[$this->functions, 'contactFormSmsPassword'],
-			'smr_general_page',
-			'smr_options_others_section', 
-			['label_for' => 'sms_password']
-		);
+    /**
+     * user actions section fields.
+     * @li SMS message after user register. 
+     */
+    private function contactFormSectionFields() {
+        add_settings_section(
+            'smr_contact_form_section',
+            '<hr>'.__('Contact form','smr-plugin'),
+            [$this->functions, 'contactFormSection'],
+            'smr_general_page'
+        );
 
-		add_settings_field( 
-			'sms_id',
-			__('sms panel id (service sms)','smr-plugin'),
-			[$this->functions, 'contactFormSmsId'],
-			'smr_general_page',
-			'smr_options_others_section', 
-			['label_for' => 'sms_id']
-		);
-	}
+        add_settings_field(
+            'after_reg_msg',
+            __('send SMS message after user registration','smr-plugin'),
+            [$this->functions, 'contactFormSmsId'],
+            'smr_general_page',
+            'smr_contact_form_section',
+            ['label_for' => 'after_reg_msg']
+        );
+    }
+
+    /**
+     * user actions section fields.
+     * @li SMS message after user register. 
+     */
+    private function userActionsSectionFields() {
+        add_settings_section(
+            'smr_user_actions_section',
+            '<hr>'.__('User actions','smr-plugin'),
+            [$this->functions, 'userActionsSection'],
+            'smr_general_page'
+        );
+
+        add_settings_field(
+            'after_reg_msg',
+            __('send SMS message after user registration','smr-plugin'),
+            [$this->functions, 'afterRegistrationMessage'],
+            'smr_general_page',
+            'smr_user_actions_section',
+            ['label_for' => 'after_reg_msg']
+        );
+    }
+
+    /**
+     * sticky button section
+     * @li stickybutton instagram icon text.
+     * @li stickybutton call icon text.
+     * @li stickybutton whatsapp icon text.
+     * @li SMS panel username and password.
+     */
+    private function stickyButtonSectionFields() {
+        add_settings_section(
+            'smr_sticky_btn_section',
+            '<hr>'.__('Sticky button settings','smr-plugin'),
+            [$this->functions, 'stickyButtonSettings'],
+            'smr_general_page'
+        );
+
+        add_settings_field(
+            'activate_stickybutton',
+            __('show stickybutton','smr-plugin'),
+            [$this->functions, 'activateStickyButton'],
+            'smr_general_page',
+            'smr_sticky_btn_section',
+            ['label_for' => 'activate_stickybutton']
+        );
+
+        add_settings_field(
+            'insta_info',
+            __('set sticky button instagram info','smr-plugin'),
+            [$this->functions, 'stickyButtonInstaInfo'],
+            'smr_general_page',
+            'smr_sticky_btn_section',
+            ['label_for' => 'insta_info']
+        );
+
+        add_settings_field(
+            'call_info',
+            __('set sticky button call info','smr-plugin'),
+            [$this->functions, 'stickyButtonCallInfo'],
+            'smr_general_page',
+            'smr_sticky_btn_section',
+            ['label_for' => 'call_info']
+        );
+
+        add_settings_field(
+            'whatsapp_info',
+            __('set sticky button whatsapp info','smr-plugin'),
+            [$this->functions, 'stickyButtonWhatsAppInfo'],
+            'smr_general_page',
+            'smr_sticky_btn_section',
+            ['label_for' => 'whatsapp_info']
+        );
+    }
 }

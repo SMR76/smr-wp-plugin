@@ -11,7 +11,7 @@ function createTagElement(htmlValue, mainInput) {
 }
 
 function smrSimpleTagInput() {
-    let tagInputs = document.querySelectorAll('[taged]');
+    let tagInputs = document.querySelectorAll('[tagged]');
     for(let input of tagInputs) {
         input.setAttribute('hidden','hidden');
         let fakeInput = document.createElement('input',{type: 'text'});

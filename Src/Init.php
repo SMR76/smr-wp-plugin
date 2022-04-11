@@ -8,6 +8,7 @@ namespace Src;
 use \Src\Pages\Admin;
 use \Src\Base;
 use \Src\Elements;
+use \Src\Api;
 use \Src\Api\Woocommerce;
 
 /**
@@ -27,7 +28,8 @@ class Init {
             Woocommerce\ExteraRegistrationFields::class,
             Woocommerce\ShippingRate::class,
             Woocommerce\ConditionalCOD::class,
-            Api\RequestCallAjax::class
+            Api\SmsContactFormAjax::class,
+            Api\UserActions::class,
         ];
     }
 

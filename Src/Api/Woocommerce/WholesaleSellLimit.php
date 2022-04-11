@@ -11,44 +11,44 @@ class WholesaleSellLimit extends BaseController {
     
     public function register() {
 
-        $options = get_option('smr_settings_option_group');
-        if(isset($options['activate_wholesale']) == false)
+        $wholesale = get_option('smr_config_option', [])['wholesale'] ?? [];
+
+        if(isset($wholesale['active']) == false)
             return;
 
         /**
          * register quantity actions
          */
-        add_action('woocommerce_product_options_pricing',      array($this,'woocommerceProductOptionsPricing'));
-        add_action('woocommerce_admin_process_product_object', array($this,'WSSaveProductQuantitySettings'));
-        add_filter('woocommerce_quantity_input_args',          array($this,'filterWholesaleQuantityInputArgs'), 30, 2);
-        add_filter('woocommerce_loop_add_to_cart_args',        array($this,'AjaxAddtoCartWholesaleQuantity'), 30, 2);
-        add_filter('woocommerce_available_variation',          array($this,'filterWSAvailableVariationPrice'), 30, 3);
+        add_action('woocommerce_product_options_pricing', [$this, 'woocommerceProductOptionsPricing']);
+        add_action('woocommerce_admin_process_product_object', [$this, 'WSSaveProductQuantitySettings']);
+        add_filter('woocommerce_quantity_input_args', [$this, 'filterWholesaleQuantityInputArgs'], 30, 2);
+        add_filter('woocommerce_loop_add_to_cart_args', [$this, 'AjaxAddtoCartWholesaleQuantity'], 30, 2);
+        add_filter('woocommerce_available_variation', [$this, 'filterWSAvailableVariationPrice'], 30, 3);
 
         /**
          * register product prices
-         * thanks to:
          * https://stackoverflow.com/questions/45806249/change-product-prices-via-a-hook-in-woocommerce-3/45807054#45807054
          */
 
-        //* Generating dynamically the product "regular price"
-        add_filter('woocommerce_product_get_regular_price',            array($this, 'getRegularPrice') , 30, 2);
-        add_filter('woocommerce_product_variation_get_regular_price',  array($this, 'getRegularPrice') , 30, 2); 
+        // Set wholesale custom regular price.
+        add_filter('woocommerce_product_get_regular_price', [$this, 'getRegularPrice'] , 30, 2);
+        add_filter('woocommerce_product_variation_get_regular_price', [$this, 'getRegularPrice'] , 30, 2); 
 
-        //* Generating dynamically the product "sale price"
-        // add_filter('woocommerce_product_get_sale_price',               array($this,'getWholesaleSalePrice') , 10, 2);
-        // add_filter('woocommerce_product_variation_get_sale_price',     array($this,'getWholesaleSalePrice') , 10, 2);
+        // Set wholesale custom price.
+        // add_filter('woocommerce_product_get_sale_price', [$this,'getWholesaleSalePrice'] , 10, 2);
+        // add_filter('woocommerce_product_variation_get_sale_price', [$this,'getWholesaleSalePrice'] , 10, 2);
 
-        //* change price for simple, grouped and external products
-        add_filter('woocommerce_product_get_price',                     array($this, 'getProductPrice'), 30, 2);
-        add_filter('woocommerce_variation_prices_price',                array($this, 'woocommerceGetVariationPrices'), 30, 3);
+        // Price changes for simple, grouped, and external items
+        add_filter('woocommerce_product_get_price', [$this, 'getProductPrice'], 30, 2);
+        add_filter('woocommerce_variation_prices_price', [$this, 'woocommerceGetVariationPrices'], 30, 3);
 
-        //* Handling price caching (see explanations at the end)
-        add_filter('woocommerce_get_variation_prices_hash',            array($this, 'addPriceMultiplierToVariationPricesHash'), 30, 3);
+        // Price caching is handled by this line.
+        add_filter('woocommerce_get_variation_prices_hash', [$this, 'addPriceMultiplierToVariationPricesHash'], 30, 3);
 
-        //* Displayed formatted regular price + sale price         
-        add_filter('woocommerce_get_price_html',                       array($this, 'woocommerceGetPriceHtml'), 30, 2);
+        // This action is responsible for displaying the formatted normal price plus the discounted price.
+        add_filter('woocommerce_get_price_html', [$this, 'woocommerceGetPriceHtml'], 30, 2);
 
-        add_filter('woocommerce_is_purchasable',                        array($this, 'woocommerce_cloudways_purchasable'),10,2);
+        add_filter('woocommerce_is_purchasable', [$this, 'woocommerceDisablePurchasable'],10,2);
     }
     
     public function getProductPrice( $price, $product) {
@@ -69,7 +69,7 @@ class WholesaleSellLimit extends BaseController {
         return $price_hash;
     }
 
-    function woocommerce_cloudways_purchasable($value, $product) {
+    function woocommerceDisablePurchasable($value, $product) {
         $cfp = $product->get_meta('smr_call_for_price');
         return ( !empty($cfp) ? false : $value);
     }
@@ -92,13 +92,14 @@ class WholesaleSellLimit extends BaseController {
 
         $allRoleNames = $wp_roles->get_names();
         
-        $values         = $product_object->get_meta('smr_ws_limit');
-        $options        = get_option('smr_settings_option_group');
-        $defaultRoles   = isset($options['ws_roles']) ? $options['ws_roles'] : array();
+        $values = $product_object->get_meta('smr_ws_limit');
+        $configs = get_option('smr_config_option');
+        $wholesale = $configs['wholesale'];
+        $defaultRoles = $wholesale['roles'] ?? [];
 
         echo '</div><div class="options_group quantity hide_if_grouped">';
     
-        //* check box
+        // check box
         woocommerce_wp_checkbox( array( 
             'id'            => 'qty_args',
             'label'         => __('Quantity settings', 'smr-plugin'),
@@ -121,7 +122,7 @@ class WholesaleSellLimit extends BaseController {
                 'description'       => __('Names of the roles that must be affected (Admin and Customer)', 'smr-plugin'),
                 'value'             => isset($values['qty_roles']) ? $values['qty_roles'] : $defaultRoles,
                 'options'           => $allRoleNames,
-                'custom_attributes' => array('multiple'=>'multiple'),
+                'custom_attributes' => ['multiple'=>'multiple'],
         ));
 
         woocommerce_wp_text_input( array(
@@ -130,7 +131,7 @@ class WholesaleSellLimit extends BaseController {
                 'label'             => __('Minimum Quantity','smr-plugin'),
                 'desc_tip'          => 'true',
                 'description'       => __('Set a minimum allowed quantity limit (a number greater than 0).', 'smr-plugin'),
-                'custom_attributes' => array( 'step'  => 'any', 'min'   => '0', 'dir' => 'ltr'),
+                'custom_attributes' => [ 'step'  => 'any', 'min'   => '0', 'dir' => 'ltr'],
                 'value'             => isset($values['qty_min']) && $values['qty_min'] > 0 ? (int) $values['qty_min'] : 0
         ));
     
@@ -140,7 +141,7 @@ class WholesaleSellLimit extends BaseController {
                 'label'             => __('Maximum Quantity','smr-plugin'),
                 'desc_tip'          => 'true',
                 'description'       => __('Set the maximum allowed quantity limit (must be greater than 0). For an infinite value, enter "-1."', 'smr-plugin'),
-                'custom_attributes' => array( 'step'  => 'any', 'min'   => '-1', 'dir' => 'ltr'),
+                'custom_attributes' => [ 'step'  => 'any', 'min'   => '-1', 'dir' => 'ltr'],
                 'value'             => isset($values['qty_max']) && $values['qty_max'] > 0 ? (int) $values['qty_max'] : -1
         ));
     
@@ -149,8 +150,8 @@ class WholesaleSellLimit extends BaseController {
                 'type'              => 'number',
                 'label'             => __('Quantity step','smr-plugin'),
                 'desc_tip'          => 'true',
-                'description'       => __("Optional. Set quantity step  (a number greater than 0)", 'smr-plugin'),
-                'custom_attributes' => array( 'step'  => 'any', 'min'   => '1', 'dir' => 'ltr'),
+                'description'       => __("Optional. Set quantity step (a number greater than 0)", 'smr-plugin'),
+                'custom_attributes' => [ 'step'  => 'any', 'min'   => '1', 'dir' => 'ltr'],
                 'value'             => isset($values['qty_step']) && $values['qty_step'] > 1 ? (int) $values['qty_step'] : 1
         ));
 
@@ -160,7 +161,7 @@ class WholesaleSellLimit extends BaseController {
                 'label'             => __('New price','smr-plugin'),
                 'desc_tip'          => 'true',
                 'description'       => __("Optional, Set the new product's pricing. (empty means no change)", 'smr-plugin'),
-                'custom_attributes' => array( 'step'  => 'any', 'min'   => '0', 'dir' => 'ltr'),
+                'custom_attributes' => [ 'step'  => 'any', 'min'   => '0', 'dir' => 'ltr'],
                 'value'             => isset($values['qty_new_price']) && !empty($values['qty_new_price']) ? (int) $values['qty_new_price'] : $product_object->get_regular_price()
         ));
         echo '</div>';
@@ -199,7 +200,7 @@ class WholesaleSellLimit extends BaseController {
     }
 
     /**
-     * @method currentUserHas
+     * @method userIsValid
      * check if weather user has the valid roles or not.
      * @param array $validRoles
      * is a string which contain comma seprated role names.
@@ -230,7 +231,7 @@ class WholesaleSellLimit extends BaseController {
         <script>
             jQuery(function($){
                 jQuery('#resetValue').click(function(){
-                    $("#call_for_price_txt").val(`<?php echo $defaultValue;?>`);
+                    $("#call_for_price_txt").val(`<?= $defaultValue;?>`);
                 });
 
                 jQuery('input#call_for_price').click(function(){
@@ -260,13 +261,13 @@ class WholesaleSellLimit extends BaseController {
         if ( isset($_POST['qty_args'])) {    
             $product->update_meta_data( 'smr_ws_limit', array(
                 'qty_roles'     => isset($_POST['qty_roles'])       ? $_POST['qty_roles']              : '',
-                'qty_min'       => isset($_POST['qty_min'])         && $_POST['qty_min']  > 0          ? (int) wc_clean($_POST['qty_min']) : 0 ,
-                'qty_max'       => isset($_POST['qty_max'])         && $_POST['qty_max']  > 0          ? (int) wc_clean($_POST['qty_max']) : -1,
-                'qty_step'      => isset($_POST['qty_step'])        && $_POST['qty_step'] > 1          ? (int) wc_clean($_POST['qty_step']): 1 ,
+                'qty_min'       => isset($_POST['qty_min'])         && $_POST['qty_min']  > 0 ? (int) wc_clean($_POST['qty_min']) : 0 ,
+                'qty_max'       => isset($_POST['qty_max'])         && $_POST['qty_max']  > 0 ? (int) wc_clean($_POST['qty_max']) : -1,
+                'qty_step'      => isset($_POST['qty_step'])        && $_POST['qty_step'] > 1 ? (int) wc_clean($_POST['qty_step']): 1 ,
                 'qty_new_price' => isset($_POST['qty_new_price'])   ? (int) $_POST['qty_new_price']    : ''
             ));
         } else {
-            $product->update_meta_data( 'smr_ws_limit', array());
+            $product->update_meta_data( 'smr_ws_limit', []);
         }
         
         if ( isset($_POST['call_for_price'])) {
@@ -317,7 +318,7 @@ class WholesaleSellLimit extends BaseController {
      * Ajax add to cart, set "min quantity" as quantity on shop and archives pages.
      */
     public function AjaxAddtoCartWholesaleQuantity( $args, $product) {
-        $values  = $product->get_meta( 'smr_ws_limit');
+        $values = $product->get_meta( 'smr_ws_limit');
     
         if (empty( $values) == false && $this->userIsValid($values['qty_roles'])) {
             // Min value
@@ -332,7 +333,7 @@ class WholesaleSellLimit extends BaseController {
      * The quantity settings in action on front end (For variable productsand their variations).
      */
     public function filterWSAvailableVariationPrice( $data, $product, $variation) {
-        $values  = $product->get_meta( 'smr_ws_limit');
+        $values = $product->get_meta( 'smr_ws_limit');
     
         if (empty( $values) == false && $this->userIsValid($values['qty_roles'])) {
             if ( isset( $values['qty_min']) && $values['qty_min'] > 1) {
@@ -389,8 +390,8 @@ class WholesaleSellLimit extends BaseController {
         }
         
         if(isset($values['qty_roles']) && $this->userIsValid($values['qty_roles'])) {
-            $price_html = wc_format_sale_price(wc_get_price_to_display( $product, array('price' => $product->get_regular_price())), 
-                                               wc_get_price_to_display( $product, array('price' => $product->get_sale_price()))).$product->get_price_suffix();
+            $price_html = wc_format_sale_price(wc_get_price_to_display( $product, ['price' => $product->get_regular_price()]), 
+                                               wc_get_price_to_display( $product, ['price' => $product->get_sale_price()])).$product->get_price_suffix();
         }
 
         return $price_html;

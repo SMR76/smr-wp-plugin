@@ -10,7 +10,7 @@ use \Src\Base\BaseController;
 
 class CustomFooter extends BaseController{ 
     public function register() {
-        add_action( 'after_woodmart_footer_content', array($this, 'footerContent'));
+        add_action( 'after_woodmart_footer_content', [$this, 'footerContent']);
     }
     
     public function footerContent() {
@@ -24,7 +24,7 @@ class CustomFooter extends BaseController{
                 <img referrerpolicy="origin" src="https://Trustseal.eNamad.ir/logo.aspx?id=213194&amp;Code=ISG7iXEnj2oPNlwOlRVW" alt="" style="cursor:pointer; margin-top:15px auto; padding: 15px;" id="ISG7iXEnj2oPNlwOlRVW">
                 </a>
                 
-                <a href="https://<?php echo $_SERVER['SERVER_NAME'];?>" style="background-color: #ffffff87;border-radius: 15px;">
+                <a href="https://<?= $_SERVER['SERVER_NAME'];?>" style="background-color: #ffffff87;border-radius: 15px;">
                     <lottie-player id="HSG-lottie" src="https://hamtabiz.com/wp-content/uploads/2021/07/HSG-Lottie-Logo.json" background="transparent" speed="1" style="width: 136px; height: 136px;"></lottie-player>
                 </a>
                 

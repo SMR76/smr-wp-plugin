@@ -10,13 +10,15 @@ use \Src\Base\BaseController;
 
 class StickyButton extends BaseController {
     public function register() {
-        add_action( 'wp_footer', array($this, 'fixedInfoButton'));
+        add_action( 'wp_footer', [$this, 'fixedInfoButton']);
     }
 
     public function fixedInfoButton() {
-        $values = get_option('smr_settings_option_group');
-        $isActive = isset($values['activate_stickybutton']) ? $values['activate_stickybutton'] : '';
-        if ($isActive == false ||  is_admin() || (defined('DOING_AJAX') && DOING_AJAX)) {
+        $values = get_option('smr_config_option');
+        $stickyButton = $values['sticky_button'] ?? '';
+        $isActive = $stickyButton['active']  ??  false;
+
+        if ($isActive == false || is_admin() || (defined('DOING_AJAX') && DOING_AJAX)) {
             return;
         }
         // Bug: The WordPress admin bar will be in conflict if register style is relocated to the class register method.
@@ -25,29 +27,29 @@ class StickyButton extends BaseController {
 
         wp_enqueue_style ('smrStickyButtonStyle');
         wp_enqueue_script('smrStickyButtonScript');
-        
+
         //---------------------- sticky button html start ----------------------
         ?>
         <div id="smr-sticky-button">
-            <div id="contact-us" class="smr-sticky-button-option">
+            <div class="smr-sticky-button-option <?= $stickyButton['whatsapp_pinned'] ? "pinned" : "" ?>">
                 <span>
-                    <?php echo $values['stickybutton_wi'] ?? '';  ?>
+                    <?= $this->markdownaParser($stickyButton['whatsapp_info'] ?? '');  ?>
                 </span>
                 <div class="ico"><i class="fab fa-whatsapp" style="font-size: 17px;"></i></div>
             </div>
-            <div id="contact-us" class="smr-sticky-button-option">
+            <div class="smr-sticky-button-option <?= $stickyButton['call_pinned'] ? "pinned" : "" ?>">
                 <span>
-                    <?php echo $values['stickybutton_ci'] ?? '';  ?>            
+                    <?= $this->markdownaParser($stickyButton['call_info'] ?? '');  ?>            
                 </span>
                 <div class="ico"><i class="fas fa-mobile-alt"></i></div>
             </div>
-            <div id="our-works" class="smr-sticky-button-option">
+            <div class="smr-sticky-button-option <?= $stickyButton['insta_pinned'] ? "pinned" : "" ?>">
                 <span>
-                    <?php echo $values['stickybutton_ii'] ?? ''; ?>
+                    <?= $this->markdownaParser($stickyButton['insta_info'] ?? '') ?>
                 </span>
                 <div class="ico" ><i class="fab fa-instagram"></i></div>
             </div>
-            <div id="handbell" class="ico" onclick="toggle()">
+            <div id="handbell" class="ico">
                 <i class="fas fa-bell"></i>
             </div>
         </div>
