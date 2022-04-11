@@ -8,37 +8,37 @@ namespace Src\Api;
 use \Src\Base\BaseController;
 
 /**
- * Class RequestCallAjax
+ * Class SMS Contact Form Ajax
  */
-class RequestCallAjax extends BaseController {
+class SmsContactFormAjax extends BaseController {
     public function register() {
-        add_action('wp_ajax_nopriv_request_call', array($this, 'requestCallFormAjax')); // for non-logged in users
-        add_action('wp_ajax_request_call', array($this, 'requestCallFormAjax')); // for logged in users
+        add_action('wp_ajax_nopriv_sms_contact', [$this, 'smsContactFormAjax']); // for non-logged in users
+        add_action('wp_ajax_sms_contact', [$this, 'smsContactFormAjax']); // for logged in users
         
-        add_action('wp_ajax_remove_request_call', array($this, 'removeRequestCallAjax')); // for logged in users
+        add_action('wp_ajax_remove_sms_cform_number', [$this, 'removeSmsContactNumberAjax']); // for logged in users
 
-        wp_register_script('smrRequestForCall', $this->pluginUrl.'assets/js/request-call.js');
-
-        add_shortcode('request-call', [$this, 'shortCodeCallBack']); // add shortcode
+        add_shortcode('sms-contact-form', [$this, 'shortCodeCallBack']); // add shortcode
     }
 
     /**
-     * form shortcode
+     * @method shortCodeCallBack
+     * Create a shortcode for sms contact form.
      */
     public function shortCodeCallBack() {
-        wp_enqueue_script('smrRequestForCall');
+        wp_enqueue_script('smsContactForm', $this->pluginUrl.'assets/js/sms-contact-form.js');
         ob_start();
-        require_once("$this->pluginPath/templates/requestCallForm.php"); 
+        require_once("$this->pluginPath/templates/smsContactForm.php"); 
         $shortcodeContent = ob_get_contents();
         ob_clean();
         return $shortcodeContent;
     }
 
     /**
+     * @method removeSmsContactNumberAjax
      * admin page ajax
      */
-    public function removeRequestCallAjax() {
-        check_ajax_referer('remove_request_call_nonce', 'security'); // check nonce
+    public function removeSmsContactNumberAjax() {
+        check_ajax_referer('remove_sms_cform_number_nonce', 'security'); // check nonce
 
         $phoneNumbers = $_POST['phoneNumbers'] ?? []; // get phone numbers
         $clearAll = $_POST['clearAll'] ?? false;
@@ -72,10 +72,11 @@ class RequestCallAjax extends BaseController {
     }
 
     /**
-     * request call form ajax
+     * @method smsContactFormAjax
+     * sms contact form ajax
      */
-    public function requestCallFormAjax() {
-        check_ajax_referer('request_call_nonce', 'security'); // check nonce
+    public function smsContactFormAjax() {
+        check_ajax_referer('sms_contact_nonce', 'security'); // check nonce
 
         $name = esc_attr($_POST["name"] ?? "");
         $phoneNumber = $_POST["phone"] ?? "";
@@ -97,7 +98,7 @@ class RequestCallAjax extends BaseController {
             wp_die();
         }
 
-        $callList = get_option("smr_call_list", []); // get list of requested calls
+        $callList = get_option("smr_call_list", []); // get list of sms contact numbers
 
         if(isset($callList[$phoneNumber])) { 
             echo json_encode([
@@ -114,18 +115,23 @@ class RequestCallAjax extends BaseController {
         $callList[$phoneNumber] = [$name, time()];
         update_option("smr_call_list", $callList);
         
-        $optionGroup = get_option("smr_settings_option_group", []);
-        $smsUsername = $optionGroup["sms_username"] ?? "";
-        $smsPassword = $optionGroup["sms_password"] ?? "";
-        $smsID = $optionGroup["sms_id"] ?? "";
+        $optionGroup = get_option("smr_config_option", []);
+
+        $smsPanel = $optionGroup["sms_panel"] ?? []; // sms panel
+        $smsUsername = $smsPanel["sms_username"] ?? "";
+        $smsPassword = $smsPanel["sms_password"] ?? "";
+        $wsdlApi = $smsPanel["wsdl_api"] ?? "";
+        
+        $contactForm = $optionGroup["contact_form"]; // contact form
+        $smsID = $contactForm["sms_id"] ?? "";
 
         if($smsUsername && $smsPassword && $smsID) { // if sms settings are set
             // turn off the WSDL cache
             ini_set("soap.wsdl_cache_enabled", "0");
-            $smsClient = new \SoapClient('http://api.payamak-panel.com/post/send.asmx?wsdl', array('encoding'=>'UTF-8'));
+            $smsClient = new \SoapClient($wsdlApi, ['encoding'=>'UTF-8']);
     
             $parameters['username'] = $smsUsername; // username
-            $parameters['password'] = $smsPassword; // payamak panel password
+            $parameters['password'] = $smsPassword; // SMS panel password
             $parameters['to'] = $phoneNumber;
             $parameters['bodyId'] = $smsID; // sms id
             $parameters['text'] = $name;
@@ -139,4 +145,4 @@ class RequestCallAjax extends BaseController {
         ]);
         wp_die();
     }
-} 
+}

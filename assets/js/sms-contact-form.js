@@ -1,5 +1,5 @@
-window.onload = () => {
-    const form = jQuery('#request-call');
+document.addEventListener("DOMContentLoaded", () => {
+    const form = jQuery('#sms-contact-form');
     form.submit(function (event) {
         event.preventDefault();
 
@@ -21,7 +21,7 @@ window.onload = () => {
         });
         return false;
     });
-};
+});
 
 function alertFactory(text, type, parent, dir = 'ltr') {
     let element = jQuery(`<div class="col-12 mb-1"><div class="alert alert-${type}" style="direction: ${dir}">${text}</div></div>`);
