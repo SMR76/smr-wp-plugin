@@ -35,21 +35,22 @@
 }
 
 #smr-sticky-button .smr-sticky-button-option { 
-    margin:10px 0px;
     position: relative;
     display: flex;
     align-items: center;
     
     visibility: hidden;
     opacity: 0;
-    margin-bottom: -10px;
+    height: 0px;
 
-    transition-property: opacity, margin-bottom;
+    transition-property: opacity, margin-bottom, height;
     transition-duration: 0.5s;
 }
+#smr-sticky-button .smr-sticky-button-option.pinned,
 #smr-sticky-button .smr-sticky-button-option.active {
     visibility: visible;
     opacity: 1;
+    height: 50px;
     margin-bottom: 10px;
 }
 #smr-sticky-button .ico{
@@ -97,6 +98,18 @@
     box-shadow: 5px 8px 25px #0000002c;
     background-color: #eef1ff;
     color: #777777;
+}
+
+/* for sticky button message */
+#smr-sticky-button div span ul,
+#smr-sticky-button div span li,
+#smr-sticky-button div span h1,
+#smr-sticky-button div span h2,
+#smr-sticky-button div span h3,
+#smr-sticky-button div span h4,
+#smr-sticky-button div span h5,
+#smr-sticky-button div span h6 {
+    margin: 0;
 }
 
 @media only screen and (max-width: 480px) {    

@@ -1,15 +1,16 @@
 
 
-window.onload = () => {
-    if (jQuery("#activate_wholesale").is(':checked') == false)
-        jQuery("#ws-selected-roles").parent().parent().hide();
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("ws_active").onclick = function() {
+        const row = document.getElementById("ws_roles")?.parentElement?.parentElement;
+        row.style.display = this.checked ? "" : "none";
+    };
 
-    jQuery("#activate_wholesale").click(function() {
-        if ($(this).is(':checked'))
-            jQuery("#ws-selected-roles").parent().parent().show();
-        else
-            jQuery("#ws-selected-roles").parent().parent().hide();
-    });
+    document.getElementById("sticky_activate").onclick = function() {
+        document.getElementById("insta_info").disabled = !this.checked;
+        document.getElementById("call_info").disabled = !this.checked;
+        document.getElementById("whatsapp_info").disabled = !this.checked;
+    };
     
     const tabHeader = document.querySelectorAll(".tab-header li");
 
@@ -31,7 +32,7 @@ window.onload = () => {
     const security = document.getElementById('security').value;
     const action = document.getElementById('action').value;
     const referralUrl = document.getElementById('referralUrl').value;
-    const buttons = document.querySelectorAll('#request-call-list button');
+    const buttons = document.querySelectorAll('#sms-contact-list button');
 
     for(let button of buttons) {
         button.addEventListener('click', function() {
@@ -70,7 +71,7 @@ window.onload = () => {
                     if (button) {
                         jQuery(button.parentElement?.parentElement).fadeOut(500, function() { this.remove(); });
                     } else {
-                        const callList = document.getElementById('request-call-list');
+                        const callList = document.getElementById('sms-contact-list');
                         callList(...[...callList.children].slice(0,2));
                     }
                 } else {
@@ -79,4 +80,4 @@ window.onload = () => {
             }
         });
     }
-}
+});
