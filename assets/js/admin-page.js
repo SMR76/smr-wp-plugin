@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         jQuery(button.parentElement?.parentElement).fadeOut(500, function() { this.remove(); });
                     } else {
                         const callList = document.getElementById('sms-contact-list');
-                        callList(...[...callList.children].slice(0,2));
+                        callList.replaceChildren(...[...callList.children].slice(0,2));
                     }
                 } else {
                     alert(message);
