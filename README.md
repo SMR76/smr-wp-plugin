@@ -16,7 +16,7 @@
 
 ---
 
-## Description 
+## Description
 
 An all-in-one WordPress plugin with the following features:
 
@@ -29,6 +29,7 @@ An all-in-one WordPress plugin with the following features:
 - Custom sticky button with personalized link and message (minimal markdown supported).
 - Provided a small custom SMS panel that making use of WSDL API.
 - After user registration, an action is provided to send an SMS.
+- The ability to perform bulk actions on product attributes and prices.
 
 ## How to use
 - Clone the repository and place it in the plugins directory.<br>
@@ -39,8 +40,7 @@ An all-in-one WordPress plugin with the following features:
 - Done.
 
 ## TODO
-- The ability to perform bulk actions on product attributes, prices, and descriptions.
-
+- There is nothing to do for now.
 ## Dependencies
 - [PHP Composer](https://getcomposer.org/download/).
 

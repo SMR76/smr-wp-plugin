@@ -8,10 +8,10 @@ namespace Src\Api\Woocommerce;
 
 use Src\Base\BaseController;
 
-class ExteraRegistrationFields extends BaseController{
+class ExtraRegistrationFields extends BaseController{
     public function register() {
-        add_action('woocommerce_register_form', [$this,'woocommerceExteraRgeisterFields']);
-        add_action('woocommerce_created_customer', [$this,'woocommerceSaveExteraRegisterationFields']);
+        add_action('woocommerce_register_form', [$this,'woocommerceExtraRgeisterFields']);
+        add_action('woocommerce_created_customer', [$this,'woocommerceSaveExtraRegisterationFields']);
 
         //* custom column in users page.
         add_filter('manage_users_columns', [$this, 'manageUsersColumns']);
@@ -27,7 +27,7 @@ class ExteraRegistrationFields extends BaseController{
 
         $newColumn = ["smr_ws" => __("Cooperator", "smr-plugin")];
         $idx = count($columns) - 1;
-        
+
         //* insert custom column just before last column.
         return array_merge(array_slice($columns, 0, $idx),
                             $newColumn,
@@ -35,9 +35,9 @@ class ExteraRegistrationFields extends BaseController{
     }
 
     /**
-     * 
+     *
      */
-    public function manageUsersCustomColumn($output,$columnName,$userId) {        
+    public function manageUsersCustomColumn($output,$columnName,$userId) {
         switch ($columnName) {
             case 'smr_ws':
                 $wsRequest = get_the_author_meta('ws_request', $userId);
@@ -52,11 +52,11 @@ class ExteraRegistrationFields extends BaseController{
         }
         return $output;
     }
-    
+
     /**
-     * 
+     *
      */
-    public function woocommerceExteraRgeisterFields() {    
+    public function woocommerceExtraRgeisterFields() {
         ?>
             <p class="woocomerce-FormRow form-row">
                 <label for="reg_ws_request">
@@ -66,7 +66,7 @@ class ExteraRegistrationFields extends BaseController{
                 <small id="helpId" class="form-text text-muted">
                     <?= __( 'check it if you are a cooperator customer.','smr-plugin');?>
                 </small>
-            </p><!-- 
+            </p><!--
             <p class="woocomerce-FormRow form-row">
                 <label for="reg_company_name">
                     <?php //__( 'Wholesales Customer');?>
@@ -78,13 +78,13 @@ class ExteraRegistrationFields extends BaseController{
     }
 
     /**
-     * 
+     *
      */
-    public function woocommerceSaveExteraRegisterationFields( $customer_id ) {
+    public function woocommerceSaveExtraRegisterationFields( $customer_id ) {
         if(isset($_POST['ws_request']))
             update_user_meta($customer_id, 'ws_request', 'true');
 
-        // if ( isset( $_POST['ws_company_name'])) 
+        // if ( isset( $_POST['ws_company_name']))
         //     update_user_meta( $customer_id, 'ws_company_name','true');
     }
 }

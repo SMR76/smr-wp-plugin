@@ -12,7 +12,7 @@ use Src\Base\BaseController;
  * The conditional field was accompanied by a custom message following the field.
  * The message will be displayed when you check the checkbox.
  */
-class ExteraCheckoutFields extends BaseController
+class ExtraCheckoutFields extends BaseController
 {
     public function register()
     {
@@ -61,7 +61,7 @@ class ExteraCheckoutFields extends BaseController
     }
 
     /**
-     * 
+     *
      */
     public function exteraCheckoutFields($checkout) {
         $options = get_option('smr_config_option');

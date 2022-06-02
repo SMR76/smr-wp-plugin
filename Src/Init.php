@@ -5,27 +5,28 @@
 
 namespace Src;
 
-use \Src\Pages\Admin;
+use \Src\Pages;
 use \Src\Base;
 use \Src\Elements;
 use \Src\Api;
 use \Src\Api\Woocommerce;
 
 /**
- * 
+ *
  */
 
 class Init {
     public static function getService() {
         return [
-            Admin::class,
+            Pages\Admin::class,
+            Pages\BulkActions::class,
+            Pages\BulkActionsAjax::class,
             Base\Enqueue::class,
             Base\SettingLinks::class,
             Elements\StickyButton::class,
-            Elements\CustomFooter::class,
             Woocommerce\WholesaleSellLimit::class,
-            Woocommerce\ExteraCheckoutFields::class,
-            Woocommerce\ExteraRegistrationFields::class,
+            Woocommerce\ExtraCheckoutFields::class,
+            Woocommerce\ExtraRegistrationFields::class,
             Woocommerce\ShippingRate::class,
             Woocommerce\ConditionalCOD::class,
             Api\SmsContactFormAjax::class,

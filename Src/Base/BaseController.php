@@ -20,7 +20,7 @@ class BaseController {
      * Just for debug.
      */
     function log(string $input) {
-        file_put_contents($this->pluginPath."/log.text", "--".date(DATE_RFC822)."--".$input."\n", FILE_APPEND);
+        file_put_contents($this->pluginPath."/log.text", "--".date(DATE_RFC822)."--\n".$input."\n", FILE_APPEND);
     }
 
     function markdownaParser(string $markdownText): string {
@@ -34,15 +34,15 @@ class BaseController {
         $markdownText = preg_replace("/\*\*(.+?)\*\*/", "<strong>$1</strong>", $markdownText); // h5
         $markdownText = preg_replace("/\*(.+?)\*/", "<em>$1</em>", $markdownText); // h5
         preg_match("/^(\s*([-\+\*]\s.+\n?)+)$/m", $markdownText, $matches);
-        
+
         foreach($matches as $list) {
             $htmlList = preg_replace("/^\s*[-\+\*]\s(.+\n?)$/m", "<li>$1</li>", $list);
             $markdownText = str_replace($list, "<ul>$htmlList</ul>", $markdownText);
-        } 
-    
+        }
+
         $markdownText = preg_replace("/(?<=[\w\s\.])\n/", "<br>", $markdownText); // line break
         $markdownText = preg_replace("/\n/", "", $markdownText); // line break
-        
+
         return trim($markdownText);
     }
 }
