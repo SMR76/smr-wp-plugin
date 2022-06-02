@@ -3,22 +3,23 @@
  * @package smr plugin
  */
 
-namespace Src\Api;
+namespace Src\Pages;
 
 use \Src\Base\BaseController;
 
-class Functions extends BaseController {
+class AdminFunctions extends BaseController {
     private $cssDirection = "ltr";
 
     public function __construct() {
         parent::__construct();
         $this->cssDirection = is_rtl() ? "rtl" : "ltr";
     }
+
     /**
      * admin setting page (general page)
      */
     public function adminGeneralPage() {
-        return require_once($this->pluginPath."/templates/adminPage.php"); 
+        return require_once($this->pluginPath."/templates/adminPage.php");
     }
 
     /**
@@ -39,7 +40,7 @@ class Functions extends BaseController {
     }
 
     public function checkoutSection() {
-        _e('checkout settings.','smr-plugin');
+        _e('Checkout settings.','smr-plugin');
     }
 
     public function contactFormSection() {
@@ -60,21 +61,21 @@ class Functions extends BaseController {
      */
     public function activateWholesale() {
         $values = get_option('smr_config_option');
-        $wholesale = $values['wholesale'];        
-        ?> 
-        <input id="ws_active" type='checkbox' value="checked" name='smr_config_option[wholesale][active]' <?= $wholesale['active'] ?>> 
+        $wholesale = $values['wholesale'];
+        ?>
+        <input id="ws_active" type='checkbox' value="checked" name='smr_config_option[wholesale][active]' <?= $wholesale['active'] ?>>
         <?php
     }
-    
+
     public function wholesaleRolesInput() {
         global $wp_roles;
         $allRoleNames = $wp_roles->get_names();
-        
+
         $values = get_option('smr_config_option');
         $wholesale = $values['wholesale'];
         $wsRoles = $wholesale['roles'] ?? "";
         $wsDisplay = $wholesale['active'] ? "initial" : "none";
-        
+
         $dropdown = "<select name='smr_config_option[wholesale][roles][]' id='ws_roles' multiple style='display:$wsDisplay'>";
         foreach($allRoleNames as $roles ) {
             $dropdown .= "<option value='$roles' ".selected(in_array($roles, $wsRoles),true,false).">$roles</option>";
@@ -82,7 +83,6 @@ class Functions extends BaseController {
         $dropdown .= '</select>';
         echo $dropdown;
     }
-
 
     // ---------------------- sms panel -----------------------------
     /**
@@ -98,19 +98,19 @@ class Functions extends BaseController {
 
         ?>
         <input id="sms_username" name="smr_config_option[sms_panel][sms_username]" style="direction: ltr;"
-            placeholder="<?= __("sms username" ,"smr-plugin")?>" 
+            placeholder="<?= __("sms username" ,"smr-plugin")?>"
             type="text" class="regular-text" value="<?= $username;?>">
-                
+
         <input id="sms_password" name="smr_config_option[sms_panel][sms_password]" style="direction: ltr;"
-            placeholder="<?= __("sms password" ,"smr-plugin")?>" 
+            placeholder="<?= __("sms password" ,"smr-plugin")?>"
             type="text" class="regular-text" value="<?= $password;?>">
-            
+
         <p class="form-field hint">
             <?= __("The values of these inputs are utilized for all SMS actions.","smr-plugin") ?>
         </p>
-        
+
         <input id="sms_password" name="smr_config_option[sms_panel][wsdl_api]" style="direction: ltr;"
-            placeholder="<?= __("WSDL api url" ,"smr-plugin")?>" 
+            placeholder="<?= __("WSDL api url" ,"smr-plugin")?>"
             type="text" class="large-text" value="<?= $wsdlApi ?>">
         <p class="form-field hint">
             <?= __("This plugin communicates with WSDL api service through PHP soap api,
@@ -126,12 +126,15 @@ class Functions extends BaseController {
         $values = get_option('smr_config_option');
         $checkout = $values['checkout'] ?? [];
         ?>
-        <input id="active_checkout" type='checkbox' value="checked" name='smr_config_option[checkout][billing_field_active]' <?= $checkout['billing_field_active'] ?>> 
+        <label class="d-block">
+            <input id="active_checkout" type='checkbox' value="checked" name='smr_config_option[checkout][billing_field_active]' <?= $checkout['billing_field_active'] ?>>
+            <?= __("Activate checkout field", "smr-plugin") ?>
+        </label> <br>
         <textarea id="checkout_msg" name="smr_config_option[checkout][billing_field_message]"
             class="large-text code" style="direction: <?= $this->cssDirection ?>; height: 120px;" markdown
             placeholder="<?= __("Message for conditional checkout field..","smr-plugin")?>"><?= esc_attr($checkout['billing_field_message'] ?? '');?></textarea>
         <?php
-    } 
+    }
     /**
      * callback function.
      * input for free shipping cities.
@@ -140,7 +143,7 @@ class Functions extends BaseController {
         $values = get_option('smr_config_option');
         $checkout = $values["checkout"] ?? [];
         $freeShippingCities = $checkout['free_ship_cities'] ?? "";
-        
+
         ?>
         <input id='free_ship_cities' name='smr_config_option[checkout][free_ship_cities]'
                 type="text" class="regular-text" value="<?= $freeShippingCities;?>" tagged
@@ -156,10 +159,10 @@ class Functions extends BaseController {
      * input for cash on delivery cities.
      */
     public function codCitiesInput() {
-        $values = get_option('smr_config_option');  
-        $checkout = $values["checkout"] ?? [];      
+        $values = get_option('smr_config_option');
+        $checkout = $values["checkout"] ?? [];
         $codCities = $checkout['cod_cities'] ?? "";
-        
+
         ?>
         <input id="cod_cities" name="smr_config_option[checkout][cod_cities]"
                 type="text" class="regular-text" value="<?= $codCities;?>" tagged
@@ -178,7 +181,7 @@ class Functions extends BaseController {
 
         ?>
         <input id="sms_id" name="smr_config_option[contact_form][sms_id]" style="direction: ltr; width: 80px;"
-            pattern="\d+" placeholder=<?= __("sms ID" ,"smr-plugin") ?> 
+            pattern="\d+" placeholder=<?= __("sms ID" ,"smr-plugin") ?>
             type="text" class="regular-text" value="<?= $id;?>">
         <?php
     }
@@ -191,16 +194,16 @@ class Functions extends BaseController {
     public function afterRegistrationMessage() {
         $values = get_option('smr_config_option');
         $userActionSettings = $values['user_actions'] ?? [];
-        
+
         $smsID = $userActionSettings['sms_id'] ?? "";
         $smsParams = $userActionSettings['sms_param'] ?? "";
-        
+
         ?>
         <input id="after_reg_msg_id" name="smr_config_option[user_actions][sms_id]"
             placeholder="<?= __("sms ID" ,"smr-plugin") ?>" style="direction: ltr;width: 80px"
             type="text" class="small-text" value="<?= $smsID;?>">
         <input id="after_reg_msg_param" name="smr_config_option[user_actions][sms_param]" style="direction: ltr;"
-            placeholder="<?= __("SMS parameters separated by a semicolon, for example, XXX;YYY;ZZZ." ,"smr-plugin") ?>" 
+            placeholder="<?= __("SMS parameters separated by a semicolon, for example, XXX;YYY;ZZZ." ,"smr-plugin") ?>"
             type="text" class="regular-text" value="<?= $smsParams;?>">
         <p class="form-field hint">
             <?= __("
@@ -215,8 +218,9 @@ class Functions extends BaseController {
     public function activateStickyButton() {
         $values = get_option('smr_config_option');
         $stickyButton = $values['sticky_button'] ?? [];
+        $enabled = $stickyButton['active'] ? "checked" : "";
         ?>
-        <input id="sticky_activate" value="checked" type='checkbox' name='smr_config_option[sticky_button][active]' <?= $stickyButton['active'] ?>> 
+        <input id="sticky_activate" value="checked" type='checkbox' name='smr_config_option[sticky_button][enabled]' <?= $enabled ?>>
         <?php
     }
 
@@ -225,22 +229,8 @@ class Functions extends BaseController {
      * input for sticky button instagram info.
      */
     public function stickyButtonInstaInfo() {
-        $values = get_option('smr_config_option');
-        $stickyButton = $values['sticky_button'] ?? [];
-        $instaInfo = $stickyButton['insta_info'] ?? "";
-        $instaPin = $stickyButton['insta_pinned'] ?? "";
-
-        if(empty($instaInfo)) {
-            $instaInfo = '**Follow my work at: [Instagram](https://www.instagram.com/s_m_r76/)**.';
-        }
-        
-        ?>
-        <span>pin this button</span>
-        <input type='checkbox' value="checked" name='smr_config_option[sticky_button][insta_pinned]' <?= $instaPin ?>> 
-        <textarea id="insta_info" name="smr_config_option[sticky_button][insta_info]"
-            class="large-text code" style="direction: <?= $this->cssDirection ?>;" markdown
-            placeholder="<?= __("enter sticky button instagram info","smr-plugin")?>"><?= esc_attr($instaInfo);?></textarea>
-        <?php
+        $default = '**Follow my work at: [Instagram](https://www.instagram.com/s_m_r76/)**.';
+        $this->stickyButton("instagram", $default);
     }
 
     /**
@@ -248,25 +238,10 @@ class Functions extends BaseController {
      * input sticky button call info.
      */
     public function stickyButtonCallInfo() {
-        $values = get_option('smr_config_option');
-        $stickyButton = $values['sticky_button'] ?? [];
-        $callInfo = $stickyButton['call_info'] ?? "";
-        $callPin = $stickyButton['call_pinned'] ?? "";
-        
-        if(empty($callInfo)) {
-            $callInfo = 
-'**Your call info goes here (*minimal markdown supported*)**
-+ phone number 1: [0123 456 7890](tel:+981234567890).
-+ phone number 2: [0123 456 7890](tel:+981234567890).';;
-        }
-        
-        ?>
-        <span>pin this button</span>
-        <input type='checkbox' value="checked" name='smr_config_option[sticky_button][call_pinned]' <?= $callPin ?>>
-        <textarea id="call_info" name="smr_config_option[sticky_button][call_info]"
-            class="large-text code" style="direction: <?= $this->cssDirection ?>; height: 120px;" markdown
-            placeholder="<?= __("enter sticky button calls info.","smr-plugin")?>"><?= esc_attr($callInfo);?></textarea>
-        <?php
+        $default = '**Your call info text goes here (*minimal markdown supported*)**<br>'.
+                   '+ phone number 1: [0123 456 7890](tel:+981234567890).<br>'.
+                   '+ phone number 2: [0123 456 7890](tel:+981234567890).';
+        $this->stickyButton("call", $default);
     }
 
     /**
@@ -274,24 +249,46 @@ class Functions extends BaseController {
      * input sticky button call info.
      */
     public function stickyButtonWhatsAppInfo() {
+        $default = '**Your WhatsApp info text goes here (*minimal markdown supported*)**<br>'.
+                   '+ phone number 1: [0123 456 7890](https://wa.me/+981234567890).<br>'.
+                   '+ phone number 2: [0123 456 7890](https://wa.me/+981234567890).';
+        $this->stickyButton("whatsapp", $default);
+    }
+
+    public function stickyButton($name, $default = "") {
         $values = get_option('smr_config_option');
         $stickyButton = $values['sticky_button'] ?? [];
-        $whatsAppInfo = $stickyButton['whatsapp_info'] ?? "";
-        $whatsAppPin = $stickyButton['whatsapp_pinned'] ?? "";
+        $button = $stickyButton[$name] ?? [];
 
-        if(empty($whatsAppInfo)) {
-            $whatsAppInfo = 
-'**Your WhatsApp info goes here (*minimal markdown supported*)**
-+ phone number 1: [0123 456 7890](https://wa.me/+981234567890).
-+ phone number 2: [0123 456 7890](https://wa.me/+981234567890).';
-        }
-        
+        $text = $button['text'] ?? "";
+        $color = $button['color'] ?? "#ff2d49";
+        $pinned = isset($button['pinned']) ? "checked" : "";
+        $enabled = isset($button['enabled']) ? "checked" : "";
+        $iconAsLink = isset($button['iconAsLink']) ? "checked" : "";
+
+        $text = empty($text) ? $default : $text;
+
         ?>
-        <span>pin this button</span>
-        <input type='checkbox' value="checked" name='smr_config_option[sticky_button][whatsapp_pinned]' <?= $whatsAppPin ?>>
-        <textarea id="whatsapp_info" name="smr_config_option[sticky_button][whatsapp_info]"
+        <div class="st-box">
+            <span class="p-relative">
+                <i class="icon fi <?= $name ?>"></i>
+                <input type='color' value="<?= $color ?>" class="st-color" name='smr_config_option[sticky_button][<?= $name ?>][color]'>
+            </span>
+            <span>
+                <label>
+                    <input type='checkbox' value="1" name='smr_config_option[sticky_button][<?= $name ?>][pinned]' <?= $pinned ?> class="pin"> pin
+                </label>
+                <label>
+                    <input type='checkbox' value="1" name='smr_config_option[sticky_button][<?= $name ?>][enabled]' <?= $enabled ?>> enable
+                </label>
+                <label>
+                    <input type='checkbox' value="1" name='smr_config_option[sticky_button][<?= $name ?>][iconAsLink]' <?= $iconAsLink ?>> icon as link
+                </label>
+            </span>
+        </div>
+        <textarea id="<?= $name ?>_text" name="smr_config_option[sticky_button][<?= $name ?>][text]"
             class="large-text code" style="direction: <?= $this->cssDirection ?>; height: 120px;" markdown
-            placeholder="<?= __("enter sticky button whatsapp info.","smr-plugin")?>"><?= esc_attr($whatsAppInfo);?></textarea>
+            placeholder="<?= __("enter sticky $name button text.","smr-plugin")?>"><?= esc_attr($text);?></textarea>
         <?php
     }
 }

@@ -18,6 +18,7 @@
     wp_enqueue_style("simple-tag-input", $this->pluginUrl . '/assets/css/simple-tag-input.css');
     wp_enqueue_style("simple-markdown", $this->pluginUrl . '/assets/css/simple-markdown.css');
     wp_enqueue_style("bootstrap-grid", $this->pluginUrl . '/assets/css/bootstrap-grid.css');
+    wp_enqueue_style("custom-inputs", $this->pluginUrl . '/assets/css/custom-inputs.css');
     wp_enqueue_style("admin-page", $this->pluginUrl . '/assets/css/admin-page.css');
     ?>
 
@@ -48,7 +49,7 @@
             </div>
             <div id="sms-contact-list" class="tab-page container-fulid grid">
                 <div class="row head-row" style="flex-wrap: nowrap; justify-content: space-between; margin: 0; padding: 0 15px;">
-                    <div dir="ltr">short-code: 
+                    <div dir="ltr">short-code:
                         <code onclick="navigator.clipboard.writeText(this.innerHTML)">sms-contact-form</code>
                         <i>copied!</i>
                     </div>
@@ -104,7 +105,7 @@
                 }
                 ?>
             </div>
-            
+
             <div id="developer" class="tab-page">
                 <div class="container-fulid" dir="ltr">
                     <div class="row" style="padding: 5px;">

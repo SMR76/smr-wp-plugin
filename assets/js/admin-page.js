@@ -7,11 +7,11 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     document.getElementById("sticky_activate").onclick = function() {
-        document.getElementById("insta_info").disabled = !this.checked;
-        document.getElementById("call_info").disabled = !this.checked;
-        document.getElementById("whatsapp_info").disabled = !this.checked;
+        document.getElementById("instagram_text").disabled = !this.checked;
+        document.getElementById("call_text").disabled = !this.checked;
+        document.getElementById("whatsapp_text").disabled = !this.checked;
     };
-    
+
     const tabHeader = document.querySelectorAll(".tab-header li");
 
     for (const elem of tabHeader) {
@@ -45,14 +45,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const clearAll = document.getElementById('clearAll');
     clearAll.addEventListener('click', function() {
-        const data = {
-            action: action,
-            security: security,
-            clearAll: true
-        };
-        removeRowPost(referralUrl, data); // remove all rows if success (third arg is null)
+        if(confirm('Are you sure you want to clear all contacts?') == false) {
+            const data = {
+                action: action,
+                security: security,
+                clearAll: true
+            };
+            removeRowPost(referralUrl, data); // remove all rows if success (third arg is null)
+        }
     });
-    
+
     function removeRowPost(referralUrl, data, button = null) {
         jQuery.ajax({
             type: "POST",
@@ -66,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const message = response?.message;
                 const status = response?.status;
                 button?.classList.remove('loading');
-                
+
                 if (status == 'success') {
                     if (button) {
                         jQuery(button.parentElement?.parentElement).fadeOut(500, function() { this.remove(); });

@@ -7,14 +7,13 @@
 namespace Src\Pages;
 
 use \Src\Base\BaseController;
-use \Src\Api\Functions;
 
 class Admin extends BaseController{
     public $functions;
 
     function __construct() {
         parent::__construct();
-        $this->functions = new Functions();
+        $this->functions = new AdminFunctions();
     }
 
     public function register() {
@@ -72,7 +71,7 @@ class Admin extends BaseController{
 
         add_settings_field(
             'ws_roles',
-            __('wholesale valid roles','smr-plugin'),
+            __('wholesale default roles','smr-plugin'),
             [$this->functions, 'wholesaleRolesInput'],
             'smr_general_page',
             'smr_wholesale_section',
@@ -83,14 +82,14 @@ class Admin extends BaseController{
     /**
      * plugin options section fields.
      */
-    private function smsPanelOptionsField() {    
+    private function smsPanelOptionsField() {
         add_settings_section(
             'smr_sms_panel_section',
             '<hr>'.__('SMS panel settings','smr-plugin'),
             [$this->functions, 'smsPanelOptionSection'],
             'smr_general_page'
         );
-    
+
         add_settings_field(
             'sms_panel',
             __('SMS panel settings','smr-plugin'),
@@ -106,7 +105,7 @@ class Admin extends BaseController{
      * @li free shipping.
      * @li cash on delivery.
      */
-    private function checkoutSectionFields() {    
+    private function checkoutSectionFields() {
         add_settings_section(
             'smr_checkout_section',
             '<hr>'.__('Checkout Settings','smr-plugin'),
@@ -144,7 +143,7 @@ class Admin extends BaseController{
 
     /**
      * user actions section fields.
-     * @li SMS message after user register. 
+     * @li SMS message after user register.
      */
     private function contactFormSectionFields() {
         add_settings_section(
@@ -166,7 +165,7 @@ class Admin extends BaseController{
 
     /**
      * user actions section fields.
-     * @li SMS message after user register. 
+     * @li SMS message after user register.
      */
     private function userActionsSectionFields() {
         add_settings_section(
@@ -211,30 +210,30 @@ class Admin extends BaseController{
         );
 
         add_settings_field(
-            'insta_info',
+            'insta_text',
             __('set sticky button instagram info','smr-plugin'),
             [$this->functions, 'stickyButtonInstaInfo'],
             'smr_general_page',
             'smr_sticky_btn_section',
-            ['label_for' => 'insta_info']
+            ['label_for' => 'insta_text']
         );
 
         add_settings_field(
-            'call_info',
+            'call_text',
             __('set sticky button call info','smr-plugin'),
             [$this->functions, 'stickyButtonCallInfo'],
             'smr_general_page',
             'smr_sticky_btn_section',
-            ['label_for' => 'call_info']
+            ['label_for' => 'call_text']
         );
 
         add_settings_field(
-            'whatsapp_info',
+            'whatsapp_text',
             __('set sticky button whatsapp info','smr-plugin'),
             [$this->functions, 'stickyButtonWhatsAppInfo'],
             'smr_general_page',
             'smr_sticky_btn_section',
-            ['label_for' => 'whatsapp_info']
+            ['label_for' => 'whatsapp_text']
         );
     }
 }

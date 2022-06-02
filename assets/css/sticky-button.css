@@ -34,11 +34,11 @@
     100%{transform: rotate(0deg);}
 }
 
-#smr-sticky-button .smr-sticky-button-option { 
+#smr-sticky-button .smr-sticky-button-option {
     position: relative;
     display: flex;
     align-items: center;
-    
+
     visibility: hidden;
     opacity: 0;
     height: 0px;
@@ -57,7 +57,7 @@
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    
+
     background-color: #ff2d49;
     color: aliceblue;
     width: 50px; height: 50px;
@@ -89,7 +89,7 @@
     opacity: 0;
     transition: opacity 1s ease;
     transition-property: visibility ,opacity;
-    
+
     width: 350px;
     right: 60px;bottom: -5px;
     padding: 20px;
@@ -112,7 +112,7 @@
     margin: 0;
 }
 
-@media only screen and (max-width: 480px) {    
+@media only screen and (max-width: 480px) {
     #smr-sticky-button div span{
         position: fixed;
         width: 100vw;
@@ -140,7 +140,7 @@
     #smr-sticky-button {
         right: 15px; bottom: 15px;
     }
-    
+
     #smr-sticky-button #handbell{
         width: 45px; height: 45px;
     }
@@ -148,4 +148,26 @@
     #smr-sticky-button .ico{
         width: 45px; height: 45px;
     }
+}
+
+i.fi {
+    width: 17px;
+    height: 17px;
+    display: block;
+}
+
+i.fi.instagram:after {
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3Z'/%3E%3C/svg%3E");
+}
+
+i.fi.whatsapp:after {
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M12 2a10 10 0 0 0-8.6 14.9L2 22l5.3-1.4A10 10 0 1 0 12 2m0 1.7A8.2 8.2 0 1 1 7.9 19l-.2-.2-3.2.8.9-3-.2-.3a8.3 8.3 0 0 1 7-12.6M8.5 7.3a1 1 0 0 0-.6.3c-.3.3-.9.9-.9 2.1 0 1.2.9 2.4 1 2.6.1.1 1.8 2.6 4.3 3.7.5.3 1 .4 1.4.5.6.2 1 .2 1.5.1.5 0 1.5-.6 1.7-1.2.2-.5.2-1 .1-1.1l-.4-.3-1.7-.8c-.3-.1-.4-.1-.6.1l-.8 1c-.1.1-.3.2-.5 0-.3 0-1-.4-2-1.2a7.6 7.6 0 0 1-1.4-1.7c-.1-.3 0-.4.1-.5l.4-.5.3-.4v-.4l-.8-1.8c-.2-.5-.4-.5-.6-.5h-.5Z'/%3E%3C/svg%3E");
+}
+
+i.fi.call:after {
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M17 19H7V5h10m0-4H7a2 2 0 0 0-2 2v18a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Z'/%3E%3C/svg%3E");
+}
+
+i.fi.bell:after {
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M21 19v1H3v-1l2-2v-6a7 7 0 0 1 5-6.7V4a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.3a7 7 0 0 1 5 6.7v6l2 2m-7 2a2 2 0 0 1-2 2 2 2 0 0 1-2-2'/%3E%3C/svg%3E");
 }

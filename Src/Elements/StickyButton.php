@@ -16,7 +16,8 @@ class StickyButton extends BaseController {
     public function fixedInfoButton() {
         $values = get_option('smr_config_option');
         $stickyButton = $values['sticky_button'] ?? '';
-        $isActive = $stickyButton['active']  ??  false;
+
+        $isActive = $stickyButton['enabled']  ??  false;
 
         if ($isActive == false || is_admin() || (defined('DOING_AJAX') && DOING_AJAX)) {
             return;
@@ -29,31 +30,32 @@ class StickyButton extends BaseController {
         wp_enqueue_script('smrStickyButtonScript');
 
         //---------------------- sticky button html start ----------------------
-        ?>
+    ?>
         <div id="smr-sticky-button">
-            <div class="smr-sticky-button-option <?= $stickyButton['whatsapp_pinned'] ? "pinned" : "" ?>">
-                <span>
-                    <?= $this->markdownaParser($stickyButton['whatsapp_info'] ?? '');  ?>
-                </span>
-                <div class="ico"><i class="fab fa-whatsapp" style="font-size: 17px;"></i></div>
-            </div>
-            <div class="smr-sticky-button-option <?= $stickyButton['call_pinned'] ? "pinned" : "" ?>">
-                <span>
-                    <?= $this->markdownaParser($stickyButton['call_info'] ?? '');  ?>            
-                </span>
-                <div class="ico"><i class="fas fa-mobile-alt"></i></div>
-            </div>
-            <div class="smr-sticky-button-option <?= $stickyButton['insta_pinned'] ? "pinned" : "" ?>">
-                <span>
-                    <?= $this->markdownaParser($stickyButton['insta_info'] ?? '') ?>
-                </span>
-                <div class="ico" ><i class="fab fa-instagram"></i></div>
-            </div>
+    <?php
+        foreach(["instagram", "call", "whatsapp"] as $btnType) {
+            $button = $stickyButton[$btnType] ?? "";
+            $pinned = $button["pinned"] ? "pinned" : "";
+
+            if ($button['enabled'] == true) {
+                echo "<div class='smr-sticky-button-option $pinned'>";
+                if($button['iconAsLink'] == true) {
+                    echo "<a class='ico' href='$button[text]' style='background-color: $button[color]'>";
+                    echo "<i class='fi $btnType' style='font-size: 17px;'></i></a>";
+                } else  {
+                    echo "<span>".$this->markdownaParser($button['text'] ?? '')."</span>";
+                    echo "<div class='ico' style='background-color: $button[color]'>";
+                    echo "<i class='fi $btnType' style='font-size: 17px;'></i></div>";
+                }
+                echo "</div>";
+            }
+        }
+    ?>
             <div id="handbell" class="ico">
-                <i class="fas fa-bell"></i>
+                <i class="fi bell"></i>
             </div>
         </div>
-        <?php 
+    <?php
         //---------------------- sticky button html end ----------------------
     }
 }
