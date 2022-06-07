@@ -154,12 +154,12 @@ class Admin extends BaseController{
         );
 
         add_settings_field(
-            'after_reg_msg',
-            __('send SMS message after user registration','smr-plugin'),
+            'contact_form_sms_id',
+            __('send SMS message after contact form submition','smr-plugin'),
             [$this->functions, 'contactFormSmsId'],
             'smr_general_page',
             'smr_contact_form_section',
-            ['label_for' => 'after_reg_msg']
+            ['label_for' => 'contact_form_sms_id']
         );
     }
 
@@ -176,12 +176,12 @@ class Admin extends BaseController{
         );
 
         add_settings_field(
-            'after_reg_msg',
+            'after_reg_msg_id',
             __('send SMS message after user registration','smr-plugin'),
             [$this->functions, 'afterRegistrationMessage'],
             'smr_general_page',
             'smr_user_actions_section',
-            ['label_for' => 'after_reg_msg']
+            ['label_for' => 'after_reg_msg_id']
         );
     }
 

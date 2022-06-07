@@ -8,11 +8,11 @@ namespace Src\Pages;
 use \Src\Base\BaseController;
 
 class AdminFunctions extends BaseController {
-    private $cssDirection = "ltr";
+    private $cssDir = "ltr";
 
     public function __construct() {
         parent::__construct();
-        $this->cssDirection = is_rtl() ? "rtl" : "ltr";
+        $this->cssDir = is_rtl() ? "rtl" : "ltr";
     }
 
     /**
@@ -97,26 +97,31 @@ class AdminFunctions extends BaseController {
         $wsdlApi = $smsPanel['wsdl_api'] ?? '';
 
         ?>
-        <input id="sms_username" name="smr_config_option[sms_panel][sms_username]" style="direction: ltr;"
-            placeholder="<?= __("sms username" ,"smr-plugin")?>"
-            type="text" class="regular-text" value="<?= $username;?>">
-
-        <input id="sms_password" name="smr_config_option[sms_panel][sms_password]" style="direction: ltr;"
-            placeholder="<?= __("sms password" ,"smr-plugin")?>"
-            type="text" class="regular-text" value="<?= $password;?>">
+        <label>
+            SMS panel username:<br/>
+            <input id="sms_username" name="smr_config_option[sms_panel][sms_username]" placeholder="<?= __("sms username" ,"smr-plugin")?>"
+                type="text" class="regular-text ltr" value="<?= $username;?>">
+        </label><br/>
+        <label>
+            SMS panel password:<br/>
+            <input id="sms_password" name="smr_config_option[sms_panel][sms_password]" placeholder="<?= __("sms password" ,"smr-plugin")?>"
+                type="text" class="regular-text ltr" value="<?= $password;?>">
+        </label>
 
         <p class="form-field hint">
             <?= __("The values of these inputs are utilized for all SMS actions.","smr-plugin") ?>
         </p>
 
-        <input id="sms_password" name="smr_config_option[sms_panel][wsdl_api]" style="direction: ltr;"
-            placeholder="<?= __("WSDL api url" ,"smr-plugin")?>"
-            type="text" class="large-text" value="<?= $wsdlApi ?>">
+        <label>
+            WSDL API Url:<br/>
+            <input id="wsdl_api" name="smr_config_option[sms_panel][wsdl_api]" placeholder="<?= __("WSDL api url" ,"smr-plugin")?>"
+                type="text" class="large-text ltr" value="<?= $wsdlApi ?>">
+        </label>
         <p class="form-field hint">
-            <?= __("This plugin communicates with WSDL api service through PHP soap api,
-                which takes the above input to connect with api.", "smr-plugin") ?> <br>
-            <?= __("The SendByBaseNumber2 function is used to transmit parameters,
-                which include username, password, to, bodyId, and text.", "smr-plugin") ?>
+            <?= __("This plugin communicates with WSDL api service through PHP soap api,","smr-plugin") ?>
+            <?= __("which takes the above input to connect with api.", "smr-plugin") ?> <br>
+            <?= __("The SendByBaseNumber2 function is used to transmit parameters,","smr-plugin") ?> <br>
+            <?= __("which include username, password, to, bodyId, and text.", "smr-plugin") ?>
         </p>
         <?php
     }
@@ -131,7 +136,7 @@ class AdminFunctions extends BaseController {
             <?= __("Activate checkout field", "smr-plugin") ?>
         </label> <br>
         <textarea id="checkout_msg" name="smr_config_option[checkout][billing_field_message]"
-            class="large-text code" style="direction: <?= $this->cssDirection ?>; height: 120px;" markdown
+            class="large-text code <?= $this->cssDir ?>" style="height: 120px;" markdown
             placeholder="<?= __("Message for conditional checkout field..","smr-plugin")?>"><?= esc_attr($checkout['billing_field_message'] ?? '');?></textarea>
         <?php
     }
@@ -180,9 +185,9 @@ class AdminFunctions extends BaseController {
         $id = $contactForm['sms_id'] ?? "";
 
         ?>
-        <input id="sms_id" name="smr_config_option[contact_form][sms_id]" style="direction: ltr; width: 80px;"
+        <input id="contact_form_sms_id" name="smr_config_option[contact_form][sms_id]" style="width: 80px;"
             pattern="\d+" placeholder=<?= __("sms ID" ,"smr-plugin") ?>
-            type="text" class="regular-text" value="<?= $id;?>">
+            type="text" class="regular-text <?= $this->cssDir ?>" value="<?= $id ?>">
         <?php
     }
 
@@ -199,12 +204,18 @@ class AdminFunctions extends BaseController {
         $smsParams = $userActionSettings['sms_param'] ?? "";
 
         ?>
-        <input id="after_reg_msg_id" name="smr_config_option[user_actions][sms_id]"
-            placeholder="<?= __("sms ID" ,"smr-plugin") ?>" style="direction: ltr;width: 80px"
-            type="text" class="small-text" value="<?= $smsID;?>">
-        <input id="after_reg_msg_param" name="smr_config_option[user_actions][sms_param]" style="direction: ltr;"
-            placeholder="<?= __("SMS parameters separated by a semicolon, for example, XXX;YYY;ZZZ." ,"smr-plugin") ?>"
-            type="text" class="regular-text" value="<?= $smsParams;?>">
+        <label>
+            SMS ID:<br/>
+            <input id="after_reg_msg_id" name="smr_config_option[user_actions][sms_id]"
+                placeholder="<?= __("sms ID" ,"smr-plugin") ?>"
+                type="text" class="regular-text <?= $this->cssDir ?>" value="<?= $smsID;?>">
+        </label><br>
+        <label>
+            SMS Parameters:<br/>
+            <input name="smr_config_option[user_actions][sms_param]"
+                placeholder="<?= __("SMS parameters separated by a semicolon, for example, XXX;YYY;ZZZ." ,"smr-plugin") ?>"
+                type="text" class="regular-text <?= $this->cssDir ?>" value="<?= $smsParams;?>">
+        </label>
         <p class="form-field hint">
             <?= __("
                 Note: To work, this section uses the SMS panel settings section, which delivers input separated by a semicolon.<br/>
@@ -218,9 +229,15 @@ class AdminFunctions extends BaseController {
     public function activateStickyButton() {
         $values = get_option('smr_config_option');
         $stickyButton = $values['sticky_button'] ?? [];
-        $enabled = $stickyButton['active'] ? "checked" : "";
+        $enabled = $stickyButton['enabled'] ? "checked" : "";
         ?>
-        <input id="sticky_activate" value="checked" type='checkbox' name='smr_config_option[sticky_button][enabled]' <?= $enabled ?>>
+        <input id="sticky_activate" value="1" type='checkbox' name='smr_config_option[sticky_button][enabled]' <?= $enabled ?>>
+
+        <p class="form-field hint <?= $this->cssDir ?>">
+            <?= __('In this section you can configure text and color of sticky button and set wheater to enable or pin buttons.','smr-plugin') ?> <br>
+            <?= __('There is another option named "icon as link", if you check this option links in textarea goes set directly for button and no text shown for that button.','smr-plugin') ?> <br>
+            <?= __('To set links for multi platforms in "icon as link" you can use whaeter "desktop, mobile and tablet" or leave an empy name. (e.g. [desktop](https://linkForDesktop.com))','smr-plugin') ?>
+        </p>
         <?php
     }
 
@@ -287,7 +304,7 @@ class AdminFunctions extends BaseController {
             </span>
         </div>
         <textarea id="<?= $name ?>_text" name="smr_config_option[sticky_button][<?= $name ?>][text]"
-            class="large-text code" style="direction: <?= $this->cssDirection ?>; height: 120px;" markdown
+            class="large-text code <?= $this->cssDir ?>" style="height: 120px;" markdown
             placeholder="<?= __("enter sticky $name button text.","smr-plugin")?>"><?= esc_attr($text);?></textarea>
         <?php
     }

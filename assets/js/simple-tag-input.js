@@ -21,7 +21,7 @@ function smrSimpleTagInput() {
         fakeInput.setAttribute('type','text');
         fakeInput.setAttribute('fakeinput','');
         fakeInput.placeholder = input.placeholder ?? "";
-        
+
         fakeInput.addEventListener('keydown', function(e) {
             const trValue = this.value.trim();
             if( ['NumpadEnter','Tab','Space','Enter'].includes(e.code) && trValue.length) {
@@ -36,7 +36,7 @@ function smrSimpleTagInput() {
         })
 
         input.after(fakeInput);
-        
+
         if(input.value.trim().length) {
             let initVal = input.value.trim().split(',');
             for(let val of initVal) {
@@ -49,6 +49,6 @@ function smrSimpleTagInput() {
     }
 }
 
-window.addEventListener('load', () => {
+document.addEventListener("DOMContentLoaded", () => {
     smrSimpleTagInput(window.MultiselectDropdownOptions);
 });

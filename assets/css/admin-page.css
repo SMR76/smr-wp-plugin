@@ -15,9 +15,8 @@ form label[for] {
     text-align: justify;
 }
 
-.ltr {
-    direction: ltr;
-}
+.ltr { direction: ltr; }
+.rtl { direction: rtl; }
 
 .tab-view ul.tab-header {
     display: flex;

@@ -23,7 +23,7 @@ class ExtraRegistrationFields extends BaseController{
      */
     public function manageUsersColumns($columns) {
         //* enqueue custom css style.
-        wp_enqueue_style('smrUsersPage',$this->pluginUrl.'/assets/css/userspage.css');
+        wp_enqueue_style('smr-users-page',$this->pluginUrl.'/assets/css/users-page.css');
 
         $newColumn = ["smr_ws" => __("Cooperator", "smr-plugin")];
         $idx = count($columns) - 1;
