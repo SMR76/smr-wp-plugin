@@ -87,7 +87,8 @@ class BulkActionsFunctions extends BaseController {
         // add product prices to productsInfo
         foreach ($productsPriceArray as $productPrice) {
             if (isset($productsInfo[$productPrice->id])) {
-                $productsInfo[$productPrice->id][substr($productPrice->meta_key, 1)] = $productPrice->meta_value;
+                $value = @\unserialize($productPrice->meta_value)["url"]; //> in some cases, the value is not serialized
+                $productsInfo[$productPrice->id][substr($productPrice->meta_key, 1)] = $productPrice->meta_value ?? $value;
             }
         }
 
@@ -101,7 +102,7 @@ class BulkActionsFunctions extends BaseController {
         return $productsInfo;
     }
 
-    static function getWpTermTaxonomies() {
+    static function getWpTermTaxonomies(): array {
         return BulkActionsFunctions::arrayToAssociativeArray(BulkActionsFunctions::getWpTermTaxonomiesDbArray(), 'term_id');
     }
 

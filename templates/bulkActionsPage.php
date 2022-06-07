@@ -30,9 +30,12 @@ use \Src\Pages\BulkActionsAjax;
         <div class="row code ltr pb-5">
             <div class="col-1 p-0 pr-5">Variables:</div>
             <div id="variables" class="col-11 flex-wrap">
-                <label class="var" value="id">id</label><label class="var" value="url">url</label><label class="var" value="name">name</label>
-                <label class="var" value="regularPrice">regularPrice</label><label class="var" value="salePrice">salePrice</label>
-                <label class="var" value="taxonomies">taxonomies</label>
+                <label class="var" value="id">id(num)</label>
+                <label class="var" value="url">url(str)</label>
+                <label class="var" value="name">name(str)</label>
+                <label class="var" value="regularPrice">regularPrice(num)</label>
+                <label class="var" value="salePrice">salePrice(num)</label>
+                <label class="var" value="taxonomies">taxonomies(array)</label>
             </div>
         </div>
 
@@ -54,7 +57,9 @@ use \Src\Pages\BulkActionsAjax;
         <div class="row ltr pb-8"><div id="status" class="code"></div></div>
 
         <div class="row">
-            <div class="col-1">-</div>
+            <div class="col-1">
+                <input id="checkall" type="checkbox" alt="check all">
+            </div>
             <div class="col-11">
                 <div class="row">
                     <div class="col-1">#</div>

@@ -34,13 +34,11 @@
 .taxonomy {
     display: inline-block;
     padding: 2px 2px;
-    margin-left: 1px;
-    margin-right: 1px;
+    margin: 1px;
     border-radius: 4px;
     color: #00000099;
     border: 1px solid #62b5ff;
     background-color: #f1f8ff;
-    position: relative;
     cursor: pointer;
 }
 

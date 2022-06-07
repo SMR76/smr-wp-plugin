@@ -21,6 +21,15 @@ document.cookie = "SameSite=Strict; Secure";
 document.addEventListener("DOMContentLoaded", () => {
     const queryBox = document.getElementById("querybox");
     const taxonomies = document.getElementById("taxonomies");
+    const checkall = document.getElementById("checkall");
+
+    checkall.onclick = () => {
+        const productList = document.getElementById("productsList");
+        productList?.childNodes?.forEach(node => {
+            const checkbox = node?.children?.status?.children?.checkbox;
+            if(checkbox) checkbox.checked = checkall.checked
+        });
+    }
 
     queryBox.addEventListener('keyup', onQueryBoxChanged);
     initializeActionsEvent();
@@ -32,15 +41,27 @@ document.addEventListener("DOMContentLoaded", () => {
             return a + `<label class="var" value='"${ el[0] }"'>${ el[1].slug }(${ el[0] })</label>`;
         }, "");
 
+        statusLogger("Updating products html...", "info");
         sendCommand("getProducts").then((productsList) => {
             global.productList = productsList;
             updateProductsHtml(global.productList);
+            statusLogger("Updating products html done.", "info");
         });
 
         queryBox.removeAttribute("disabled");
         initialVarsEvent();
     });
 });
+
+/**
+ * @param {Event} event
+ */
+function onQueryBoxChanged(event) {
+    if(["Enter", "NumpadEnter", "Delete", "Backspace", "Tab", "Space"].includes(event.code)) {
+        event.target.rows = event.target.value.split(/\r\n|\r|\n/).length + 1;
+    }
+    runQuery(); //> Execute query on queryBox change.
+}
 
 function initialVarsEvent() {
     const queryBox = document.getElementById("querybox");
@@ -57,10 +78,12 @@ function refreshProducts() {
     const productsListElem = document.getElementById('productsList');
     productsListElem.innerHTML = '<div class="row"><div class="loader" style="margin: 10px auto;"></div></div>';
 
+    statusLogger("Updating products html...", "info");
     sendCommand("getProducts").then((productsList) => {
         global.modifiedProductsList = [];
         global.productList = productsList;
         updateProductsHtml(global.productList);
+        statusLogger("Updating products html done.", "info");
     });
 }
 
@@ -122,19 +145,10 @@ function statusLogger(text, type = "error", timeout = 6000) {
     timerId = setTimeout(() => statusElement.classList.remove("show"), timeout);
 }
 
-/**
- * @param {Event} event
- */
-function onQueryBoxChanged(event) {
-    if(["Enter", "NumpadEnter", "Delete", "Backspace", "Tab", "Space"].includes(event.code)) {
-        event.target.rows = event.target.value.split(/\r\n|\r|\n/).length + 1;
-    }
-    runQuery(); //> Execute query on queryBox change.
-}
-
 function runQuery() {
     const queryBox = document.getElementById("querybox");
     const query = queryBox.value;
+    global.modifiedProductsList = []; //> reset modified products list
 
     for(const pid in global.productList) {
         const productRow = document.querySelector(".row[pid='" + pid + "']") || {};
@@ -163,15 +177,20 @@ function queryExecuter(pid, query) {
     const product = global.productList[pid];
     const taxonomies = product.taxonomies || [];
 
+    if(!product || !product.hasOwnProperty("regular_price") || !product.hasOwnProperty("price")
+                || !product.hasOwnProperty("post_name") || !product.hasOwnProperty("guid")) {
+        return {};
+    }
+
     let result = {};
     let sprice, rprice, txnmy;
 
     try {
         const queryFunction = new Function( "id", "name", "url", "regularPrice", "salePrice", "taxonomies", query + ";return [regularPrice,salePrice,taxonomies];");
-        [rprice,sprice,txnmy] = queryFunction(pid, product.name, product.guid,
-                                              parseInt(product.regular_price),
-                                              parseInt(product.price),
-                                              [...taxonomies]);
+        [rprice,sprice,txnmy] = queryFunction(pid, product.post_name, product.guid,
+                                            parseInt(product.regular_price),
+                                            parseInt(product.price),
+                                            [...taxonomies]);
         txnmy = [...new Set(txnmy)]; //> Remove duplicates
     } catch (e) {
         statusLogger(`ProductID: ${ pid }<br>${ e }`);
@@ -290,9 +309,7 @@ function taxonomiesHtml(tid) {
         const hexColor = taxonomy.meta_key == "color" ? taxonomy.meta_value : "#ffffff";
         const colorTheme = getContrast(hexColor) > 125 ? "light" : "dark";
         const style = taxonomy.meta_key == "color" ? `style="background-color:${ taxonomy.meta_value }"` : "";
-        const image = taxonomy.meta_key == "image" ? `<img src="${ taxonomy.meta_value }"/>` : "";
-        const tooltip = `<div class="tooltip">${ image }<span>${ tid }<br>${ taxonomy.name }<br>${ taxonomy.slug }</span></div>`;
-        return `<span class="taxonomy ${ colorTheme }" ${ style }>${ tooltip + taxonomy.name }</span>`;
+        return `<span class="taxonomy ${ colorTheme }" ${ style }>${ taxonomy.name }</span>`;
     }
 }
 
@@ -325,7 +342,7 @@ function setRowLoading(pid, enable = true) {
 /**
  * @param {Array} productsList
  */
-function updateProductsHtml(productsList) {
+async function updateProductsHtml(productsList) {
     const productsListElem = document.getElementById('productsList');
     const modifiedProductsList = global.modifiedProductsList;
 
@@ -334,7 +351,7 @@ function updateProductsHtml(productsList) {
     for(const [id, product] of Object.entries(productsList)) {
         const postName = decodeURI(product.post_name);
         const productUrl = decodeURI(product.guid);
-        const productName = `<a href="${ productUrl }/&action=edit">${ postName }</a>`;
+        const productName = `<a href="${ productUrl }">${ postName }</a><br><a href="/wp-admin/post.php?post=${id}&action=edit">edit</a>`;
         const price = priceHtml(product.regular_price, product.price);
         const _taxonomies = product.taxonomies || [];
         const taxonomies = _taxonomies.map(tid => taxonomiesHtml(tid)).join("");
