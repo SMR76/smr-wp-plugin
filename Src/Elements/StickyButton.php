@@ -29,7 +29,7 @@ class StickyButton extends BaseController {
         wp_enqueue_style ('smrStickyButtonStyle');
         wp_enqueue_script('smrStickyButtonScript');
 
-        //---------------------- sticky button html start ----------------------
+    //---------------------- sticky button html start ----------------------
     ?>
         <div id="smr-sticky-button">
     <?php
@@ -38,14 +38,16 @@ class StickyButton extends BaseController {
             $pinned = $button["pinned"] ? "pinned" : "";
 
             if ($button['enabled'] == true) {
-                echo "<div class='smr-sticky-button-option $pinned'>";
+                echo "<div class='sticky-option $pinned'>";
+                echo "<div class='ico' style='background-color: $button[color]'>";
+                echo "<i class='fi $btnType' style='font-size: 17px;'></i></div>";
                 if($button['iconAsLink'] == true) {
-                    echo "<a class='ico' href='$button[text]' style='background-color: $button[color]'>";
-                    echo "<i class='fi $btnType' style='font-size: 17px;'></i></a>";
+                    @preg_match_all("/\[\w*\]\(\S*?\)/", $button['text'], $matches);
+                    foreach($matches[0] as $match) {
+                        echo @preg_replace("/\[(\w*)\]\((\S*)\)/", "<a href='$2' class='$1' target='_blank'></a>", $match); // link
+                    }
                 } else  {
                     echo "<span>".$this->markdownaParser($button['text'] ?? '')."</span>";
-                    echo "<div class='ico' style='background-color: $button[color]'>";
-                    echo "<i class='fi $btnType' style='font-size: 17px;'></i></div>";
                 }
                 echo "</div>";
             }
@@ -56,7 +58,7 @@ class StickyButton extends BaseController {
             </div>
         </div>
     <?php
-        //---------------------- sticky button html end ----------------------
+    //---------------------- sticky button html end ----------------------
     }
 }
 ?>

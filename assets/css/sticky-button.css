@@ -6,7 +6,7 @@
     z-index: 99;
 }
 
-#smr-sticky-button #handbell{
+#smr-sticky-button #handbell {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -15,26 +15,26 @@
     border-radius: 50%;
 }
 
-#smr-sticky-button #handbell i{
-    animation: smr-handbell-shake 3s infinite ;
+#smr-sticky-button #handbell i {
+    animation: shake-anim 3s infinite ;
     transform-origin: 50% 0 ;
 }
 
-@keyframes smr-handbell-shake {
-    0%{transform: rotate(0deg);}
-    10%{transform: rotate(25deg);}
-    20%{transform: rotate(-25deg);}
-    25%{transform: rotate(25deg);}
-    30%{transform: rotate(-25deg);}
-    34%{transform: rotate(25deg);}
-    38%{transform: rotate(-25deg);}
-    42%{transform: rotate(25deg);}
-    45%{transform: rotate(-25deg);}
-    50%{transform: rotate(0deg);}
-    100%{transform: rotate(0deg);}
+@keyframes shake-anim {
+    0% { transform: rotate(0deg); }
+    10% { transform: rotate(25deg); }
+    20% { transform: rotate(-25deg); }
+    25% { transform: rotate(25deg); }
+    30% { transform: rotate(-25deg); }
+    34% { transform: rotate(25deg); }
+    38% { transform: rotate(-25deg); }
+    42% { transform: rotate(25deg); }
+    45% { transform: rotate(-25deg); }
+    50% { transform: rotate(0deg); }
+    100% { transform: rotate(0deg); }
 }
 
-#smr-sticky-button .smr-sticky-button-option {
+#smr-sticky-button .sticky-option {
     position: relative;
     display: flex;
     align-items: center;
@@ -43,17 +43,19 @@
     opacity: 0;
     height: 0px;
 
-    transition-property: opacity, margin-bottom, height;
+    transition-property: visibility, opacity, height, margin-bottom;
     transition-duration: 0.5s;
 }
-#smr-sticky-button .smr-sticky-button-option.pinned,
-#smr-sticky-button .smr-sticky-button-option.active {
+
+#smr-sticky-button .sticky-option.pinned,
+#smr-sticky-button .sticky-option.active {
     visibility: visible;
     opacity: 1;
     height: 50px;
     margin-bottom: 10px;
 }
-#smr-sticky-button .ico{
+
+#smr-sticky-button .ico {
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -67,49 +69,37 @@
     overflow: visible;
     box-shadow: 3px 3px 25px #00000060;
 }
-#smr-sticky-button .ico::after{
+
+#smr-sticky-button .ico::after {
     position: absolute;
     width: 45px; height: 45px;
     border-radius: 50%;
     border: 4px solid #ffffff;
     content: '';
     opacity: 0%;
-    transition-property: width,height,opacity;
+    transition-property: width, height, opacity;
     transition-duration: 0.5s;
 }
-#smr-sticky-button .ico:hover::after{
+
+#smr-sticky-button .sticky-option:hover .ico::after {
     width: 35px; height: 35px;
     opacity: 35%;
 }
-#smr-sticky-button div span{
+#smr-sticky-button .sticky-option span {
     position: absolute;
     text-align: justify;
     font-weight: bold;
     visibility: hidden;
     opacity: 0;
-    transition: opacity 1s ease;
-    transition-property: visibility ,opacity;
-
     width: 350px;
-    right: 60px;bottom: -5px;
+    right: calc(100% + 15px);
+    bottom: -5px;
     padding: 20px;
-    border-radius: 10px;
-
-    box-shadow: 5px 8px 25px #0000002c;
-    background-color: #eef1ff;
-    color: #777777;
-}
-
-/* for sticky button message */
-#smr-sticky-button div span ul,
-#smr-sticky-button div span li,
-#smr-sticky-button div span h1,
-#smr-sticky-button div span h2,
-#smr-sticky-button div span h3,
-#smr-sticky-button div span h4,
-#smr-sticky-button div span h5,
-#smr-sticky-button div span h6 {
-    margin: 0;
+    border-radius: 5px;
+    background-color: #0005;
+    color: #ffffff;
+    transition-duration: 0.3s;
+    transition-property: bottom, visibility ,opacity;
 }
 
 @media only screen and (max-width: 480px) {
@@ -118,37 +108,64 @@
         width: 100vw;
         padding-right: 76px;
         right: 0;
-        bottom: 0;
         z-index: -1;
         border-radius:0px;
-        background-color: #ffffff;
+        background-color: #000000;
     }
 }
 
 #smr-sticky-button div:hover span{
     visibility: visible;
+    bottom: 0px;
     opacity: 1;
 }
 
-#smr-sticky-button a{
+/* for sticky button message */
+#smr-sticky-button span ul,
+#smr-sticky-button span li,
+#smr-sticky-button span h1,
+#smr-sticky-button span h2,
+#smr-sticky-button span h3,
+#smr-sticky-button span h4,
+#smr-sticky-button span h5,
+#smr-sticky-button span h6 {
+    margin: 0;
+}
+
+
+#smr-sticky-button .sticky-option > a {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+#smr-sticky-button .sticky-option > a.desktop,
+#smr-sticky-button .sticky-option > a.mobile,
+#smr-sticky-button .sticky-option > a.tablet {
+    display: none;
+}
+
+#smr-sticky-button span a {
     text-decoration: none;
     text-align: unset;
     color: #ff2d49;
+    padding: 0 5px;
+    font-size: 0.9em;
+    border-radius: 3px;
+    background-color: #fff;
 }
+
+#smr-sticky-button span a:hover { background-color: #eee; }
 
 @media screen and (max-width: 1024px) {
-    #smr-sticky-button {
-        right: 15px; bottom: 15px;
-    }
-
-    #smr-sticky-button #handbell{
-        width: 45px; height: 45px;
-    }
-
-    #smr-sticky-button .ico{
-        width: 45px; height: 45px;
-    }
+    #smr-sticky-button #handbell { width: 45px; height: 45px; }
+    #smr-sticky-button .ico { width: 45px; height: 45px; }
+    #smr-sticky-button { right: 15px; bottom: 15px; }
 }
+
+@media screen and (max-width: 768px) { #smr-sticky-button .sticky-option > a.mobile { display: block; } }
+@media screen and (min-width: 768px) and (max-width: 1024px) { #smr-sticky-button .sticky-option > a.tablet { display: block; } }
+@media screen and (min-width: 1024px) { #smr-sticky-button .sticky-option > a.desktop { display: block; } }
 
 i.fi {
     width: 17px;
