@@ -16,6 +16,16 @@ String.prototype.replaceRange = function (start, end, target) {
     return this.slice(0, start) + target + this.slice(end);
 }
 
+/**
+ * @param {*} target
+ * @returns {Array}
+ */
+Array.prototype.remove = function (target) {
+    const index = this.indexOf(target);
+    if(index > -1) this.splice(index, 1);
+    return this;
+}
+
 document.cookie = "SameSite=Strict; Secure";
 
 document.addEventListener("DOMContentLoaded", () => {

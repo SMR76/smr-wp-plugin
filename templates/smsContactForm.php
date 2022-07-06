@@ -28,14 +28,29 @@
     .mb-1 {
         margin-bottom: 5px;
     }
+
+    #sms-contact-form {
+        background-position: center;
+        background-repeat: repeat-x;
+        align-items: flex-end;
+        justify-content: center;
+    }
+
+    #sms-contact-form input[type="text"] {
+        background-color: #fff9;
+    }
 </style>
-<?php 
+<?php
     $currentUser = wp_get_current_user();
     $phoneNumber = $currentUser->get('billing_phone') ?? "";
     $name = $currentUser->get('first_name') . " " . $currentUser->get('last_name');
+
+    $values = get_option('smr_config_option');
+    $contactForm = $values['contact_form'] ?? '';
+    $backgroundImageUrl = $contactForm['back_image'];
 ?>
 
-<form id="sms-contact-form" action="" method="post" class="row" style="align-items: flex-end; justify-content: center;">
+<form id="sms-contact-form" action="" method="post" class="row" style="background-image: url(<?= $backgroundImageUrl ?>);">
     <p class="col-12">
         <?= __("Enter your phone number, and we'll call you as soon as we can.", 'smr-plugin'); ?>
     </p>

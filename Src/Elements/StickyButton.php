@@ -16,8 +16,15 @@ class StickyButton extends BaseController {
     public function fixedInfoButton() {
         $values = get_option('smr_config_option');
         $stickyButton = $values['sticky_button'] ?? '';
+        $isActive = $stickyButton['enabled'] ?? false;
 
-        $isActive = $stickyButton['enabled']  ??  false;
+        $pos = $stickyButton["pos"];
+        $xoff = $stickyButton["xoffset"];
+        // Set
+        $style = "";
+        if(isset($pos, $xoff) && $xoff > 0) {
+            $style = "$pos: $xoff"."px;";
+        }
 
         if ($isActive == false || is_admin() || (defined('DOING_AJAX') && DOING_AJAX)) {
             return;
@@ -31,7 +38,7 @@ class StickyButton extends BaseController {
 
     //---------------------- sticky button html start ----------------------
     ?>
-        <div id="smr-sticky-button">
+        <div id="smr-sticky-button" style="<?= $style ?>" class="<?= $pos ?>">
     <?php
         foreach(["instagram", "call", "whatsapp"] as $btnType) {
             $button = $stickyButton[$btnType] ?? "";

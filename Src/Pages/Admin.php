@@ -144,6 +144,7 @@ class Admin extends BaseController{
     /**
      * user actions section fields.
      * @li SMS message after user register.
+     * @li Form background image.
      */
     private function contactFormSectionFields() {
         add_settings_section(
@@ -155,11 +156,20 @@ class Admin extends BaseController{
 
         add_settings_field(
             'contact_form_sms_id',
-            __('send SMS message after contact form submition','smr-plugin'),
+            __('Sends SMS message after contact form submition','smr-plugin'),
             [$this->functions, 'contactFormSmsId'],
             'smr_general_page',
             'smr_contact_form_section',
             ['label_for' => 'contact_form_sms_id']
+        );
+
+        add_settings_field(
+            'form_background_image',
+            __("Select form's background-image",'smr-plugin'),
+            [$this->functions, 'contactFormBackImage'],
+            'smr_general_page',
+            'smr_contact_form_section',
+            ['label_for' => 'form_background_image']
         );
     }
 
@@ -207,6 +217,14 @@ class Admin extends BaseController{
             'smr_general_page',
             'smr_sticky_btn_section',
             ['label_for' => 'activate_stickybutton']
+        );
+
+        add_settings_field(
+            'sticky_pos',
+            __('set stickybutton position','smr-plugin'),
+            [$this->functions, 'stickyButtonPos'],
+            'smr_general_page',
+            'smr_sticky_btn_section'
         );
 
         add_settings_field(

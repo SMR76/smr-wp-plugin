@@ -1,4 +1,34 @@
-
+/**
+ * @param {String} referralUrl
+ * @param {*} data
+ * @param {*} button
+ */
+    function removeRowPost(referralUrl, data, button = null) {
+    jQuery.ajax({
+        type: "POST",
+        url: referralUrl,
+        data: data,
+        dataType: "json",
+        fail: function (jqXHR, error) {
+            console.log(error);
+        },
+        success: function (response) {
+            const message = response?.message;
+            const status = response?.status;
+            button?.classList.remove('loading');
+            if (status == 'success') {
+                if (button) {
+                    jQuery(button.parentElement?.parentElement).fadeOut(500, function() { this.remove(); });
+                } else {
+                    const callList = document.getElementById('sms-contact-list');
+                    callList.replaceChildren(...[...callList.children].slice(0,2));
+                }
+            } else {
+                alert(message);
+            }
+        }
+    });
+}
 
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("ws_active").onclick = function() {
@@ -6,12 +36,39 @@ document.addEventListener("DOMContentLoaded", () => {
         row.style.display = this.checked ? "" : "none";
     };
 
+    // sticky button
+    const stickyLeft = document.getElementById("stickyLeft");
+    const stickyRight = document.getElementById("stickyRight");
+
+    stickyLeft.onwheel = stickyRight.onwheel = function(event) {
+        event.preventDefault();
+        this.value = Number.parseInt(this.value) + event.deltaY * -0.01;
+        this.value = Math.max(this.min, Math.min(this.value, this.max));
+        this.dispatchEvent(new Event('change'));
+    }
+
+    if(stickyLeft && stickyRight) {
+        // If one side's value changes, this lines will set the other side's value to zero.
+        stickyLeft.onchange = function() {
+            stickyRight.value = -1;
+            stickyRight.classList.add("disable");
+            this.classList.remove("disable");
+        }
+
+        stickyRight.onchange = function() {
+            stickyLeft.value = -1;
+            stickyLeft.classList.add("disable");
+            this.classList.remove("disable");
+        }
+    }
+
     document.getElementById("sticky_activate").onclick = function() {
         document.getElementById("instagram_text").disabled = !this.checked;
         document.getElementById("call_text").disabled = !this.checked;
         document.getElementById("whatsapp_text").disabled = !this.checked;
     };
 
+    // tabs
     const tabHeader = document.querySelectorAll(".tab-header li");
 
     for (const elem of tabHeader) {
@@ -55,31 +112,23 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    function removeRowPost(referralUrl, data, button = null) {
-        jQuery.ajax({
-            type: "POST",
-            url: referralUrl,
-            data: data,
-            dataType: "json",
-            fail: function (jqXHR, error) {
-                console.log(error);
-            },
-            success: function (response) {
-                const message = response?.message;
-                const status = response?.status;
-                button?.classList.remove('loading');
+    // select media
+    let selectedImage = document.getElementById("selectedImage");
+    let selectedImageInput = document.getElementById("form_background_image");
 
-                if (status == 'success') {
-                    if (button) {
-                        jQuery(button.parentElement?.parentElement).fadeOut(500, function() { this.remove(); });
-                    } else {
-                        const callList = document.getElementById('sms-contact-list');
-                        callList.replaceChildren(...[...callList.children].slice(0,2));
-                    }
-                } else {
-                    alert(message);
-                }
-            }
+    selectedImage.addEventListener("click", () => {
+        frame = wp.media({
+            title: "Select or Upload Media Of Your Chosen Persuasion",
+            button: { text: "Use this media" },
+            multiple: false,
         });
-    }
+
+        frame.on("select", () => {
+            let attachment = frame.state().get("selection").first().toJSON();
+            selectedImage.src = attachment.url;
+            selectedImageInput.value = attachment.url;
+        });
+
+        frame.open();
+    });
 });
