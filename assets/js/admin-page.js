@@ -3,7 +3,7 @@
  * @param {*} data
  * @param {*} button
  */
-    function removeRowPost(referralUrl, data, button = null) {
+function removeRowPost(referralUrl, data, button = null) {
     jQuery.ajax({
         type: "POST",
         url: referralUrl,
@@ -112,23 +112,30 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // select media
-    let selectedImage = document.getElementById("selectedImage");
-    let selectedImageInput = document.getElementById("form_background_image");
+    // select form background
+    let formBackPreview = document.getElementById("formBackPreview");
+    let formBackInput = document.getElementById("formBackUrlInput");
 
-    selectedImage.addEventListener("click", () => {
-        frame = wp.media({
-            title: "Select or Upload Media Of Your Chosen Persuasion",
-            button: { text: "Use this media" },
-            multiple: false,
-        });
+    // select logo
+    let logoPreview = document.getElementById("logoPreview");
+    let logoInput = document.getElementById("logoUrlInput");
 
-        frame.on("select", () => {
-            let attachment = frame.state().get("selection").first().toJSON();
-            selectedImage.src = attachment.url;
-            selectedImageInput.value = attachment.url;
-        });
-
-        frame.open();
-    });
+    formBackPreview.addEventListener("click", () => selectMedia(formBackPreview, formBackInput));
+    logoPreview.addEventListener("click", () => selectMedia(logoPreview, logoInput));
 });
+
+function selectMedia(prevImageElem, urlInput) {
+    frame = wp.media({
+        title: "Select or Upload Media",
+        button: { text: "Select media" },
+        multiple: false,
+    });
+
+    frame.on("select", () => {
+        let attachment = frame.state().get("selection").first().toJSON();
+        prevImageElem.src = attachment.url;
+        urlInput.value = attachment.url;
+    });
+
+    frame.open();
+}

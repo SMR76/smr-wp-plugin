@@ -35,18 +35,41 @@ class Admin extends BaseController{
 
         /**
          * settings sections:
+         * @li General.
          * @li Wholesale users.
          * @li Sms Panel options.
          * @li Checkout.
          * @li User actions.
          * @li Sticky button.
          */
+        $this->generalSectionFields();
         $this->wholesaleSectionFields();
         $this->smsPanelOptionsField();
         $this->checkoutSectionFields();
         $this->contactFormSectionFields();
         $this->userActionsSectionFields();
         $this->stickyButtonSectionFields();
+    }
+
+    /**
+     * general section fields.
+     */
+    private function generalSectionFields() {
+        add_settings_section(
+            'smr_general_section',
+            __('General','smr-plugin'),
+            [$this->functions, 'generalSection'],
+            'smr_general_page'
+        );
+
+        add_settings_field(
+            'site_logo',
+            __('site logo','smr-plugin'),
+            [$this->functions, 'siteLogo'],
+            'smr_general_page',
+            'smr_general_section',
+            ['label_for' => 'site_logo']
+        );
     }
 
     /**
@@ -80,7 +103,7 @@ class Admin extends BaseController{
     }
 
     /**
-     * plugin options section fields.
+     * plugin sms panel section fields.
      */
     private function smsPanelOptionsField() {
         add_settings_section(

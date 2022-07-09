@@ -41,6 +41,11 @@ class AdminFunctions extends BaseController {
         return $input;
     }
 
+    public function generalSection() {
+        echo "<i class='fi home small'></i> ";
+        _e('General settings','smr-plugin');
+    }
+
     public function wholesaleSection() {
         echo "<i class='fi handshake small'></i> ";
         _e('Wholesale users settings','smr-plugin');
@@ -69,6 +74,20 @@ class AdminFunctions extends BaseController {
     public function stickyButtonSettings() {
         echo "<i class='fi gesture-tap-button small'></i> ";
         _e('Sticky button settings.','smr-plugin');
+    }
+
+    // ---------------------- generals -----------------------------
+    /**
+     * inputs for wholesale section.
+     */
+    public function siteLogo() {
+        $values = get_option('smr_config_option', []);
+        $siteLogo = $values['site_logo'];
+        $defaultImage = "$this->pluginUrl/assets/icons/photo.svg";
+        ?>
+        <img id="logoPreview" src="<?= $siteLogo ?? $defaultImage ?>" alt="site logo">
+        <input id="logoUrlInput" type="text" value="<?= $siteLogo ?>" name='smr_config_option[site_logo]' style="display: none;">
+        <?php
     }
 
     // ---------------------- wholesale -----------------------------
@@ -220,12 +239,10 @@ class AdminFunctions extends BaseController {
         $values = get_option('smr_config_option', []);
         $contactForm = $values['contact_form'] ?? [];
         $backImage = $contactForm['back_image'];
-        $initialImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 350'%3E%3Cpolygon points".
-                        "='0,35 250,35 280,0 400,0 400,350 0,350' fill='%23555'%3E%3C/polygon%3E%3C/svg%3E";
+        $defaultImage = "$this->pluginUrl/assets/icons/photo.svg";
         ?>
-        <img id="selectedImage" src="<?= $backImage ?? $initialImage ?>" height="80px" alt="Form's background image">
-        <input id="form_background_image" name="smr_config_option[contact_form][back_image]" style="display: none;"
-            type="text" class="regular-text ltr" value="<?= $backImage ?>">
+        <img id="formBackPreview" src="<?= $backImage ?? $defaultImage ?>" height="80px" alt="Form's background image">
+        <input id="formBackUrlInput" value="<?= $backImage ?>" name="smr_config_option[contact_form][back_image]" type="text" style="display: none;">
         <?php
     }
 

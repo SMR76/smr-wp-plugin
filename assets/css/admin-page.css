@@ -146,8 +146,20 @@ form label[for] {
     88% { opacity: 1; transform: scale(1.2) translateY(-5px); }
     100% { opacity: 0; }
 }
+/* general section */
+img#logoPreview {
+    width: 60px;
+    height: 60px;
+    outline: 1px solid #08f5;
+    border-radius: 5px;
+}
+
+img#logoPreview:hover {
+    outline-color: #08f;
+}
+
 /* contact form */
-img#selectedImage {
+img#formBackPreview {
     width: auto;
     height: 80px;
     max-width: 80px;
@@ -157,12 +169,12 @@ img#selectedImage {
     transition: max-width 2s;
 }
 
-img#selectedImage:hover {
+img#formBackPreview:hover {
     outline-color: #08f;
     max-width: 300px;
 }
 
-img#selectedImage:active {
+img#formBackPreview:active {
     background-color: #08f1;
 }
 
@@ -213,6 +225,8 @@ textarea.large-text {
 .fi.city:after { content: url(../icons/city.svg); }
 .fi.copy:after { content: url(../icons/copy.svg); }
 .fi.call:after { content: url(../icons/phone.svg); }
+.fi.home:after { content: url(../icons/home.svg); }
+.fi.photo:after { content: url(../icons/photo.svg); }
 .fi.whatsapp:after { content: url(../icons/whatsapp.svg); }
 .fi.instagram:after { content: url(../icons/instagram.svg); }
 .fi.handshake:after { content: url(../icons/handshake.svg); }
