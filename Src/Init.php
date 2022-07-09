@@ -29,6 +29,7 @@ class Init {
             Woocommerce\ExtraRegistrationFields::class,
             Woocommerce\ShippingRate::class,
             Woocommerce\ConditionalCOD::class,
+            Woocommerce\ProductCartInvoice::class,
             Api\SmsContactFormAjax::class,
             Api\UserActions::class,
         ];
