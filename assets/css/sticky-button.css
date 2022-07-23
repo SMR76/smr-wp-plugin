@@ -3,11 +3,17 @@
     bottom: 35px;
     font-family: vazir;
     direction: rtl;
-    z-index: 99;
+    z-index: 999;
+
+    --btn-right: auto;
+    --btn-left: auto;
+
+    left: var(--btn-left);
+    right: var(--btn-right);
 }
 
-#smr-sticky-button.right { right: 35px; }
-#smr-sticky-button.left { left: 35px; }
+#smr-sticky-button.right { --btn-right: 35px; }
+#smr-sticky-button.left { --btn-left: 35px; }
 
 #smr-sticky-button #handbell {
     display: flex;
@@ -106,18 +112,6 @@
 #smr-sticky-button.right .sticky-option span {right: calc(100% + 15px);}
 #smr-sticky-button.left .sticky-option span {left: calc(100% + 15px);}
 
-@media only screen and (max-width: 480px) {
-    #smr-sticky-button div span{
-        position: fixed;
-        width: 100vw;
-        padding-right: 76px;
-        right: 0;
-        z-index: -1;
-        border-radius:0px;
-        background-color: #000000;
-    }
-}
-
 #smr-sticky-button div:hover span{
     visibility: visible;
     bottom: 0px;
@@ -164,8 +158,13 @@
 @media screen and (max-width: 1024px) {
     #smr-sticky-button #handbell { width: 45px; height: 45px; }
     #smr-sticky-button .ico { width: 45px; height: 45px; }
-    #smr-sticky-button.right { right: 15px; bottom: 15px; }
-    #smr-sticky-button.left { left: 15px; bottom: 15px; }
+    #smr-sticky-button.right { right: calc(var(--btn-right) * 0.75); bottom: 15px; }
+    #smr-sticky-button.left { left: calc(var(--btn-left) * 0.75); bottom: 15px; }
+}
+
+@media only screen and (max-width: 480px) {
+    #smr-sticky-button.left .sticky-option span { width: calc(90vw - var(--btn-left)); }
+    #smr-sticky-button.right .sticky-option span { width: calc(90vw - var(--btn-right)); }
 }
 
 /* platform independet sizes */
@@ -179,18 +178,7 @@ i.fi {
     display: block;
 }
 
-i.fi.instagram:after {
-    content: url(../icons/instagram.svg);
-}
-
-i.fi.whatsapp:after {
-    content: url(../icons/whatsapp.svg);
-}
-
-i.fi.call:after {
-    content: url(../icons/phone.svg);
-}
-
-i.fi.bell:after {
-    content: url(../icons/bell.svg);
-}
+i.fi.instagram:after { content: url(../icons/instagram.svg); }
+i.fi.whatsapp:after { content: url(../icons/whatsapp.svg); }
+i.fi.call:after { content: url(../icons/phone.svg); }
+i.fi.bell:after { content: url(../icons/bell.svg); }

@@ -8,6 +8,9 @@ namespace Src\Elements;
 
 use \Src\Base\BaseController;
 
+/**
+ *
+ */
 class StickyButton extends BaseController {
     public function register() {
         add_action( 'wp_footer', [$this, 'fixedInfoButton']);
@@ -20,10 +23,10 @@ class StickyButton extends BaseController {
 
         $pos = $stickyButton["pos"];
         $xoff = $stickyButton["xoffset"];
-        // Set
+
         $style = "";
         if(isset($pos, $xoff) && $xoff > 0) {
-            $style = "$pos: $xoff"."px;";
+            $style = $pos == "left" ? "--btn-left:${xoff}px;" : "--btn-right:${xoff}px;";
         }
 
         if ($isActive == false || is_admin() || (defined('DOING_AJAX') && DOING_AJAX)) {
